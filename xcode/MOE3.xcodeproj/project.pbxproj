@@ -12,6 +12,8 @@
 		77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4D168DF46C0068FCE6 /* Log.cpp */; };
 		77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4E168DF46C0068FCE6 /* Memory.cpp */; };
 		77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4F168DF46C0068FCE6 /* Stream.cpp */; };
+		77B04A6C168DF7B30068FCE6 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */; };
+		77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 		77E5217915DF4454000595F8 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77E5217315DF4454000595F8 /* CoreWindow_mac.mm */; };
@@ -38,6 +40,9 @@
 		77B04A64168DF5420068FCE6 /* Stream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
 		77B04A65168DF5430068FCE6 /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
 		77B04A66168DF5430068FCE6 /* Type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
+		77B04A69168DF7B30068FCE6 /* EasyMIDIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyMIDIController.h; sourceTree = "<group>"; };
+		77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EasyMIDIController.mm; sourceTree = "<group>"; };
+		77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77E5213515DF2A87000595F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -53,6 +58,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */,
 				77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */,
 				77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */,
 			);
@@ -80,9 +86,20 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
+		77B04A67168DF7B30068FCE6 /* EasyMIDIController */ = {
+			isa = PBXGroup;
+			children = (
+				77B04A69168DF7B30068FCE6 /* EasyMIDIController.h */,
+				77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */,
+			);
+			name = EasyMIDIController;
+			path = ../EasyMIDIController;
+			sourceTree = "<group>";
+		};
 		77E5212315DF2A87000595F8 = {
 			isa = PBXGroup;
 			children = (
+				77B04A67168DF7B30068FCE6 /* EasyMIDIController */,
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5216E15DF4454000595F8 /* Core */,
 				77E5213815DF2A87000595F8 /* Resource */,
@@ -102,6 +119,7 @@
 		77E5213115DF2A87000595F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */,
 				77E5215D15DF2CDE000595F8 /* OpenGL.framework */,
 				77E5213215DF2A87000595F8 /* Cocoa.framework */,
 				77E5213415DF2A87000595F8 /* Other Frameworks */,
@@ -221,6 +239,7 @@
 				77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */,
 				77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */,
 				77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */,
+				77B04A6C168DF7B30068FCE6 /* EasyMIDIController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

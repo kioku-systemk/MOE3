@@ -8,9 +8,8 @@
 
 #include "../Core/MOE.h"
 #include "../Core/CoreWindow.h"
-
-// GL Headers
 #include "../Core/Graphics.h"
+#include "../EasyMIDIController/EasyMIDIController.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,6 +24,9 @@ public:
 #endif
 	){
         g = mnew MOE::Graphics();
+#if !defined(RELEASEOUT)
+        midi = mnew EasyMIDIController();
+#endif
 	}
 	~MOEWindow()
     {
@@ -42,7 +44,10 @@ public:
 	
     void Draw()
     {
-        g->ClearColor(0.5,0.5,0.5,0);
+        const float mr = midi->GetControlParam(0);
+        const float mg = midi->GetControlParam(1);
+        const float mb = midi->GetControlParam(2);
+        g->ClearColor(mr,mg,mb,0);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
         
         // own graphics code.
@@ -63,6 +68,9 @@ public:
     
 private:
     MOE::Graphics* g;
+#ifndef RELEASEOUT
+    EasyMIDIController* midi;
+#endif
 };
 
 #if defined(WIN32) && defined(RELEASEOUT)
