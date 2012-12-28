@@ -6,14 +6,11 @@
 //  Copyright (c) 2012 System K. All rights reserved.
 //
 
+#include "../Core/MOE.h"
 #include "../Core/CoreWindow.h"
 
 // GL Headers
-#if defined(__APPLE__)
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
+#include "../Core/Graphics.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -27,6 +24,7 @@ public:
 	,true // fullscreen
 #endif
 	){
+        g = mnew MOE::Graphics();
 	}
 	~MOEWindow()
     {
@@ -44,8 +42,8 @@ public:
 	
     void Draw()
     {
-        glClearColor(0.5,0.5,0.5,0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        g->ClearColor(0.5,0.5,0.5,0);
+        g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
         
         // own graphics code.
         
@@ -59,12 +57,12 @@ public:
 	
 	void Resize(int w, int h)
 	{
-        glViewport(0, 0, w, h);
+        g->Viewport(0, 0, w, h);
         Draw();
 	}
     
 private:
-    int m_mode;
+    MOE::Graphics* g;
 };
 
 #if defined(WIN32) && defined(RELEASEOUT)

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		77B04A45168DE9700068FCE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A44168DE9700068FCE6 /* main.cpp */; };
 		77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77B04A46168DEA590068FCE6 /* MOE3-Info.plist */; };
+		77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4D168DF46C0068FCE6 /* Log.cpp */; };
+		77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4E168DF46C0068FCE6 /* Memory.cpp */; };
+		77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4F168DF46C0068FCE6 /* Stream.cpp */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 		77E5217915DF4454000595F8 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77E5217315DF4454000595F8 /* CoreWindow_mac.mm */; };
@@ -18,6 +21,23 @@
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
+		77B04A4D168DF46C0068FCE6 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		77B04A4E168DF46C0068FCE6 /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		77B04A4F168DF46C0068FCE6 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
+		77B04A55168DF5200068FCE6 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
+		77B04A56168DF5200068FCE6 /* Graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics_impl.h; sourceTree = "<group>"; };
+		77B04A57168DF5200068FCE6 /* GraphicsProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsProfiler.h; sourceTree = "<group>"; };
+		77B04A5C168DF5420068FCE6 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
+		77B04A5D168DF5420068FCE6 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		77B04A5E168DF5420068FCE6 /* Math.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		77B04A5F168DF5420068FCE6 /* MatrixStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixStack.h; sourceTree = "<group>"; };
+		77B04A60168DF5420068FCE6 /* Memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		77B04A61168DF5420068FCE6 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
+		77B04A62168DF5420068FCE6 /* MOE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MOE.h; sourceTree = "<group>"; };
+		77B04A63168DF5420068FCE6 /* Stream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
+		77B04A64168DF5420068FCE6 /* Stream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
+		77B04A65168DF5430068FCE6 /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		77B04A66168DF5430068FCE6 /* Type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77E5213515DF2A87000595F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -48,6 +68,16 @@
 			);
 			name = src;
 			path = ../src;
+			sourceTree = "<group>";
+		};
+		77B04A54168DF5200068FCE6 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				77B04A55168DF5200068FCE6 /* glext.h */,
+				77B04A56168DF5200068FCE6 /* Graphics_impl.h */,
+				77B04A57168DF5200068FCE6 /* GraphicsProfiler.h */,
+			);
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		77E5212315DF2A87000595F8 = {
@@ -104,6 +134,21 @@
 			children = (
 				77E5217215DF4454000595F8 /* CoreWindow_mac.h */,
 				77E5217315DF4454000595F8 /* CoreWindow_mac.mm */,
+				77B04A4D168DF46C0068FCE6 /* Log.cpp */,
+				77B04A4E168DF46C0068FCE6 /* Memory.cpp */,
+				77B04A4F168DF46C0068FCE6 /* Stream.cpp */,
+				77B04A5C168DF5420068FCE6 /* Graphics.h */,
+				77B04A5D168DF5420068FCE6 /* Log.h */,
+				77B04A5E168DF5420068FCE6 /* Math.h */,
+				77B04A5F168DF5420068FCE6 /* MatrixStack.h */,
+				77B04A60168DF5420068FCE6 /* Memory.cpp */,
+				77B04A61168DF5420068FCE6 /* Memory.h */,
+				77B04A62168DF5420068FCE6 /* MOE.h */,
+				77B04A63168DF5420068FCE6 /* Stream.cpp */,
+				77B04A64168DF5420068FCE6 /* Stream.h */,
+				77B04A65168DF5430068FCE6 /* Time.h */,
+				77B04A66168DF5430068FCE6 /* Type.h */,
+				77B04A54168DF5200068FCE6 /* Graphics */,
 			);
 			name = Core;
 			path = ../Core;
@@ -173,6 +218,9 @@
 			files = (
 				77E5217915DF4454000595F8 /* CoreWindow_mac.mm in Sources */,
 				77B04A45168DE9700068FCE6 /* main.cpp in Sources */,
+				77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */,
+				77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */,
+				77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
