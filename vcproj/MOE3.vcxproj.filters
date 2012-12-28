@@ -22,6 +22,9 @@
     <Filter Include="EasyMIDIController">
       <UniqueIdentifier>{4cb00650-706c-4f96-a286-96f2033b14e6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\UI">
+      <UniqueIdentifier>{367380c0-4a49-4df9-82d7-f53bae1ea6e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -97,6 +100,30 @@
     </ClInclude>
     <ClInclude Include="..\EasyMIDIController\EasyMIDIController.h">
       <Filter>EasyMIDIController</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\icons.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\mplus1cmedium.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\simplegui.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\SimpleShader.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\SimpleTex.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\SimpleVB.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\skBaseGUI.h">
+      <Filter>Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Core\UI\stb_truetype.h">
+      <Filter>Core\UI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

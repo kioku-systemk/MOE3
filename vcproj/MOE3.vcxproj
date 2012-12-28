@@ -138,6 +138,14 @@
     <ClInclude Include="..\Core\Stream.h" />
     <ClInclude Include="..\Core\Time.h" />
     <ClInclude Include="..\Core\Type.h" />
+    <ClInclude Include="..\Core\UI\icons.h" />
+    <ClInclude Include="..\Core\UI\mplus1cmedium.h" />
+    <ClInclude Include="..\Core\UI\simplegui.h" />
+    <ClInclude Include="..\Core\UI\SimpleShader.h" />
+    <ClInclude Include="..\Core\UI\SimpleTex.h" />
+    <ClInclude Include="..\Core\UI\SimpleVB.h" />
+    <ClInclude Include="..\Core\UI\skBaseGUI.h" />
+    <ClInclude Include="..\Core\UI\stb_truetype.h" />
     <ClInclude Include="..\EasyMIDIController\EasyMIDIController.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
