@@ -19,6 +19,9 @@
     <Filter Include="Core">
       <UniqueIdentifier>{cf3c23be-e8b4-4bbf-97f8-fedc5adbdcbf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EasyMIDIController">
+      <UniqueIdentifier>{4cb00650-706c-4f96-a286-96f2033b14e6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\main.cpp">
@@ -38,6 +41,9 @@
     </ClCompile>
     <ClCompile Include="..\Core\Graphics\WGLExtention.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EasyMIDIController\EasyMIDIController.cpp">
+      <Filter>EasyMIDIController</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="..\Core\Graphics\WGLExtention.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EasyMIDIController\EasyMIDIController.h">
+      <Filter>EasyMIDIController</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
