@@ -20,6 +20,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7780585A168E1D6500D82458 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = icons.h; path = UI/icons.h; sourceTree = "<group>"; };
+		7780585B168E1D6500D82458 /* mplus1cmedium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mplus1cmedium.h; path = UI/mplus1cmedium.h; sourceTree = "<group>"; };
+		7780585C168E1D6500D82458 /* simplegui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = simplegui.h; path = UI/simplegui.h; sourceTree = "<group>"; };
+		7780585D168E1D6500D82458 /* SimpleTex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleTex.h; path = UI/SimpleTex.h; sourceTree = "<group>"; };
+		7780585E168E1D6500D82458 /* SimpleVB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleVB.h; path = UI/SimpleVB.h; sourceTree = "<group>"; };
+		7780585F168E1D6500D82458 /* skBaseGUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = skBaseGUI.h; path = UI/skBaseGUI.h; sourceTree = "<group>"; };
+		77805860168E1D6500D82458 /* stb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = UI/stb_truetype.h; sourceTree = "<group>"; };
+		77805861168E1E5800D82458 /* SimpleShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleShader.h; path = UI/SimpleShader.h; sourceTree = "<group>"; };
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -67,6 +75,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77805858168E1D5B00D82458 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				7780585A168E1D6500D82458 /* icons.h */,
+				7780585B168E1D6500D82458 /* mplus1cmedium.h */,
+				77805861168E1E5800D82458 /* SimpleShader.h */,
+				7780585C168E1D6500D82458 /* simplegui.h */,
+				7780585D168E1D6500D82458 /* SimpleTex.h */,
+				7780585E168E1D6500D82458 /* SimpleVB.h */,
+				7780585F168E1D6500D82458 /* skBaseGUI.h */,
+				77805860168E1D6500D82458 /* stb_truetype.h */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
 		77B04A43168DE9700068FCE6 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +173,7 @@
 		77E5216E15DF4454000595F8 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				77805858168E1D5B00D82458 /* UI */,
 				77E5217215DF4454000595F8 /* CoreWindow_mac.h */,
 				77E5217315DF4454000595F8 /* CoreWindow_mac.mm */,
 				77B04A4D168DF46C0068FCE6 /* Log.cpp */,

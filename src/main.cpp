@@ -14,42 +14,100 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../Core/UI/simplegui.h"
+
 class MOEWindow : public CoreWindow
 {
 public:
 	MOEWindow(int x, int y, int width, int height)
 	: CoreWindow(x, y, width, height, "MOE3"
-#if defined(RELEASEOUT)
+#ifdef RELEASEOUT
 	,true // fullscreen
 #endif
 	){
         g = mnew MOE::Graphics();
-#if !defined(RELEASEOUT)
-        midi = mnew EasyMIDIController();
+#ifndef RELEASEOUT
+        m_midi = mnew EasyMIDIController();
+        m_gui  = mnew SimpleGUI::GUIManager();
+        m_gui->Resize(width, height);
+        skGUI::BaseWindow* win = m_gui->GetRoot();
+        
+        
+        // TEST
+        const f32 col[] = {0.50,0.50,0.50,0.50};
+        m_frame1 = mnew SimpleGUI::Frame(m_gui,0,0,width, 30, col);
+        m_frame2 = mnew SimpleGUI::Frame(m_gui,0,30,100, height-30, col);
+        win->AddChild(m_frame1);
+        win->AddChild(m_frame2);
+
+        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 0, 0, "MOE3 Demo Engine", 16);
+        m_frame1->AddChild(cap);
+        
+        m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,10,80,16);
+        m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,30,80,16);
+        m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,50,80,16);
+        m_frame2->AddChild(m_bar[0]);
+        m_frame2->AddChild(m_bar[1]);
+        m_frame2->AddChild(m_bar[2]);
 #endif
 	}
 	~MOEWindow()
     {
     }
 	
-	void MouseLeftDown(int x, int y) {}
-	void MouseLeftUp(int x, int y)   {}
-	void MouseMove(int x, int y)     {}
+	void MouseLeftDown(int x, int y)
+    {
+        m_gui->MouseDown(0, x,y);
+    }
+	void MouseLeftUp(int x, int y)
+    {
+        m_gui->MouseUp(0, x,y);
+    }
+	void MouseMove(int x, int y)
+    {
+        m_gui->MouseMove(x, y);
+    }
 	void Wheel(float dx, float dy, float dz) {}
 	void KeyDown(int key){
 		if (key == 27)
 			exit(0);
+        m_gui->KeyDown(key);
 	}
-	void KeyUp(int key) {}
+	void KeyUp(int key)
+    {
+        m_gui->KeyUp(key);
+    }
 	
+    void updateGUI()
+    {
+        static f32 m0 = m_midi->GetControlParam(0);
+        if (m0 != m_midi->GetControlParam(0)){
+            m0 = m_midi->GetControlParam(0);
+            m_bar[0]->SetValue(m0);
+        }
+        static f32 m1 = m_midi->GetControlParam(1);
+        if (m1 != m_midi->GetControlParam(1)){
+            m1 = m_midi->GetControlParam(1);
+            m_bar[1]->SetValue(m1);
+        }
+        static f32 m2 = m_midi->GetControlParam(2);
+        if (m2 != m_midi->GetControlParam(2)){
+            m2 = m_midi->GetControlParam(2);
+            m_bar[2]->SetValue(m2);
+        }
+    }
+    
     void Draw()
     {
-        const float mr = midi->GetControlParam(0);
-        const float mg = midi->GetControlParam(1);
-        const float mb = midi->GetControlParam(2);
+        updateGUI();
+        
+        const float mr = m_bar[0]->GetValue();
+        const float mg = m_bar[1]->GetValue();
+        const float mb = m_bar[2]->GetValue();
         g->ClearColor(mr,mg,mb,0);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
-        
+    
+        m_gui->Draw();
         // own graphics code.
         
         SwapBuffer();
@@ -63,13 +121,19 @@ public:
 	void Resize(int w, int h)
 	{
         g->Viewport(0, 0, w, h);
+        m_gui->Resize(w, h);
+        m_frame1->SetSize(w, 30);
+        m_frame2->SetSize(100, h-30);
         Draw();
 	}
     
 private:
     MOE::Graphics* g;
 #ifndef RELEASEOUT
-    EasyMIDIController* midi;
+    EasyMIDIController* m_midi;
+    SimpleGUI::GUIManager* m_gui;
+    SimpleGUI::Frame* m_frame1, *m_frame2;
+    SimpleGUI::Slider* m_bar[3];
 #endif
 };
 
