@@ -1,22 +1,15 @@
 /*
- *  CoreWindow_mac.h
+ *  CoreWindow_x11.h
  *
- *  Created by kioku on 10/08/11.
- *  Copyright 2010 System K. All rights reserved.
+ *  Created by kioku on 13/01/11.
+ *  Copyright 2013 System K. All rights reserved.
  *
  */
 
-#ifndef COREWINDOW_MAC_HEADER
-#define COREWINDOW_MAC_HEADER
+#ifndef COREWINDOW_X11_HEADER
+#define COREWINDOW_X11_HEADER
 
 #include "CoreWindow.h"
-
-#ifdef __OBJC__
-#define ObjC_ID id
-#else
-#define ObjC_ID void*
-#endif
-
 
 class CoreWindow : public CoreWindowPlatform
 {
@@ -24,7 +17,7 @@ protected:
 	CoreWindow(int x, int y, int width, int height, const char* title, bool fullscreenMode = false);
 	~CoreWindow();
 public:
-
+	
 	virtual void MouseLeftDown  (int x, int y){}
 	virtual void MouseLeftUp    (int x, int y){}
 	virtual void MouseRightDown (int x, int y){}
@@ -49,22 +42,20 @@ public:
 	static void DoEvents(void);
 	static void MainLoop(void);
     
-    int GetWidth() const  { return m_w; }
-    int GetHeight() const { return m_h; }
+	int GetWidth() const;
+	int GetHeight() const;
     
     const char* GetExePath() const;
-
-protected:
-	ObjC_ID m_win;
-	ObjC_ID m_view;
-    int m_w, m_h;
 	
+protected:
+    class Impl;
+    Impl* m_imp;
 };
 
 void CoreWindow_DoEvents();
 
 
-#endif // COREWINDOW_MAC_HEADER
+#endif // COREWINDOW_X11_HEADER
 
 
 

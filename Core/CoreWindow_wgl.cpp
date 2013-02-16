@@ -1,15 +1,14 @@
 /*
- *  CoreWindow.cpp
+ *  CoreWindow_wgl.cpp
  *
  *  Created by kioku on 11/02/01.
  *  Copyright 2011 System K. All rights reserved.
  *
  */
 
-#include "CoreWindow.h"
+#include "CoreWindow_wgl.h"
 #include <gl/GL.h>
 #include <WindowsX.h>
-
 #include <stdio.h>
 
 CoreWindow* g_mainWin = 0;
@@ -19,6 +18,7 @@ CoreWindow* g_mainWin = 0;
 #else
 #define _TX(x) x
 #endif
+
 
 bool CoreWindow::createWindow(int x, int y, int width, int height, const TCHAR* title, bool fullscreenmode)
 {
@@ -39,7 +39,7 @@ bool CoreWindow::createWindow(int x, int y, int width, int height, const TCHAR* 
 
 	AdjustWindowRect(&WindowRect, dwStyle, FALSE);
 
-	if (!GetClassInfo(GetModuleHandle(NULL), _TX("CoreWindow"), &wc))
+	if (!GetClassInfo(GetModuleHandle(NULL), _TX("CoreWindow_wgl"), &wc))
 	{
 //		memset(&wcx, 0, sizeof(WNDCLASSEX));
 //		wcx.cbSize			= sizeof(WNDCLASSEX);
@@ -52,7 +52,7 @@ bool CoreWindow::createWindow(int x, int y, int width, int height, const TCHAR* 
 		wc.hCursor			= LoadCursor(NULL, IDC_ARROW);
 		wc.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
 		wc.lpszMenuName	    = 0;
-		wc.lpszClassName	= _TX("CoreWindow");
+		wc.lpszClassName	= _TX("CoreWindow_wgl");
 
 		if (!RegisterClass(&wc))
 		{
@@ -63,7 +63,7 @@ bool CoreWindow::createWindow(int x, int y, int width, int height, const TCHAR* 
 	}
 	
 	hWnd = CreateWindowEx(dwExStyle,
-						_TX("CoreWindow"),
+						_TX("CoreWindow_wgl"),
 						title,
 						dwStyle,
 						x, y,
@@ -82,7 +82,7 @@ bool CoreWindow::createWindow(int x, int y, int width, int height, const TCHAR* 
 	}
 
 	// ウィンドウハンドルとCWindowBaseオブジェクトを結びつける
-	SetProp(hWnd, _TX("CoreWindow"), (HANDLE)this);
+	SetProp(hWnd, _TX("CoreWindow_wgl"), (HANDLE)this);
 	m_hWnd = hWnd;
 
 	if (!g_mainWin)
@@ -334,7 +334,7 @@ LRESULT CALLBACK CoreWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 LRESULT	CALLBACK CoreWindow::BaseWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
-	CoreWindow* pTargetWnd = (CoreWindow*)GetProp(hWnd, _TX("CoreWindow"));
+	CoreWindow* pTargetWnd = (CoreWindow*)GetProp(hWnd, _TX("CoreWindow_wgl"));
 
 	if (!pTargetWnd)
 	{
@@ -372,6 +372,9 @@ const char* CoreWindow::GetExePath() const
 	char exefilepath[2048];
 	static char exepath[2048];
 	GetModuleFileName(NULL, exefilepath, sizeof(exefilepath));
+#pragma warning(push)
+#pragma warning(disable:4996)
 	_splitpath(exefilepath, 0, exepath, 0, 0);
+#pragma warning(pop)
 	return exepath;
 }

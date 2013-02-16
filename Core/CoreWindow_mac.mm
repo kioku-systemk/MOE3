@@ -1,12 +1,12 @@
 /*
- *  CoreWindow.cpp
+ *  CoreWindow_mac.cpp
  *
  *  Created by kioku on 10/08/11.
  *  Copyright 2010 System K. All rights reserved.
  *
  */
 
-#include "CoreWindow.h"
+#include "CoreWindow_mac.h"
 
 #import <Cocoa/Cocoa.h>
 #include <OpenGL/OpenGL.h>
@@ -296,6 +296,12 @@ static CoreWindow* g_mainWin = 0;
 	m_ownerWin->MouseRightUp((int)[theEvent locationInWindow].x,m_height - (int)[theEvent locationInWindow].y);
 }
 
+- (void) rightMouseDragged:(NSEvent *)theEvent
+{
+	trace("%s %d %d\n",__FUNCTION__,(int)[theEvent locationInWindow].x,(int)[theEvent locationInWindow].y);
+	m_ownerWin->MouseMove((int)[theEvent locationInWindow].x, m_height - (int)[theEvent locationInWindow].y);
+}
+
 - (void) otherMouseDown:(NSEvent *)theEvent
 {
 	trace("%s %d %d\n",__FUNCTION__,(int)[theEvent locationInWindow].x,(int)[theEvent locationInWindow].y);
@@ -307,6 +313,13 @@ static CoreWindow* g_mainWin = 0;
 	trace("%s %d %d\n",__FUNCTION__,(int)[theEvent locationInWindow].x,(int)[theEvent locationInWindow].y);
 	m_ownerWin->MouseMiddleUp((int)[theEvent locationInWindow].x,m_height - (int)[theEvent locationInWindow].y);
 }
+
+- (void) otherMouseDragged:(NSEvent *)theEvent
+{
+	trace("%s %d %d\n",__FUNCTION__,(int)[theEvent locationInWindow].x,(int)[theEvent locationInWindow].y);
+	m_ownerWin->MouseMove((int)[theEvent locationInWindow].x, m_height - (int)[theEvent locationInWindow].y);
+}
+
 
 @end
 
@@ -414,7 +427,7 @@ void CoreWindow::MainLoop()
 
 CoreWindow::CoreWindow(int x, int y, int width ,int height, const char* title, bool fullscreenMode)
 {
-    if (g_mainWin == 0)
+	if (g_mainWin == 0)
 		g_mainWin = this;
 	NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
 		
@@ -422,6 +435,7 @@ CoreWindow::CoreWindow(int x, int y, int width ,int height, const char* title, b
 		
 	[NSApp finishLaunching];
 
+    
 	NSRect contRect;
 	contRect = NSMakeRect(x, y, width, height);
 	
@@ -432,7 +446,6 @@ CoreWindow::CoreWindow(int x, int y, int width ,int height, const char* title, b
 	| NSMiniaturizableWindowMask
 	| NSResizableWindowMask
     | NSWindowFullScreenButton;
-    
     
 	m_win = [skOpenGLWindow alloc];
 	[m_win
@@ -486,7 +499,7 @@ CoreWindow::CoreWindow(int x, int y, int width ,int height, const char* title, b
 	[NSApp activateIgnoringOtherApps:YES];
 	
 	skAddMenu();
-    
+
 	[pool release];
 
 }
@@ -521,3 +534,4 @@ const char* CoreWindow::GetExePath() const
     strcpy(exepath, [curDir UTF8String]);
     return exepath;
 }
+
