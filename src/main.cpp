@@ -6,15 +6,17 @@
 //  Copyright (c) 2012 System K. All rights reserved.
 //
 
-#include "../Core/MOE.h"
-#include "../Core/CoreWindow.h"
-#include "../Core/Graphics.h"
-#include "../EasyMIDIController/EasyMIDIController.h"
+#include "Core/MOE.h"
+#include "Core/CoreWindow.h"
+#include "Gfx/Graphics.h"
+#include "EasyMIDIController/EasyMIDIController.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../Core/UI/simplegui.h"
+#include "Core/UI/SimpleGUI.h"
+
+#include "SceneGraph/SceneGraph.h"
 
 class MOEWindow : public CoreWindow
 {

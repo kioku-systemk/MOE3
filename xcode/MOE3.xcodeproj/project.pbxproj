@@ -7,49 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		770A51A216DE6FCF00872F21 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */; };
+		770A51A516DE6FCF00872F21 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A517D16DE6FCF00872F21 /* Log.cpp */; };
+		770A51A616DE6FCF00872F21 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518116DE6FCF00872F21 /* Memory.cpp */; };
+		770A51A716DE6FCF00872F21 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518416DE6FCF00872F21 /* Stream.cpp */; };
+		770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
+		770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519B16DE6FCF00872F21 /* WGLExtention.cpp */; };
+		770A51AB16DE6FCF00872F21 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519E16DE6FCF00872F21 /* RenderDevice.cpp */; };
+		770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
 		77B04A45168DE9700068FCE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A44168DE9700068FCE6 /* main.cpp */; };
 		77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77B04A46168DEA590068FCE6 /* MOE3-Info.plist */; };
-		77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4D168DF46C0068FCE6 /* Log.cpp */; };
-		77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4E168DF46C0068FCE6 /* Memory.cpp */; };
-		77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A4F168DF46C0068FCE6 /* Stream.cpp */; };
-		77B04A6C168DF7B30068FCE6 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */; };
 		77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
-		77E5217915DF4454000595F8 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 77E5217315DF4454000595F8 /* CoreWindow_mac.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7780585A168E1D6500D82458 /* icons.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = icons.h; path = UI/icons.h; sourceTree = "<group>"; };
-		7780585B168E1D6500D82458 /* mplus1cmedium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = mplus1cmedium.h; path = UI/mplus1cmedium.h; sourceTree = "<group>"; };
-		7780585C168E1D6500D82458 /* simplegui.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = simplegui.h; path = UI/simplegui.h; sourceTree = "<group>"; };
-		7780585D168E1D6500D82458 /* SimpleTex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleTex.h; path = UI/SimpleTex.h; sourceTree = "<group>"; };
-		7780585E168E1D6500D82458 /* SimpleVB.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleVB.h; path = UI/SimpleVB.h; sourceTree = "<group>"; };
-		7780585F168E1D6500D82458 /* skBaseGUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = skBaseGUI.h; path = UI/skBaseGUI.h; sourceTree = "<group>"; };
-		77805860168E1D6500D82458 /* stb_truetype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = stb_truetype.h; path = UI/stb_truetype.h; sourceTree = "<group>"; };
-		77805861168E1E5800D82458 /* SimpleShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SimpleShader.h; path = UI/SimpleShader.h; sourceTree = "<group>"; };
+		770A517616DE6FCF00872F21 /* CoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow.h; sourceTree = "<group>"; };
+		770A517716DE6FCF00872F21 /* CoreWindow_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow_mac.h; sourceTree = "<group>"; };
+		770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CoreWindow_mac.mm; sourceTree = "<group>"; };
+		770A517D16DE6FCF00872F21 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
+		770A517E16DE6FCF00872F21 /* Log.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
+		770A517F16DE6FCF00872F21 /* Math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
+		770A518016DE6FCF00872F21 /* MatrixStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatrixStack.h; sourceTree = "<group>"; };
+		770A518116DE6FCF00872F21 /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
+		770A518216DE6FCF00872F21 /* Memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
+		770A518316DE6FCF00872F21 /* MOE.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MOE.h; sourceTree = "<group>"; };
+		770A518416DE6FCF00872F21 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
+		770A518516DE6FCF00872F21 /* Stream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
+		770A518616DE6FCF00872F21 /* Time.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		770A518716DE6FCF00872F21 /* Type.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
+		770A518916DE6FCF00872F21 /* icons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icons.h; sourceTree = "<group>"; };
+		770A518A16DE6FCF00872F21 /* mplus1cmedium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mplus1cmedium.h; sourceTree = "<group>"; };
+		770A518B16DE6FCF00872F21 /* SimpleGUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleGUI.h; sourceTree = "<group>"; };
+		770A518C16DE6FCF00872F21 /* SimpleShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleShader.h; sourceTree = "<group>"; };
+		770A518D16DE6FCF00872F21 /* SimpleTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleTex.h; sourceTree = "<group>"; };
+		770A518E16DE6FCF00872F21 /* SimpleVB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimpleVB.h; sourceTree = "<group>"; };
+		770A518F16DE6FCF00872F21 /* skBaseGUI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = skBaseGUI.h; sourceTree = "<group>"; };
+		770A519016DE6FCF00872F21 /* stb_truetype.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_truetype.h; sourceTree = "<group>"; };
+		770A519316DE6FCF00872F21 /* EasyMIDIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyMIDIController.h; sourceTree = "<group>"; };
+		770A519416DE6FCF00872F21 /* EasyMIDIController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EasyMIDIController.mm; sourceTree = "<group>"; };
+		770A519716DE6FCF00872F21 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
+		770A519816DE6FCF00872F21 /* Graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics_impl.h; sourceTree = "<group>"; };
+		770A519916DE6FCF00872F21 /* GraphicsProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsProfiler.h; sourceTree = "<group>"; };
+		770A519A16DE6FCF00872F21 /* wglext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wglext.h; sourceTree = "<group>"; };
+		770A519B16DE6FCF00872F21 /* WGLExtention.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WGLExtention.cpp; sourceTree = "<group>"; };
+		770A519C16DE6FCF00872F21 /* WGLExtention.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WGLExtention.h; sourceTree = "<group>"; };
+		770A519D16DE6FCF00872F21 /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
+		770A519E16DE6FCF00872F21 /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
+		770A519F16DE6FCF00872F21 /* RenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderDevice.h; sourceTree = "<group>"; };
+		770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgramObject.cpp; sourceTree = "<group>"; };
+		770A51A116DE6FCF00872F21 /* ShaderProgramObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgramObject.h; sourceTree = "<group>"; };
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
-		77B04A4D168DF46C0068FCE6 /* Log.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Log.cpp; sourceTree = "<group>"; };
-		77B04A4E168DF46C0068FCE6 /* Memory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
-		77B04A4F168DF46C0068FCE6 /* Stream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
-		77B04A55168DF5200068FCE6 /* glext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glext.h; sourceTree = "<group>"; };
-		77B04A56168DF5200068FCE6 /* Graphics_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics_impl.h; sourceTree = "<group>"; };
-		77B04A57168DF5200068FCE6 /* GraphicsProfiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GraphicsProfiler.h; sourceTree = "<group>"; };
-		77B04A5C168DF5420068FCE6 /* Graphics.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
-		77B04A5D168DF5420068FCE6 /* Log.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Log.h; sourceTree = "<group>"; };
-		77B04A5E168DF5420068FCE6 /* Math.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Math.h; sourceTree = "<group>"; };
-		77B04A5F168DF5420068FCE6 /* MatrixStack.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatrixStack.h; sourceTree = "<group>"; };
-		77B04A60168DF5420068FCE6 /* Memory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Memory.cpp; sourceTree = "<group>"; };
-		77B04A61168DF5420068FCE6 /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
-		77B04A62168DF5420068FCE6 /* MOE.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MOE.h; sourceTree = "<group>"; };
-		77B04A63168DF5420068FCE6 /* Stream.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Stream.cpp; sourceTree = "<group>"; };
-		77B04A64168DF5420068FCE6 /* Stream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Stream.h; sourceTree = "<group>"; };
-		77B04A65168DF5430068FCE6 /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
-		77B04A66168DF5430068FCE6 /* Type.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Type.h; sourceTree = "<group>"; };
-		77B04A69168DF7B30068FCE6 /* EasyMIDIController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EasyMIDIController.h; sourceTree = "<group>"; };
-		77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EasyMIDIController.mm; sourceTree = "<group>"; };
 		77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
@@ -57,8 +68,6 @@
 		77E5213615DF2A87000595F8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		77E5213715DF2A87000595F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		77E5215D15DF2CDE000595F8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		77E5217215DF4454000595F8 /* CoreWindow_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow_mac.h; sourceTree = "<group>"; };
-		77E5217315DF4454000595F8 /* CoreWindow_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CoreWindow_mac.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,56 +84,94 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		77805858168E1D5B00D82458 /* UI */ = {
+		770A517516DE6FCF00872F21 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				7780585A168E1D6500D82458 /* icons.h */,
-				7780585B168E1D6500D82458 /* mplus1cmedium.h */,
-				77805861168E1E5800D82458 /* SimpleShader.h */,
-				7780585C168E1D6500D82458 /* simplegui.h */,
-				7780585D168E1D6500D82458 /* SimpleTex.h */,
-				7780585E168E1D6500D82458 /* SimpleVB.h */,
-				7780585F168E1D6500D82458 /* skBaseGUI.h */,
-				77805860168E1D6500D82458 /* stb_truetype.h */,
+				770A517616DE6FCF00872F21 /* CoreWindow.h */,
+				770A517716DE6FCF00872F21 /* CoreWindow_mac.h */,
+				770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */,
+				770A517D16DE6FCF00872F21 /* Log.cpp */,
+				770A517E16DE6FCF00872F21 /* Log.h */,
+				770A517F16DE6FCF00872F21 /* Math.h */,
+				770A518016DE6FCF00872F21 /* MatrixStack.h */,
+				770A518116DE6FCF00872F21 /* Memory.cpp */,
+				770A518216DE6FCF00872F21 /* Memory.h */,
+				770A518316DE6FCF00872F21 /* MOE.h */,
+				770A518416DE6FCF00872F21 /* Stream.cpp */,
+				770A518516DE6FCF00872F21 /* Stream.h */,
+				770A518616DE6FCF00872F21 /* Time.h */,
+				770A518716DE6FCF00872F21 /* Type.h */,
+				770A518816DE6FCF00872F21 /* UI */,
 			);
-			name = UI;
+			path = Core;
+			sourceTree = "<group>";
+		};
+		770A518816DE6FCF00872F21 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				770A518916DE6FCF00872F21 /* icons.h */,
+				770A518A16DE6FCF00872F21 /* mplus1cmedium.h */,
+				770A518B16DE6FCF00872F21 /* SimpleGUI.h */,
+				770A518C16DE6FCF00872F21 /* SimpleShader.h */,
+				770A518D16DE6FCF00872F21 /* SimpleTex.h */,
+				770A518E16DE6FCF00872F21 /* SimpleVB.h */,
+				770A518F16DE6FCF00872F21 /* skBaseGUI.h */,
+				770A519016DE6FCF00872F21 /* stb_truetype.h */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		770A519116DE6FCF00872F21 /* EasyMIDIController */ = {
+			isa = PBXGroup;
+			children = (
+				770A519316DE6FCF00872F21 /* EasyMIDIController.h */,
+				770A519416DE6FCF00872F21 /* EasyMIDIController.mm */,
+			);
+			path = EasyMIDIController;
+			sourceTree = "<group>";
+		};
+		770A519516DE6FCF00872F21 /* Gfx */ = {
+			isa = PBXGroup;
+			children = (
+				770A519616DE6FCF00872F21 /* Graphics */,
+				770A519D16DE6FCF00872F21 /* Graphics.h */,
+				770A519E16DE6FCF00872F21 /* RenderDevice.cpp */,
+				770A519F16DE6FCF00872F21 /* RenderDevice.h */,
+				770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */,
+				770A51A116DE6FCF00872F21 /* ShaderProgramObject.h */,
+			);
+			path = Gfx;
+			sourceTree = "<group>";
+		};
+		770A519616DE6FCF00872F21 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				770A519716DE6FCF00872F21 /* glext.h */,
+				770A519816DE6FCF00872F21 /* Graphics_impl.h */,
+				770A519916DE6FCF00872F21 /* GraphicsProfiler.h */,
+				770A519A16DE6FCF00872F21 /* wglext.h */,
+				770A519B16DE6FCF00872F21 /* WGLExtention.cpp */,
+				770A519C16DE6FCF00872F21 /* WGLExtention.h */,
+			);
+			path = Graphics;
 			sourceTree = "<group>";
 		};
 		77B04A43168DE9700068FCE6 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				770A517516DE6FCF00872F21 /* Core */,
+				770A519116DE6FCF00872F21 /* EasyMIDIController */,
+				770A519516DE6FCF00872F21 /* Gfx */,
 				77B04A44168DE9700068FCE6 /* main.cpp */,
 			);
 			name = src;
 			path = ../src;
 			sourceTree = "<group>";
 		};
-		77B04A54168DF5200068FCE6 /* Graphics */ = {
-			isa = PBXGroup;
-			children = (
-				77B04A55168DF5200068FCE6 /* glext.h */,
-				77B04A56168DF5200068FCE6 /* Graphics_impl.h */,
-				77B04A57168DF5200068FCE6 /* GraphicsProfiler.h */,
-			);
-			path = Graphics;
-			sourceTree = "<group>";
-		};
-		77B04A67168DF7B30068FCE6 /* EasyMIDIController */ = {
-			isa = PBXGroup;
-			children = (
-				77B04A69168DF7B30068FCE6 /* EasyMIDIController.h */,
-				77B04A6A168DF7B30068FCE6 /* EasyMIDIController.mm */,
-			);
-			name = EasyMIDIController;
-			path = ../EasyMIDIController;
-			sourceTree = "<group>";
-		};
 		77E5212315DF2A87000595F8 = {
 			isa = PBXGroup;
 			children = (
-				77B04A67168DF7B30068FCE6 /* EasyMIDIController */,
 				77B04A43168DE9700068FCE6 /* src */,
-				77E5216E15DF4454000595F8 /* Core */,
 				77E5213815DF2A87000595F8 /* Resource */,
 				77E5213115DF2A87000595F8 /* Frameworks */,
 				77E5212F15DF2A87000595F8 /* Products */,
@@ -168,32 +215,6 @@
 			);
 			name = Resource;
 			path = CoreWindowTest;
-			sourceTree = "<group>";
-		};
-		77E5216E15DF4454000595F8 /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				77805858168E1D5B00D82458 /* UI */,
-				77E5217215DF4454000595F8 /* CoreWindow_mac.h */,
-				77E5217315DF4454000595F8 /* CoreWindow_mac.mm */,
-				77B04A4D168DF46C0068FCE6 /* Log.cpp */,
-				77B04A4E168DF46C0068FCE6 /* Memory.cpp */,
-				77B04A4F168DF46C0068FCE6 /* Stream.cpp */,
-				77B04A5C168DF5420068FCE6 /* Graphics.h */,
-				77B04A5D168DF5420068FCE6 /* Log.h */,
-				77B04A5E168DF5420068FCE6 /* Math.h */,
-				77B04A5F168DF5420068FCE6 /* MatrixStack.h */,
-				77B04A60168DF5420068FCE6 /* Memory.cpp */,
-				77B04A61168DF5420068FCE6 /* Memory.h */,
-				77B04A62168DF5420068FCE6 /* MOE.h */,
-				77B04A63168DF5420068FCE6 /* Stream.cpp */,
-				77B04A64168DF5420068FCE6 /* Stream.h */,
-				77B04A65168DF5430068FCE6 /* Time.h */,
-				77B04A66168DF5430068FCE6 /* Type.h */,
-				77B04A54168DF5200068FCE6 /* Graphics */,
-			);
-			name = Core;
-			path = ../Core;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -258,12 +279,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77E5217915DF4454000595F8 /* CoreWindow_mac.mm in Sources */,
 				77B04A45168DE9700068FCE6 /* main.cpp in Sources */,
-				77B04A50168DF46C0068FCE6 /* Log.cpp in Sources */,
-				77B04A51168DF46C0068FCE6 /* Memory.cpp in Sources */,
-				77B04A52168DF46C0068FCE6 /* Stream.cpp in Sources */,
-				77B04A6C168DF7B30068FCE6 /* EasyMIDIController.mm in Sources */,
+				770A51A216DE6FCF00872F21 /* CoreWindow_mac.mm in Sources */,
+				770A51A516DE6FCF00872F21 /* Log.cpp in Sources */,
+				770A51A616DE6FCF00872F21 /* Memory.cpp in Sources */,
+				770A51A716DE6FCF00872F21 /* Stream.cpp in Sources */,
+				770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */,
+				770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */,
+				770A51AB16DE6FCF00872F21 /* RenderDevice.cpp in Sources */,
+				770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
