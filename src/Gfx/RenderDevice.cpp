@@ -6,7 +6,7 @@
 #include "ShaderProgramObject.h"
 
 #include "RenderDevice.h"
-
+#include <algorithm>
 #include <vector>
 
 using namespace MOE;

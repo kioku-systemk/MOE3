@@ -1,129 +1,158 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="src">
-      <UniqueIdentifier>{331e12c8-9aa6-4f88-97b2-ce9f58c71f6a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
-      <UniqueIdentifier>{cf3c23be-e8b4-4bbf-97f8-fedc5adbdcbf}</UniqueIdentifier>
+      <UniqueIdentifier>{21c34f82-4470-4a80-9a04-546deb73b997}</UniqueIdentifier>
     </Filter>
     <Filter Include="EasyMIDIController">
-      <UniqueIdentifier>{4cb00650-706c-4f96-a286-96f2033b14e6}</UniqueIdentifier>
+      <UniqueIdentifier>{4fa05a7e-9dbb-4bb8-918f-a104b89515bb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Core\UI">
-      <UniqueIdentifier>{367380c0-4a49-4df9-82d7-f53bae1ea6e7}</UniqueIdentifier>
+    <Filter Include="SceneGraph">
+      <UniqueIdentifier>{7a29e829-bd68-4993-98b4-b0b3fa7be093}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gfx">
+      <UniqueIdentifier>{1070b08a-17ff-4024-ad71-ad8a5ceee2bb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Core\CoreWindow_wgl.cpp">
+    <ClInclude Include="..\src\Core\CoreWindow.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Core\Log.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Type.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Core\Memory.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\Core\CoreWindow_wgl.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Core\Stream.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\icons.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Core\Graphics\WGLExtention.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Log.h">
       <Filter>Core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\EasyMIDIController\EasyMIDIController.cpp">
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Math.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\MatrixStack.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Memory.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\MOE.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\mplus1cmedium.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\SimpleGUI.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\SimpleShader.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\SimpleTex.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\SimpleVB.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\skBaseGUI.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\UI\stb_truetype.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Stream.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Core\Time.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EasyMIDIController\EasyMIDIController.h">
       <Filter>EasyMIDIController</Filter>
-    </ClCompile>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Geometry.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\GeometryCache.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Group.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Material.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Node.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\NodeType.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\SceneGraph.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Transform.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\Util.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\RenderDevice.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\ShaderProgramObject.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics\glext.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics\Graphics_impl.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics\GraphicsProfiler.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics\wglext.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\Graphics\WGLExtention.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Core\CoreWindow.h">
+    <ClCompile Include="..\src\Core\CoreWindow_wgl.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\CoreWindow_wgl.h">
+    </ClCompile>
+    <ClCompile Include="..\src\Core\Log.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics.h">
+    </ClCompile>
+    <ClCompile Include="..\src\Core\Memory.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Log.h">
+    </ClCompile>
+    <ClCompile Include="..\src\Core\Stream.cpp">
       <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Math.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\MatrixStack.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Memory.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\MOE.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Stream.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Time.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Type.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics\glext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics\Graphics_impl.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics\GraphicsProfiler.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics\wglext.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\Graphics\WGLExtention.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\EasyMIDIController\EasyMIDIController.h">
+    </ClCompile>
+    <ClCompile Include="..\src\EasyMIDIController\EasyMIDIController.cpp">
       <Filter>EasyMIDIController</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\icons.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\mplus1cmedium.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\simplegui.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\SimpleShader.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\SimpleTex.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\SimpleVB.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\skBaseGUI.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Core\UI\stb_truetype.h">
-      <Filter>Core\UI</Filter>
-    </ClInclude>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\RenderDevice.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\ShaderProgramObject.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\Graphics\WGLExtention.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\main.cpp" />
   </ItemGroup>
 </Project>

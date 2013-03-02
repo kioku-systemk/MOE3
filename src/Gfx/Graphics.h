@@ -9,7 +9,7 @@
 #ifndef INCLUDE_VGGRAPHICS_H
 #define INCLUDE_VGGRAPHICS_H
 
-#include "Type.h"
+#include "../Core/Type.h"
 
 namespace MOE {
     

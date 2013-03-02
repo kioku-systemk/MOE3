@@ -58,6 +58,15 @@
 		770A519F16DE6FCF00872F21 /* RenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderDevice.h; sourceTree = "<group>"; };
 		770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgramObject.cpp; sourceTree = "<group>"; };
 		770A51A116DE6FCF00872F21 /* ShaderProgramObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgramObject.h; sourceTree = "<group>"; };
+		770A51AE16E23CE200872F21 /* Geometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Geometry.h; sourceTree = "<group>"; };
+		770A51AF16E23CE200872F21 /* GeometryCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeometryCache.h; sourceTree = "<group>"; };
+		770A51B016E23CE200872F21 /* Group.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
+		770A51B116E23CE200872F21 /* Material.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Material.h; sourceTree = "<group>"; };
+		770A51B216E23CE200872F21 /* Node.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		770A51B316E23CE200872F21 /* NodeType.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NodeType.h; sourceTree = "<group>"; };
+		770A51B416E23CE200872F21 /* SceneGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
+		770A51B516E23CE200872F21 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform.h; sourceTree = "<group>"; };
+		770A51B616E23CE200872F21 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -156,9 +165,26 @@
 			path = Graphics;
 			sourceTree = "<group>";
 		};
+		770A51AD16E23CE200872F21 /* SceneGraph */ = {
+			isa = PBXGroup;
+			children = (
+				770A51AE16E23CE200872F21 /* Geometry.h */,
+				770A51AF16E23CE200872F21 /* GeometryCache.h */,
+				770A51B016E23CE200872F21 /* Group.h */,
+				770A51B116E23CE200872F21 /* Material.h */,
+				770A51B216E23CE200872F21 /* Node.h */,
+				770A51B316E23CE200872F21 /* NodeType.h */,
+				770A51B416E23CE200872F21 /* SceneGraph.h */,
+				770A51B516E23CE200872F21 /* Transform.h */,
+				770A51B616E23CE200872F21 /* Util.h */,
+			);
+			path = SceneGraph;
+			sourceTree = "<group>";
+		};
 		77B04A43168DE9700068FCE6 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				770A51AD16E23CE200872F21 /* SceneGraph */,
 				770A517516DE6FCF00872F21 /* Core */,
 				770A519116DE6FCF00872F21 /* EasyMIDIController */,
 				770A519516DE6FCF00872F21 /* Gfx */,
