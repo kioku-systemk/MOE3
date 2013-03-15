@@ -10,6 +10,9 @@
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
+#include "Utility/Parameters.h"
+#include "Utility/Range.h"
+#include "Utility/Parser.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -97,7 +100,26 @@ public:
             m2 = m_midi->GetControlParam(2);
             m_bar[2]->SetValue(m2);
         }
-    }
+
+#if 1
+		// @test:スクリプトテスト
+		MOE::CParameters mParams;
+		MOE::CParser parser;
+		parser.Parse("..\\data\\definition\\script.txt", mParams );		
+
+		mParams.UseNamespace("test");
+		s32 a = mParams.GetS32("a");
+		s32 b = mParams.GetS32("b");
+		f32 c = mParams.GetF32("c");
+		string tex = mParams.GetString("tex");
+		vec3 d = mParams.GetVector3("d");
+		vec4 e = mParams.GetColor("e");
+		MOE::CRange f = mParams.GetRange("f");
+		
+		MOELogI( "test:a(%d), b(%d), c(%f), d(%f,%f,%f), tex(%s) e(%f,%f,%f,%f) f(%f,%f)\n", 
+			a, b, c, d.x, d.y, d.z, tex.c_str(), e.r, e.g, e.b, e.a, f.GetMinimum(), f.GetMaximum() );
+#endif
+	}
     
     void Draw()
     {

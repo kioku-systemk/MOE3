@@ -51,6 +51,13 @@
     <ClInclude Include="..\src\SceneGraph\SceneGraph.h" />
     <ClInclude Include="..\src\SceneGraph\Transform.h" />
     <ClInclude Include="..\src\SceneGraph\Util.h" />
+    <ClInclude Include="..\src\Utility\Bpm.h" />
+    <ClInclude Include="..\src\Utility\Event.h" />
+    <ClInclude Include="..\src\Utility\Parameters.h" />
+    <ClInclude Include="..\src\Utility\Parser.h" />
+    <ClInclude Include="..\src\Utility\Range.h" />
+    <ClInclude Include="..\src\Utility\StringUtils.h" />
+    <ClInclude Include="..\src\Utility\Trigger.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Core\CoreWindow_wgl.cpp" />
@@ -62,6 +69,13 @@
     <ClCompile Include="..\src\Gfx\RenderDevice.cpp" />
     <ClCompile Include="..\src\Gfx\ShaderProgramObject.cpp" />
     <ClCompile Include="..\src\main.cpp" />
+    <ClCompile Include="..\src\Utility\Bpm.cpp" />
+    <ClCompile Include="..\src\Utility\Event.cpp" />
+    <ClCompile Include="..\src\Utility\Parameters.cpp" />
+    <ClCompile Include="..\src\Utility\Parser.cpp" />
+    <ClCompile Include="..\src\Utility\Range.cpp" />
+    <ClCompile Include="..\src\Utility\StringUtils.cpp" />
+    <ClCompile Include="..\src\Utility\Trigger.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9A35F694-6B16-47B3-B4C5-78068501B1F4}</ProjectGuid>
