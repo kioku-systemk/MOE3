@@ -6,7 +6,7 @@
  *
  */
 
-#ifndef INCLUDE_SCENEGPRAH_MATERIAL_H
+#ifndef INCLUDE_SCENEGRAPH_MATERIAL_H
 #define INCLUDE_SCENEGRAPH_MATERIAL_H
 
 #include "../Core/Type.h"

@@ -6,7 +6,7 @@
  *
  */
 
-#ifndef INCLUDE_SCENEGPRAH_GROUP_H
+#ifndef INCLUDE_SCENEGRAPH_GROUP_H
 #define INCLUDE_SCENEGRAPH_GROUP_H
 
 #include "../Core/Type.h"
