@@ -18,6 +18,7 @@
 		77B04A45168DE9700068FCE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A44168DE9700068FCE6 /* main.cpp */; };
 		77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77B04A46168DEA590068FCE6 /* MOE3-Info.plist */; };
 		77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
+		77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -71,6 +72,9 @@
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
 		77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = System/Library/Frameworks/CoreMIDI.framework; sourceTree = SDKROOT; };
+		77C04C8C1714731400C9269B /* BaseLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseLoader.h; sourceTree = "<group>"; };
+		77C04C8D1714731400C9269B /* MrzLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MrzLoader.cpp; sourceTree = "<group>"; };
+		77C04C8E1714731400C9269B /* MrzLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MrzLoader.h; sourceTree = "<group>"; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77E5213515DF2A87000595F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -168,6 +172,9 @@
 		770A51AD16E23CE200872F21 /* SceneGraph */ = {
 			isa = PBXGroup;
 			children = (
+				77C04C8C1714731400C9269B /* BaseLoader.h */,
+				77C04C8D1714731400C9269B /* MrzLoader.cpp */,
+				77C04C8E1714731400C9269B /* MrzLoader.h */,
 				770A51AE16E23CE200872F21 /* Geometry.h */,
 				770A51AF16E23CE200872F21 /* GeometryCache.h */,
 				770A51B016E23CE200872F21 /* Group.h */,
@@ -314,6 +321,7 @@
 				770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */,
 				770A51AB16DE6FCF00872F21 /* RenderDevice.cpp in Sources */,
 				770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */,
+				77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
