@@ -268,7 +268,7 @@ namespace {
 			const std::string name = std::string(data);
 			data += (name.length() + 1);
 			memcpy(&vec, data, sizeof(vec)); data += sizeof(vec);
-			m->Add(name, vec);
+			m->Set(name, vec);
 		}
 		// matrix
 		memcpy(&num, data, sizeof(num)); data+= sizeof(num);
@@ -277,7 +277,7 @@ namespace {
 			const std::string name = data;
 			data += (name.length() + 1);
 			memcpy(&mat, data, sizeof(mat)); data += sizeof(mat);
-			m->Add(name, mat);
+			m->Set(name, mat);
 		}
 		
 		// string
@@ -287,7 +287,7 @@ namespace {
 			data += (name.length() + 1);
 			const std::string str = data;
 			data += str.length() + 1;
-			m->Add(name, str);
+			m->Set(name, str);
 		}
 
 		return m;
