@@ -667,7 +667,7 @@ inline vec3 operator*(const float r, const vec3& a)
 	
 inline vec3 operator/(const vec3& a, const vec3& b)
 {
-	return vec3(a.x * b.x, a.y * b.y, a.z * b.z);
+	return vec3(a.x / b.x, a.y / b.y, a.z / b.z);
 }
 	
 inline vec3 operator*(const vec3& a, const vec3& b)
