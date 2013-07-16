@@ -151,6 +151,24 @@
     <ClInclude Include="..\src\Utility\Parser.h">
       <Filter>Utility</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\Gfx\SceneGraphRender.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\AnimLoader.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\SceneGraph\MrzLoader.h">
+      <Filter>SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\rendercommand.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\textureobject.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Gfx\BufferObject.h">
+      <Filter>Gfx</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Core\CoreWindow_wgl.cpp">
@@ -198,6 +216,24 @@
     </ClCompile>
     <ClCompile Include="..\src\Utility\Parser.cpp">
       <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\SceneGraphRender.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SceneGraph\AnimLoader.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\SceneGraph\MrzLoader.cpp">
+      <Filter>SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\RenderCommand.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\TextureObject.cpp">
+      <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Gfx\BufferObject.cpp">
+      <Filter>Gfx</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
