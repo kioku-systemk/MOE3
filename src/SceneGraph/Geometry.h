@@ -19,7 +19,8 @@ namespace MOE
 {
 	namespace SceneGraph
 	{
-		typedef u32 Index;
+		typedef u16 Index;
+		typedef u32 Index32;
 		class Material;
 		
 		class Geometry : public Node
@@ -53,15 +54,31 @@ namespace MOE
 			};
 					
 			virtual void Alloc(u32 vertexCount, u32 indexCount){
-				assert(vertexCount < 65536);
+				delete [] m_vertexBuffer;
+				delete [] m_indexBuffer;
+				m_indexBuffer = 0;
 				m_vertexBuffer = mnew VertexFormat[vertexCount];
-				m_indexBuffer  = mnew Index[indexCount];
+				if (indexCount) {
+					if(vertexCount < 65536)
+						m_indexBuffer  = mnew Index[indexCount];
+					else
+						m_indexBuffer  = mnew Index[indexCount*2]; // for Index32
+				}
 				m_indexCount   = indexCount;
 				m_vertexCount  = vertexCount;
 				EnableNeedUpdate();
 			}
-			void MinimizeIndex(u32 new_indexCount)
-			{
+			
+			s32 GetIndexTypeSize() const {
+				if (!m_indexCount)
+					return 0;
+				if (m_vertexCount < 65536)
+					return 2; // Index
+				else
+					return 4; // Index32
+			}
+			
+			void MinimizeIndex(u32 new_indexCount) {
 				if (m_indexCount <= new_indexCount)
 					return;
 				
@@ -84,11 +101,11 @@ namespace MOE
 				return m_vertexBuffer;
 			}
 			
-			Index* GetIndex(){
+			void* GetIndex(){
 				return m_indexBuffer;
 			}
 			
-			const Index* GetIndex() const {
+			const void* GetIndex() const {
 				return m_indexBuffer;
 			}
 			
@@ -152,12 +169,11 @@ namespace MOE
 		protected:
 			mutable b8 m_needUpdate;
 
-		private:
 			u32 m_vertexCount;
 			u32 m_indexCount;
 			
 			VertexFormat* m_vertexBuffer;
-			Index* m_indexBuffer;
+			u16* m_indexBuffer;
 			Material* m_material;
 			
 			// BBox and BSphere

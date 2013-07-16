@@ -1,16 +1,22 @@
 #include "../Core/MOE.h"
+#include "ShaderProgramObject.h"
+#include <string>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+//#include <stdlib.h>
+//#include <stdio.h>
 
 #include "Graphics.h"
-#include "ShaderProgramObject.h"
+#include "../Core/Log.h"
+
 
 #define SHADER_STR(STR)      (std::string(shaderMacro)+(STR))
 #define SHADER_HIGH_STR(STR) (std::string(shaderMacro_high)+(STR))
 
+#define GLHEADER "#version 120\n"
 
-static const s8* shaderMacro =  "\
+static const s8* shaderMacro = GLHEADER "\
 #ifdef GL_ES\n\
 precision mediump float;\n\
 #define LOWP lowp\n\
@@ -22,7 +28,7 @@ precision mediump float;\n\
 #define HIGHP\n\
 #endif\n";
 
-static const s8* shaderMacro_high =  "\
+static const s8* shaderMacro_high = GLHEADER "\
 #ifdef GL_ES\n\
 precision highp float;\n\
 #define LOWP lowp\n\
@@ -43,7 +49,7 @@ namespace
 // シェーダの情報を表示する
 void printShaderInfoLog(MOE::Graphics* g, GLuint shader)
 {
-	s32 bufSize;
+	s32 bufSize = 0;
 	g->GetShaderiv(shader, VG_INFO_LOG_LENGTH , &bufSize);
 	if (bufSize > 1)
 	{
@@ -55,7 +61,7 @@ void printShaderInfoLog(MOE::Graphics* g, GLuint shader)
 			g->GetShaderInfoLog(shader, bufSize, &length, infoLog);
 			//cout << "InfoLog:" << endl << infoLog << endl << endl;
 			MOELogE("InfoLog:\n%s\n",infoLog);
-			mdeleteArray(infoLog);
+			delete [] infoLog;
 		}
 		else
 		{
@@ -80,7 +86,7 @@ void printProgramInfoLog(MOE::Graphics* g, GLuint program)
 			g->GetProgramInfoLog(program, bufSize, &length, infoLog);
 			//cout << "InfoLog:" << endl << infoLog << endl << endl;
 			MOELogE("InfoLog:\n%s\n",infoLog);
-			mdeleteArray(infoLog);
+			delete [] infoLog;
 		}
 		else
 		{
@@ -135,7 +141,7 @@ bool ShaderObject::LoadFromMemory(const std::string& programSource, SHADERTYPE s
 	m_source = prgSource;
 
 	const char* s = prgSource.c_str();
-	s32 l = static_cast<s32>(prgSource.length());
+	int l = static_cast<int>(prgSource.length());
 	
 	m_shader = g->CreateShader(shaderType);
 	g->ShaderSource( m_shader, 1, &s, &l );
@@ -147,13 +153,12 @@ bool ShaderObject::LoadFromMemory(const std::string& programSource, SHADERTYPE s
 	}
 
 	// compile
-	s32 compiled = 0;
+	int compiled = 0;
 	g->CompileShader(m_shader);
 	g->GetShaderiv(m_shader, VG_COMPILE_STATUS, &compiled);
 	printShaderInfoLog(g, m_shader);
 	if (!compiled)
 	{
-		//cout << "Compile is failed" << endl;
 		MOELogE("Compile is failed");
 		return false;
 	}
@@ -176,6 +181,7 @@ ProgramObject::ProgramObject(Graphics* mg)
 	g = mg;
 	m_oldProgram = 0;
 	m_program = 0;
+	m_prio = 0;
 	m_binding = false;
 }
 
@@ -244,31 +250,37 @@ void ProgramObject::Release()
 }
 
 // 1i - 4i
-void ProgramObject::SetUniform(const char* name, const s32 i0)
+void ProgramObject::SetUniform(const char* name, const int i0)
 {
 	if (m_program)
-		g->Uniform1i(g->GetUniformLocation(m_program, name), i0);
+	{
+		s32 loc = g->GetUniformLocation(m_program, name);
+		if (loc == -1){
+			return;
+		}
+		g->Uniform1i(loc, i0);
+	}
 }
 
-void ProgramObject::SetUniform(const char* name, const s32 i0, const s32 i1)
+void ProgramObject::SetUniform(const char* name, const int i0, const int i1)
 {
 	if (m_program)
 		g->Uniform2i(g->GetUniformLocation(m_program, name), i0, i1);
 }
 
-void ProgramObject::SetUniform(const char* name, const s32 i0, const s32 i1, const s32 i2)
+void ProgramObject::SetUniform(const char* name, const int i0, const int i1, const int i2)
 {
 	if (m_program)
 		g->Uniform3i(g->GetUniformLocation(m_program, name), i0, i1, i2);
 }
 
-void ProgramObject::SetUniform(const char* name, const s32 i0, const s32 i1, const s32 i2, const s32 i3)
+void ProgramObject::SetUniform(const char* name, const int i0, const int i1, const int i2, const int i3)
 {
 	if (m_program)
 		g->Uniform4i(g->GetUniformLocation(m_program, name), i0, i1, i2, i3);
 }
 
-void ProgramObject::SetUniform(const char* name, const s32 num, const s32* i_array)
+void ProgramObject::SetUniform(const char* name, const int num, const int* i_array)
 {
 	void (Graphics::*UniFuncs[]) (s32, s32, const s32*) = 
 	{
@@ -286,47 +298,31 @@ void ProgramObject::SetUniform(const char* name, const s32 num, const s32* i_arr
 }
 
 // 1f - 4f
-void ProgramObject::SetUniform(const char* name, const f32 f0)
+void ProgramObject::SetUniform(const char* name, const float f0)
 {
 	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform1f(loc, f0);
-	}
+		g->Uniform1f(g->GetUniformLocation(m_program, name), f0);
 }
 
-void ProgramObject::SetUniform(const char* name, const f32 f0, const f32 f1)
+void ProgramObject::SetUniform(const char* name, const float f0, const float f1)
 {
 	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform2f(loc, f0, f1);
-	}
+		g->Uniform2f(g->GetUniformLocation(m_program, name), f0, f1);
 }
 
-void ProgramObject::SetUniform(const char* name, const f32 f0, const f32 f1, const f32 f2)
+void ProgramObject::SetUniform(const char* name, const float f0, const float f1, const float f2)
 {
 	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform3f(loc, f0, f1, f2);
-	}
+		g->Uniform3f(g->GetUniformLocation(m_program, name), f0, f1, f2);
 }
 
-void ProgramObject::SetUniform(const char* name, const f32 f0, const f32 f1, const f32 f2, const f32 f3)
+void ProgramObject::SetUniform(const char* name, const float f0, const float f1, const float f2, const float f3)
 {
 	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform4f(loc, f0, f1, f2, f3);
-	}
+		g->Uniform4f(g->GetUniformLocation(m_program, name), f0, f1, f2, f3);
 }
 
-void ProgramObject::SetUniform(const char* name, const s32 num, const f32* f_array)
+void ProgramObject::SetUniform(const char* name, const int num, const float* f_array)
 {
 	void (Graphics::*UniFuncs[]) (s32, s32, const f32*) = 
 	{
@@ -340,45 +336,21 @@ void ProgramObject::SetUniform(const char* name, const s32 num, const f32* f_arr
 		return;
 
 	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			(g->*UniFuncs[num])(loc, num, f_array);
-	}
-}
-	
-void ProgramObject::SetUniformArray(const char* name, const s32 num, const f32* f_array)
-{
-	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform1fv(loc, num, f_array);
-	}
-}
-
-void ProgramObject::SetUniformArray4f(const char* name, const s32 num, const f32* f_array)
-{
-	if (m_program)
-	{
-		const s32 loc = g->GetUniformLocation(m_program, name);
-		if (loc >= 0)
-			g->Uniform4fv(loc, num, f_array);
-	}
+		(g->*UniFuncs[num])(glGetUniformLocation(m_program, name), num, f_array);
 }
 
 // matrix
-void ProgramObject::SetUniformMatrix2x2(const char* name, const s32 count, const bool transpose, const f32* val)
+void ProgramObject::SetUniformMatrix2x2(const char* name, const int count, const bool transpose, const float* val)
 {
 	if (m_program)
 		g->UniformMatrix2fv(g->GetUniformLocation(m_program, name), count, transpose, val);
 }
-void ProgramObject::SetUniformMatrix3x3(const char* name, const s32 count, const bool transpose, const f32* val)
+void ProgramObject::SetUniformMatrix3x3(const char* name, const int count, const bool transpose, const float* val)
 {
 	if (m_program)
 		g->UniformMatrix3fv(g->GetUniformLocation(m_program, name), count, transpose, val);
 }
-void ProgramObject::SetUniformMatrix4x4(const char* name, const s32 count, const bool transpose, const f32* val)
+void ProgramObject::SetUniformMatrix4x4(const char* name, const int count, const bool transpose, const float* val)
 {
 	if (m_program)
 		g->UniformMatrix4fv(g->GetUniformLocation(m_program, name), count, transpose, val);
@@ -397,6 +369,17 @@ u32 ProgramObject::GetAttribLocation(const char* name)
 	return g->GetAttribLocation(m_program, name);
 }
 
-	
+unsigned int ProgramObject::GetID() const
+{
+	return m_program;
+}
+unsigned int ProgramObject::GetPriority() const
+{
+	return m_prio;
+}
+void ProgramObject::SetPriority(unsigned int prio)
+{
+	m_prio = prio;
+}
 
 } // namespace MOE

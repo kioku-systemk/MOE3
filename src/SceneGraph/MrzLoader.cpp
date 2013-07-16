@@ -10,6 +10,7 @@
 
 #include <string>
 #include "../Core/Log.h"
+
 #include "SceneGraph.h"
 
 #define MOELogDX(...)
@@ -87,7 +88,7 @@ namespace {
 		// material id
 		std::string matname = &data[0];
 		data += (matname.size() + 1);
-        std::map<const std::string, MOE::SceneGraph::Material*>::const_iterator it = mattable.find(matname);
+		std::map<const std::string, MOE::SceneGraph::Material*>::const_iterator it = mattable.find(matname);
 		if (it != mattable.end())
 			geo->SetMaterial(it->second);
 		
@@ -97,7 +98,7 @@ namespace {
 		data += vtxbufsize;
 		
 		// index buffer
-		const u32 idxbufsize = sizeof(Index) * idxnum;
+		const u32 idxbufsize = geo->GetIndexTypeSize() * idxnum;
 		memcpy(geo->GetIndex(), data, idxbufsize);
 		data += idxbufsize;
 
@@ -168,7 +169,7 @@ namespace {
 		data += vtxbufsize;
 		
 		// index buffer
-		const u32 idxbufsize = sizeof(Index) * idxnum;
+		const u32 idxbufsize = geo->GetIndexTypeSize() * idxnum;
 		memcpy(geo->GetIndex(), data, idxbufsize);
 		data += idxbufsize;
 		
@@ -265,7 +266,7 @@ namespace {
 		memcpy(&num, data, sizeof(num)); data+= sizeof(num);
 		for (s32 i = 0; i < num; ++i) {
 			MOE::Math::vec4 vec;
-			const std::string name = std::string(data);
+			const std::string name = data;
 			data += (name.length() + 1);
 			memcpy(&vec, data, sizeof(vec)); data += sizeof(vec);
 			m->Set(name, vec);
@@ -333,6 +334,7 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 	if (data[0] != 'M'
 	||  data[1] != 'R'
 	||  data[2] != 'Z'
+	||  data[3] != 0
 	)
 	{
 		MOELogE("Invalid header");
@@ -345,7 +347,7 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 	Node* root = 0;
 	int currentLevel = -1;
 	Group* currentNode = 0;
-    std::map<const std::string, MOE::SceneGraph::Material*> mattable;
+	std::map<const std::string, MOE::SceneGraph::Material*> mattable;
 	// geometry
 	for (u32 m = 0; m < nodenum; ++m) {
 		Node* node = 0;

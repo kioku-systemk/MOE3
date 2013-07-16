@@ -135,7 +135,7 @@ static void CommandSetVec4Array(Graphics* g, RenderDevice::CommandArg* arg, Prog
 	MOELogD("CommandSetVec4Array(prg = %p)\n",prg);
 #endif
 	assert(prg);
-	prg->SetUniformArray4f(arg->m_name.c_str(), arg->m_vecnum, reinterpret_cast<const float*>(arg->m_vec4array));
+//	prg->SetUniformArray4f(arg->m_name.c_str(), arg->m_vecnum, reinterpret_cast<const float*>(arg->m_vec4array));
 }
 
 } // namespace

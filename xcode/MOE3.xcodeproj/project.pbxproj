@@ -13,12 +13,17 @@
 		770A51A716DE6FCF00872F21 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518416DE6FCF00872F21 /* Stream.cpp */; };
 		770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
 		770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519B16DE6FCF00872F21 /* WGLExtention.cpp */; };
-		770A51AB16DE6FCF00872F21 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519E16DE6FCF00872F21 /* RenderDevice.cpp */; };
 		770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
+		779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
+		779C2E8C176C9D8D00DE219C /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E85176C9D8D00DE219C /* RenderDevice.cpp */; };
+		779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */; };
+		779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
+		779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E8F176C9E7E00DE219C /* BufferObject.cpp */; };
 		77B04A45168DE9700068FCE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A44168DE9700068FCE6 /* main.cpp */; };
 		77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77B04A46168DEA590068FCE6 /* MOE3-Info.plist */; };
 		77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
 		77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
+		77C04C981718959700C9269B /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -55,7 +60,6 @@
 		770A519B16DE6FCF00872F21 /* WGLExtention.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WGLExtention.cpp; sourceTree = "<group>"; };
 		770A519C16DE6FCF00872F21 /* WGLExtention.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WGLExtention.h; sourceTree = "<group>"; };
 		770A519D16DE6FCF00872F21 /* Graphics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Graphics.h; sourceTree = "<group>"; };
-		770A519E16DE6FCF00872F21 /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
 		770A519F16DE6FCF00872F21 /* RenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderDevice.h; sourceTree = "<group>"; };
 		770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgramObject.cpp; sourceTree = "<group>"; };
 		770A51A116DE6FCF00872F21 /* ShaderProgramObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgramObject.h; sourceTree = "<group>"; };
@@ -68,6 +72,16 @@
 		770A51B416E23CE200872F21 /* SceneGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
 		770A51B516E23CE200872F21 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform.h; sourceTree = "<group>"; };
 		770A51B616E23CE200872F21 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		779C2E84176C9D8D00DE219C /* RenderCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderCommand.cpp; sourceTree = "<group>"; };
+		779C2E85176C9D8D00DE219C /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
+		779C2E86176C9D8D00DE219C /* RenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderDevice.h; sourceTree = "<group>"; };
+		779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneGraphRender.cpp; sourceTree = "<group>"; };
+		779C2E88176C9D8D00DE219C /* SceneGraphRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneGraphRender.h; sourceTree = "<group>"; };
+		779C2E89176C9D8D00DE219C /* TextureObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureObject.cpp; sourceTree = "<group>"; };
+		779C2E8A176C9D8D00DE219C /* TextureObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureObject.h; sourceTree = "<group>"; };
+		779C2E8F176C9E7E00DE219C /* BufferObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferObject.cpp; sourceTree = "<group>"; };
+		779C2E90176C9E7E00DE219C /* BufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferObject.h; sourceTree = "<group>"; };
+		779C2E92176C9FC000DE219C /* RenderCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderCommand.h; sourceTree = "<group>"; };
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -75,6 +89,8 @@
 		77C04C8C1714731400C9269B /* BaseLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseLoader.h; sourceTree = "<group>"; };
 		77C04C8D1714731400C9269B /* MrzLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MrzLoader.cpp; sourceTree = "<group>"; };
 		77C04C8E1714731400C9269B /* MrzLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MrzLoader.h; sourceTree = "<group>"; };
+		77C04C961718959700C9269B /* AnimLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimLoader.cpp; sourceTree = "<group>"; };
+		77C04C971718959700C9269B /* AnimLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimLoader.h; sourceTree = "<group>"; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77E5213515DF2A87000595F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -148,10 +164,19 @@
 			children = (
 				770A519616DE6FCF00872F21 /* Graphics */,
 				770A519D16DE6FCF00872F21 /* Graphics.h */,
-				770A519E16DE6FCF00872F21 /* RenderDevice.cpp */,
 				770A519F16DE6FCF00872F21 /* RenderDevice.h */,
 				770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */,
 				770A51A116DE6FCF00872F21 /* ShaderProgramObject.h */,
+				779C2E84176C9D8D00DE219C /* RenderCommand.cpp */,
+				779C2E92176C9FC000DE219C /* RenderCommand.h */,
+				779C2E85176C9D8D00DE219C /* RenderDevice.cpp */,
+				779C2E86176C9D8D00DE219C /* RenderDevice.h */,
+				779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */,
+				779C2E88176C9D8D00DE219C /* SceneGraphRender.h */,
+				779C2E89176C9D8D00DE219C /* TextureObject.cpp */,
+				779C2E8A176C9D8D00DE219C /* TextureObject.h */,
+				779C2E8F176C9E7E00DE219C /* BufferObject.cpp */,
+				779C2E90176C9E7E00DE219C /* BufferObject.h */,
 			);
 			path = Gfx;
 			sourceTree = "<group>";
@@ -173,6 +198,8 @@
 			isa = PBXGroup;
 			children = (
 				77C04C8C1714731400C9269B /* BaseLoader.h */,
+				77C04C961718959700C9269B /* AnimLoader.cpp */,
+				77C04C971718959700C9269B /* AnimLoader.h */,
 				77C04C8D1714731400C9269B /* MrzLoader.cpp */,
 				77C04C8E1714731400C9269B /* MrzLoader.h */,
 				770A51AE16E23CE200872F21 /* Geometry.h */,
@@ -319,9 +346,14 @@
 				770A51A716DE6FCF00872F21 /* Stream.cpp in Sources */,
 				770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */,
 				770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */,
-				770A51AB16DE6FCF00872F21 /* RenderDevice.cpp in Sources */,
 				770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */,
 				77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */,
+				77C04C981718959700C9269B /* AnimLoader.cpp in Sources */,
+				779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */,
+				779C2E8C176C9D8D00DE219C /* RenderDevice.cpp in Sources */,
+				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
+				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
+				779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

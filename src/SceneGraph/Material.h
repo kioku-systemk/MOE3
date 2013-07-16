@@ -24,7 +24,17 @@ namespace MOE
 		class Material : public Node
 		{
 		public:
-			Material()  : Node(NODETYPE_MATERIAL), m_wiremode(false) {}
+			enum DRAWMODE
+			{
+				MODE_POINTS         = 0,// MG_POINTS
+				MODE_LINES          = 1,// MG_LINES
+				MODE_LINE_LOOP      = 2,// MG_LINE_LOOP
+				MODE_LINE_STRIP     = 3,// MG_LINE_STRIP
+				MODE_TRIANGLES      = 4,// MG_TRIANGLES
+				MODE_TRIANGLE_STRIP = 5,// MG_TRIANGLE_STRIP
+				MODE_TRIANGLE_FAN   = 6// MG_TRIANGLE_FAN
+			};
+			Material()  : Node(NODETYPE_MATERIAL), m_drawmode(MODE_TRIANGLES) {}
 			~Material(){}
 			
 			void Add(const std::string& name, const Math::matrix4x4& mat)
@@ -58,9 +68,9 @@ namespace MOE
 				m_tex[name] = texname;
 			}
 
-			void SetWireMode(b8 wiremode)
+			void SetDrawMode(DRAWMODE mode)
 			{
-				m_wiremode = wiremode;
+				m_drawmode = mode;
 			}
 			Math::matrix4x4 GetMatrix(const std::string& name) const
 			{
@@ -123,7 +133,7 @@ namespace MOE
 				if (i >= static_cast<s32>(m_tex.size()))
 					return false;
 				
-                std::map<std::string, std::string>::const_iterator it = m_tex.begin();
+				std::map<std::string, std::string>::const_iterator it = m_tex.begin();
 				for (s32 t = 0; t < i; ++t)
 					++it;
 				
@@ -146,17 +156,17 @@ namespace MOE
 				return static_cast<s32>(m_tex.size());
 			}
 
-			s32 GetWireMode() const
+			DRAWMODE GetDrawMode() const
 			{
-				return m_wiremode;
+				return m_drawmode;
 			}
 			
 		private:
 			// TODO: std::string to hash.
             std::map<std::string, Math::matrix4x4> m_mat;
-			std::map<std::string, Math::vec4>      m_vec4;
-			std::map<std::string, std::string>     m_tex;
-			b8 m_wiremode;
+            std::map<std::string, Math::vec4>      m_vec4;
+            std::map<std::string, std::string>     m_tex;
+			DRAWMODE m_drawmode;
 		};
 		
 	} // namespace SceneGraph

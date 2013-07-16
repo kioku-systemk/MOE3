@@ -29,6 +29,7 @@ void MOELog( enum LOG_LEVEL level, const std::string& msg )
 	logstr += std::string(" ") + msg;
 
 #ifdef _WIN32
+	logstr += "\n";
 	OutputDebugStringA(logstr.c_str());
 #else
 	printf("%s", logstr.c_str());	
