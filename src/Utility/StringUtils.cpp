@@ -13,7 +13,6 @@ namespace MOE {
 	//==============================================================
 	// CStringUtils class
 	//==============================================================
-	// 文字列をトークン単位で分けます
 	void CStringUtils::Tokenize(string str, vector<string> &tokens)
 	{
 		stringstream ss(str);
@@ -23,7 +22,6 @@ namespace MOE {
 		}
 	}
 
-	// string内の指定文字を削除します
 	void CStringUtils::RemoveChar(string &str, s8 remove)
 	{
 		string::iterator it;

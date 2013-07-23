@@ -420,12 +420,10 @@ namespace MOE {
 			vector<string> tokens;
 			while (_GetNextLine(tokens)){
 				//==============================================================
-				// 各機能
 				// @todo:
-				//	機能を新たに加える場合は、ここに追加すること。
+				//	蜻ｽ莉､縺瑚ｿｽ蜉縺輔ｌ縺溷ｴ蜷医√％縺｡繧峨ｒ霑ｽ蜉縺吶ｋ
 				//==============================================================
 				if (tokens[0] == "namespace"){
-					// namespace機能
 					if (tokens.size() != 2){
 						_Error("namespace declaration must have exactly 2 tokens");
 					}else{

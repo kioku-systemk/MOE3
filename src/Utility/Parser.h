@@ -56,7 +56,7 @@ namespace MOE {
 		CParser();
 		~CParser();
 
-		// パーサー全体
+		//parse
 		b8 Parse(string filename, CParameters &params);
 	};
 
