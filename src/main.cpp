@@ -93,28 +93,28 @@ public:
 #endif
 #endif
 #if 0	// for script
-	// ƒCƒ“ƒXƒ^ƒ“ƒXŽæ“¾
+	// ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹å–å¾—
 	MOE::CScriptManager *pScr = MOE::CScriptManager::GetInstance();
 
-	// lua “Çž
+	// lua èª­è¾¼
 	if( pScr->Read( "../data/definition/test.lua", "testeffect" ) ){
-		// lua ƒXƒ^ƒbƒNŠg’£( test ‚Æ‚µ‚Ä 100 ‚­‚ç‚¢‘‚â‚µ‚½)
+		// lua ã‚¹ã‚¿ãƒƒã‚¯æ‹¡å¼µ( test ã¨ã—ã¦ 100 ãã‚‰ã„å¢—ã‚„ã—ãŸ)
 		pScr->ExtraStack( "testeffect", 100 );
 
-		// test ŠÖ”ŽÀs : f32 & s32 Œ^
+		// test é–¢æ•°å®Ÿè¡Œ : f32 & s32 åž‹
 		pScr->ExecFunc( "testeffect", "test" );
 		pScr->DebugStackPrint( "testeffect" );
 		f32 valF32 = pScr->GetExecFuncResultF32( "testeffect" );
 		s32 valS32 = pScr->GetExecFuncResultS32( "testeffect" );
 		pScr->ClearStack( "testeffect" );
 
-		// test2 ŠÖ”ŽÀs : stringŒ^
+		// test2 é–¢æ•°å®Ÿè¡Œ : stringåž‹
 		pScr->ExecFunc( "testeffect", "test2" );
 		pScr->DebugStackPrint( "testeffect" );
 		string valStr = pScr->GetExecFuncResultString( "testeffect" );
 		pScr->ClearStack( "testeffect" );
 
-		// test3 ŠÖ”ŽÀs : stringŒ^
+		// test3 é–¢æ•°å®Ÿè¡Œ : stringåž‹
 		pScr->ExecFunc( "testeffect", "test3" );
 		pScr->DebugStackPrint( "testeffect" );
 		b8 valBool = pScr->GetExecFuncResultBool( "testeffect" );
@@ -136,7 +136,7 @@ public:
 
 		pScr->DebugStackPrint( "testeffect" );
 
-		// ŒãŽn––
+		// å¾Œå§‹æœ«
 		pScr->Release();
 	}
 #endif
