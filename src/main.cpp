@@ -10,10 +10,9 @@
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
-/*#include "Utility/Parameters.h"
-#include "Utility/Range.h"
-#include "Utility/Parser.h"
-*/
+#if 0	// for script
+#include "Utility/ScriptManager.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include "Core/Stream.h"
@@ -92,6 +91,54 @@ public:
         anim = anim;
         anim->Animate(node,1);*/
 #endif
+#endif
+#if 0	// for script
+	// インスタンス取得
+	MOE::CScriptManager *pScr = MOE::CScriptManager::GetInstance();
+
+	// lua 読込
+	if( pScr->Read( "../data/definition/test.lua", "testeffect" ) ){
+		// lua スタック拡張( test として 100 くらい増やした)
+		pScr->ExtraStack( "testeffect", 100 );
+
+		// test 関数実行 : f32 & s32 型
+		pScr->ExecFunc( "testeffect", "test" );
+		pScr->DebugStackPrint( "testeffect" );
+		f32 valF32 = pScr->GetExecFuncResultF32( "testeffect" );
+		s32 valS32 = pScr->GetExecFuncResultS32( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// test2 関数実行 : string型
+		pScr->ExecFunc( "testeffect", "test2" );
+		pScr->DebugStackPrint( "testeffect" );
+		string valStr = pScr->GetExecFuncResultString( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// test3 関数実行 : string型
+		pScr->ExecFunc( "testeffect", "test3" );
+		pScr->DebugStackPrint( "testeffect" );
+		b8 valBool = pScr->GetExecFuncResultBool( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// globalvalue
+		valF32 = pScr->GetGlobalValueF32( "testeffect", "gFloat" );
+		valS32 = pScr->GetGlobalValueS32( "testeffect", "gInt" );
+		valBool = pScr->GetGlobalValueBool( "testeffect", "gBool" );
+		valStr = pScr->GetGlobalValueString( "testeffect", "gString" );
+
+		pScr->DebugStackPrint( "testeffect" );
+
+		// table
+		valF32 = pScr->GetTableValueF32( "testeffect", "gTable", "t2" );
+		valS32 = pScr->GetTableValueS32( "testeffect", "gTable", "t1" );
+		valStr = pScr->GetTableValueString( "testeffect", "gTable", "t0" );
+		valBool = pScr->GetTableValueBool( "testeffect", "gTable", "t3" );
+
+		pScr->DebugStackPrint( "testeffect" );
+
+		// 後始末
+		pScr->Release();
+	}
 #endif
         rot = MOE::Math::Identity();
         mx = 0;
