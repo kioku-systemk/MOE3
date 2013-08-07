@@ -130,27 +130,6 @@
     <ClInclude Include="..\src\Gfx\Graphics\WGLExtention.h">
       <Filter>Gfx</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Utility\Trigger.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Range.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Bpm.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Event.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Parameters.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\StringUtils.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\Utility\Parser.h">
-      <Filter>Utility</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Gfx\SceneGraphRender.h">
       <Filter>Gfx</Filter>
     </ClInclude>
@@ -168,6 +147,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Gfx\BufferObject.h">
       <Filter>Gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Utility\ScriptManager.h">
+      <Filter>Utility</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -196,27 +178,6 @@
       <Filter>Gfx</Filter>
     </ClCompile>
     <ClCompile Include="..\src\main.cpp" />
-    <ClCompile Include="..\src\Utility\Trigger.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\Range.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\Bpm.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\Event.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\Parameters.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\StringUtils.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\Utility\Parser.cpp">
-      <Filter>Utility</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Gfx\SceneGraphRender.cpp">
       <Filter>Gfx</Filter>
     </ClCompile>
@@ -234,6 +195,12 @@
     </ClCompile>
     <ClCompile Include="..\src\Gfx\BufferObject.cpp">
       <Filter>Gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility\ScriptManager.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility\ScriptManager_FuncCall.cpp">
+      <Filter>Utility</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
