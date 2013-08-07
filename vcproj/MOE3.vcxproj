@@ -76,6 +76,7 @@
     <ClCompile Include="..\src\SceneGraph\AnimLoader.cpp" />
     <ClCompile Include="..\src\SceneGraph\MrzLoader.cpp" />
     <ClCompile Include="..\src\Utility\ScriptManager.cpp" />
+    <ClCompile Include="..\src\Utility\ScriptManager_FuncCall.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{9A35F694-6B16-47B3-B4C5-78068501B1F4}</ProjectGuid>

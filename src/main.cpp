@@ -120,6 +120,10 @@ public:
 		b8 valBool = pScr->GetExecFuncResultBool( "testeffect" );
 		pScr->ClearStack( "testeffect" );
 
+		// test4 関数実行 : c言語側システムコール呼出
+		pScr->ExecFunc( "testeffect", "test4" );
+		pScr->DebugStackPrint( "testeffect" );
+
 		// globalvalue
 		valF32 = pScr->GetGlobalValueF32( "testeffect", "gFloat" );
 		valS32 = pScr->GetGlobalValueS32( "testeffect", "gInt" );

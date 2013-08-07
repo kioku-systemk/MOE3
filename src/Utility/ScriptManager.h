@@ -11,6 +11,7 @@
 using namespace std;
 
 struct lua_State;
+struct luaL_Reg;
 
 namespace MOE {
 	//==============================================================
@@ -21,8 +22,11 @@ namespace MOE {
 	private:
 		static CScriptManager m_inst;
 
+		static const luaL_Reg m_scrcallfuncs[];
+
 		map<string, lua_State*>	m_luastates;
 
+		void userLibSetup( lua_State *pLuaState );
 		lua_State* getLuaState( string name );
 
 		CScriptManager();
@@ -38,12 +42,14 @@ namespace MOE {
 		b8 ExtraStack( string luaname, s32 extra_num );
 		void ClearStack( string luaname );
 
+		//==============================================================
 		//	access
 		//	スクリプト側にある関数実行を行った場合、lua の仕組み上、その戻り値が
 		//	スタックに積まれ、スタックをクリアするまで値が残ったままになりますので、
 		//	ご注意ください。(複数戻り値を指定できるためこういった状態になります)
 		//	グローバル変数、テーブル用グローバル変数については、その場でスタックに
 		//	値を積んだ後、値取得後にスタックから排除するので、上記の問題は出ません。
+		//==============================================================
 
 		//	lua func
 		//		ExecFunc -> GetExecResultXXX

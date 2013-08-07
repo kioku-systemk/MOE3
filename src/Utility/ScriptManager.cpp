@@ -58,6 +58,8 @@ namespace MOE {
 
 		// lua 標準ライブラリ設定
 		luaL_openlibs( pLuaState );
+		// c 拡張ライブラリ設定
+		userLibSetup( pLuaState );
 		
 		// luaファイル読み込み
 		if( luaL_dofile( pLuaState, fname.c_str() ) ){
@@ -124,7 +126,7 @@ namespace MOE {
 		// memo:
 		// luaベースの関数実行を行います。
 		// lua内で関数実行後、C側で値を取得できます。
-		// ※ 関数実行後、別な関数を実行する前に必ず ExecFuncResultClear() を呼び出してください
+		// ※ 関数実行後、別な関数を実行する前に必ず ClearStack() を呼び出してください
 
 		// luaステート取得
 		lua_State *pLuaState = getLuaState( luaname );

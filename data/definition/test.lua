@@ -32,3 +32,6 @@ function test3()
 	return true
 end
 
+function test4()
+	print( c_Func.scrCall_Test( "test" ) )
+end
