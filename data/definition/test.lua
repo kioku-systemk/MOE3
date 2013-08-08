@@ -35,3 +35,15 @@ end
 function test4()
 	print( c_Func.scrCall_Test( "test" ) )
 end
+
+function test5( x0, x1, x2, x3 )
+	local t0 = x0
+	local t1 = tostring(x1)
+	local t2 = tostring(x2)
+	local t3 = x3
+
+	print( t0 )
+	print( t1 )
+	print( t2 )
+	print( t3 )
+end

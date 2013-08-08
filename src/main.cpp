@@ -10,7 +10,7 @@
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
-#if 0	// for script
+#if 1	// for script
 #include "Utility/ScriptManager.h"
 #endif
 #include <stdio.h>
@@ -92,7 +92,7 @@ public:
         anim->Animate(node,1);*/
 #endif
 #endif
-#if 0	// for script
+#if 1	// for script
 	// インスタンス取得
 	MOE::CScriptManager *pScr = MOE::CScriptManager::GetInstance();
 
@@ -122,6 +122,10 @@ public:
 
 		// test4 関数実行 : c言語側システムコール呼出
 		pScr->ExecFunc( "testeffect", "test4" );
+		pScr->DebugStackPrint( "testeffect" );
+
+		// test5 関数実行 : 引数を c言語側から渡す場合の呼出
+		pScr->ExecFunc( "testeffect", "test5", 1, "%s%f%d%c", "test", 9.5f, 5, 'a' );
 		pScr->DebugStackPrint( "testeffect" );
 
 		// globalvalue

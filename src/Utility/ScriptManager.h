@@ -53,7 +53,7 @@ namespace MOE {
 
 		//	lua func
 		//		ExecFunc -> GetExecResultXXX
-		b8 ExecFunc( string luaname, string funcname, s32 retnum = 1 );
+		b8 ExecFunc( string luaname, string funcname, s32 retnum = 1, const s8 *argv = NULL, ... );
 		f32 GetExecFuncResultF32( string luaname, s32 retidx = 1 );
 		s32 GetExecFuncResultS32( string luaname, s32 retidx = 1 );
 		b8 GetExecFuncResultBool( string luaname, s32 retidx = 1 );

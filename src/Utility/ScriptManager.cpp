@@ -46,20 +46,24 @@ namespace MOE {
 		return NULL;
 	}
 
-	b8 CScriptManager::Read( string fname, string entryname )
+	b8 CScriptManager::Read( string fname, string luaname )
 	{
-		// luaステート作成
-		lua_State *pLuaState = luaL_newstate();
+		// lua ステートが存在しているか見る
+		lua_State *pLuaState = getLuaState( luaname );
 		if( ! pLuaState ){
-			// エラーだったら内容を出力し終了
-			MOELogE( "Read:luaL_newstate==NULL" );
-			return false;
-		}
+			// luaステート作成
+			pLuaState = luaL_newstate();
+			if( ! pLuaState ){
+				// エラーだったら内容を出力し終了
+				MOELogE( "Read:luaL_newstate==NULL" );
+				return false;
+			}
 
-		// lua 標準ライブラリ設定
-		luaL_openlibs( pLuaState );
-		// c 拡張ライブラリ設定
-		userLibSetup( pLuaState );
+			// lua 標準ライブラリ設定
+			luaL_openlibs( pLuaState );
+			// c 拡張ライブラリ設定
+			userLibSetup( pLuaState );
+		}
 		
 		// luaファイル読み込み
 		if( luaL_dofile( pLuaState, fname.c_str() ) ){
@@ -70,7 +74,7 @@ namespace MOE {
 		}
 
 		// luaステートを登録
-		m_luastates[entryname] = pLuaState;
+		m_luastates[luaname] = pLuaState;
 
 		return true;
 	}
@@ -121,12 +125,17 @@ namespace MOE {
 		lua_settop( pLuaState, 0 );
 	}
 
-	bool CScriptManager::ExecFunc( string luaname, string funcname, s32 retnum )
+	b8 CScriptManager::ExecFunc( string luaname, string funcname, s32 retnum, const s8 *argv, ... )
 	{
 		// memo:
-		// luaベースの関数実行を行います。
-		// lua内で関数実行後、C側で値を取得できます。
-		// ※ 関数実行後、別な関数を実行する前に必ず ClearStack() を呼び出してください
+		// c 側から lua 側の関数を実行します。
+		// 引数を与える場合は、argv以降でフォーマット、引数内容を設定してください。
+		// argv は "%s%c%d%f" のような感じで指定します。
+		// 内訳は以下の通り。
+		//	%s = 文字列
+		//	%c = 文字
+		//	%d = 整数
+		//	%f = 小数
 
 		// luaステート取得
 		lua_State *pLuaState = getLuaState( luaname );
@@ -138,10 +147,54 @@ namespace MOE {
 
 		// スクリプト内関数名をスタックに積む
 		lua_getglobal( pLuaState, funcname.c_str() );
+
+		// 引数取得及び lua 側に伝達
+		int argnum = 0;
+		if( argv ){
+			va_list list;
+			int i;
+			char *p;
+
+			va_start( list,  argv );
+			for( p = (char *)argv, i = 0; *p != NULL; p++, i++ ){
+				if( p[0] == '%' ){
+					if( p[1] == 's' ){
+						// s8*
+						s8 *param = va_arg( list, s8* );
+						lua_pushstring( pLuaState, param );
+						argnum++;
+					}else if( p[1] == 'c' ){
+						// s8
+						s8 param[2];
+						memset( param, '\0', sizeof(param) );
+						param[0] = static_cast<s8>( va_arg( list, s32 ) );
+						lua_pushstring( pLuaState, param );
+						argnum++;
+					}else if( p[1] == 'd' ){
+						// s32
+						s32 param = va_arg( list , s32 );
+						lua_pushnumber( pLuaState, param );
+						argnum++;
+					}else if( p[1] == 'f' ){
+						// f32
+						f32 param = static_cast<f32>( va_arg( list , f64 ) );
+						lua_pushnumber( pLuaState, param );
+						argnum++;
+					}
+				}
+			}
+			va_end( list );
+		}
+
 		// lua側関数実行(引数はなし、返却値はユーザー指定)
-		if( lua_pcall( pLuaState, 0, retnum, 0 ) != 0 ){
+		if( lua_pcall( pLuaState, argnum, retnum, 0 ) != 0 ){
 			MOELogE( "ExecFunc:%s:%s function call error.", luaname.c_str(), funcname.c_str() );
 			return false;
+		}
+
+		// 引数のスタックをポップ
+		if( argnum > 0 ){
+			lua_pop( pLuaState, 1 );
 		}
 
 		return true;
