@@ -10,10 +10,9 @@
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
-/*#include "Utility/Parameters.h"
-#include "Utility/Range.h"
-#include "Utility/Parser.h"
-*/
+#if 1	// for script
+#include "Utility/ScriptManager.h"
+#endif
 #include <stdio.h>
 #include <stdlib.h>
 #include "Core/Stream.h"
@@ -93,23 +92,61 @@ public:
         anim->Animate(node,1);*/
 #endif
 #endif
-#if 0
-		// @test:script test
-		MOE::CParameters mParams;
-		MOE::CParser parser;
-		parser.Parse("..\\data\\definition\\script.txt", mParams );		
+#if 1	// for script
+	// インスタンス取得
+	MOE::CScriptManager *pScr = MOE::CScriptManager::GetInstance();
 
-		mParams.UseNamespace("test");
-		s32 a = mParams.GetS32("a");
-		s32 b = mParams.GetS32("b");
-		f32 c = mParams.GetF32("c");
-		string tex = mParams.GetString("tex");
-		vec3 d = mParams.GetVector3("d");
-		vec4 e = mParams.GetColor("e");
-		MOE::CRange f = mParams.GetRange("f");
-		
-		MOELogI( "test:a(%d), b(%d), c(%f), d(%f,%f,%f), tex(%s) e(%f,%f,%f,%f) f(%f,%f)\n", 
-			a, b, c, d.x, d.y, d.z, tex.c_str(), e.r, e.g, e.b, e.a, f.GetMinimum(), f.GetMaximum() );
+	// lua 読込
+	if( pScr->Read( "../data/definition/test.lua", "testeffect" ) ){
+		// lua スタック拡張( test として 100 くらい増やした)
+		pScr->ExtraStack( "testeffect", 100 );
+
+		// test 関数実行 : f32 & s32 型
+		pScr->ExecFunc( "testeffect", "test" );
+		pScr->DebugStackPrint( "testeffect" );
+		f32 valF32 = pScr->GetExecFuncResultF32( "testeffect" );
+		s32 valS32 = pScr->GetExecFuncResultS32( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// test2 関数実行 : string型
+		pScr->ExecFunc( "testeffect", "test2" );
+		pScr->DebugStackPrint( "testeffect" );
+		string valStr = pScr->GetExecFuncResultString( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// test3 関数実行 : string型
+		pScr->ExecFunc( "testeffect", "test3" );
+		pScr->DebugStackPrint( "testeffect" );
+		b8 valBool = pScr->GetExecFuncResultBool( "testeffect" );
+		pScr->ClearStack( "testeffect" );
+
+		// test4 関数実行 : c言語側システムコール呼出
+		pScr->ExecFunc( "testeffect", "test4" );
+		pScr->DebugStackPrint( "testeffect" );
+
+		// test5 関数実行 : 引数を c言語側から渡す場合の呼出
+		pScr->ExecFunc( "testeffect", "test5", 1, "%s%f%d%c", "test", 9.5f, 5, 'a' );
+		pScr->DebugStackPrint( "testeffect" );
+
+		// globalvalue
+		valF32 = pScr->GetGlobalValueF32( "testeffect", "gFloat" );
+		valS32 = pScr->GetGlobalValueS32( "testeffect", "gInt" );
+		valBool = pScr->GetGlobalValueBool( "testeffect", "gBool" );
+		valStr = pScr->GetGlobalValueString( "testeffect", "gString" );
+
+		pScr->DebugStackPrint( "testeffect" );
+
+		// table
+		valF32 = pScr->GetTableValueF32( "testeffect", "gTable", "t2" );
+		valS32 = pScr->GetTableValueS32( "testeffect", "gTable", "t1" );
+		valStr = pScr->GetTableValueString( "testeffect", "gTable", "t0" );
+		valBool = pScr->GetTableValueBool( "testeffect", "gTable", "t3" );
+
+		pScr->DebugStackPrint( "testeffect" );
+
+		// 後始末
+		pScr->Release();
+	}
 #endif
         rot = MOE::Math::Identity();
         mx = 0;
