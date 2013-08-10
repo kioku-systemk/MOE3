@@ -26,6 +26,24 @@
 		77C04C981718959700C9269B /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
+		77FD452417B3ED5A001B3F22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
+		77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77FD452817B3ED5A001B3F22 /* InfoPlist.strings */; };
+		77FD453B17B3EDDD001B3F22 /* viewermain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FD453A17B3EDDD001B3F22 /* viewermain.cpp */; };
+		77FD453D17B3EE08001B3F22 /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
+		77FD453F17B3EE08001B3F22 /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
+		77FD454A17B3EE2F001B3F22 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */; };
+		77FD454B17B3EE2F001B3F22 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A517D16DE6FCF00872F21 /* Log.cpp */; };
+		77FD454C17B3EE2F001B3F22 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518116DE6FCF00872F21 /* Memory.cpp */; };
+		77FD454D17B3EE2F001B3F22 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518416DE6FCF00872F21 /* Stream.cpp */; };
+		77FD454E17B3EE2F001B3F22 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
+		77FD454F17B3EE2F001B3F22 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
+		77FD455017B3EE2F001B3F22 /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
+		77FD455117B3EE2F001B3F22 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E85176C9D8D00DE219C /* RenderDevice.cpp */; };
+		77FD455217B3EE2F001B3F22 /* SceneGraphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */; };
+		77FD455317B3EE2F001B3F22 /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
+		77FD455417B3EE2F001B3F22 /* BufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E8F176C9E7E00DE219C /* BufferObject.cpp */; };
+		77FD455617B3EE3E001B3F22 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FD455517B3EE3E001B3F22 /* OpenGL.framework */; };
+		77FD455817B3EE42001B3F22 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FD455717B3EE42001B3F22 /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -97,6 +115,13 @@
 		77E5213615DF2A87000595F8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		77E5213715DF2A87000595F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		77E5215D15DF2CDE000595F8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		77FD452317B3ED5A001B3F22 /* KSceneViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KSceneViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		77FD452717B3ED5A001B3F22 /* KSceneViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSceneViewer-Info.plist"; sourceTree = "<group>"; };
+		77FD452917B3ED5A001B3F22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		77FD452D17B3ED5A001B3F22 /* KSceneViewer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "KSceneViewer-Prefix.pch"; sourceTree = "<group>"; };
+		77FD453A17B3EDDD001B3F22 /* viewermain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = viewermain.cpp; path = ../../src/viewermain.cpp; sourceTree = "<group>"; };
+		77FD455517B3EE3E001B3F22 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenGL.framework; sourceTree = DEVELOPER_DIR; };
+		77FD455717B3EE42001B3F22 /* CoreMIDI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMIDI.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreMIDI.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +132,16 @@
 				77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */,
 				77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */,
 				77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77FD452017B3ED5A001B3F22 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77FD455817B3EE42001B3F22 /* CoreMIDI.framework in Frameworks */,
+				77FD455617B3EE3E001B3F22 /* OpenGL.framework in Frameworks */,
+				77FD452417B3ED5A001B3F22 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,8 +266,11 @@
 		77E5212315DF2A87000595F8 = {
 			isa = PBXGroup;
 			children = (
+				77FD455717B3EE42001B3F22 /* CoreMIDI.framework */,
+				77FD455517B3EE3E001B3F22 /* OpenGL.framework */,
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5213815DF2A87000595F8 /* Resource */,
+				77FD452517B3ED5A001B3F22 /* KSceneViewer */,
 				77E5213115DF2A87000595F8 /* Frameworks */,
 				77E5212F15DF2A87000595F8 /* Products */,
 			);
@@ -242,6 +280,7 @@
 			isa = PBXGroup;
 			children = (
 				77E5212E15DF2A87000595F8 /* MOE3.app */,
+				77FD452317B3ED5A001B3F22 /* KSceneViewer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -277,6 +316,25 @@
 			path = CoreWindowTest;
 			sourceTree = "<group>";
 		};
+		77FD452517B3ED5A001B3F22 /* KSceneViewer */ = {
+			isa = PBXGroup;
+			children = (
+				77FD453A17B3EDDD001B3F22 /* viewermain.cpp */,
+				77FD452617B3ED5A001B3F22 /* Supporting Files */,
+			);
+			path = KSceneViewer;
+			sourceTree = "<group>";
+		};
+		77FD452617B3ED5A001B3F22 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				77FD452717B3ED5A001B3F22 /* KSceneViewer-Info.plist */,
+				77FD452817B3ED5A001B3F22 /* InfoPlist.strings */,
+				77FD452D17B3ED5A001B3F22 /* KSceneViewer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -295,6 +353,23 @@
 			name = MOE3;
 			productName = CoreWindowTest;
 			productReference = 77E5212E15DF2A87000595F8 /* MOE3.app */;
+			productType = "com.apple.product-type.application";
+		};
+		77FD452217B3ED5A001B3F22 /* KSceneViewer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77FD453917B3ED5A001B3F22 /* Build configuration list for PBXNativeTarget "KSceneViewer" */;
+			buildPhases = (
+				77FD451F17B3ED5A001B3F22 /* Sources */,
+				77FD452017B3ED5A001B3F22 /* Frameworks */,
+				77FD452117B3ED5A001B3F22 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KSceneViewer;
+			productName = KSceneViewer;
+			productReference = 77FD452317B3ED5A001B3F22 /* KSceneViewer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -319,6 +394,7 @@
 			projectRoot = "";
 			targets = (
 				77E5212D15DF2A87000595F8 /* MOE3 */,
+				77FD452217B3ED5A001B3F22 /* KSceneViewer */,
 			);
 		};
 /* End PBXProject section */
@@ -329,6 +405,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		77FD452117B3ED5A001B3F22 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -357,7 +441,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		77FD451F17B3ED5A001B3F22 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				77FD454A17B3EE2F001B3F22 /* CoreWindow_mac.mm in Sources */,
+				77FD454B17B3EE2F001B3F22 /* Log.cpp in Sources */,
+				77FD454C17B3EE2F001B3F22 /* Memory.cpp in Sources */,
+				77FD454D17B3EE2F001B3F22 /* Stream.cpp in Sources */,
+				77FD454E17B3EE2F001B3F22 /* EasyMIDIController.mm in Sources */,
+				77FD454F17B3EE2F001B3F22 /* ShaderProgramObject.cpp in Sources */,
+				77FD455017B3EE2F001B3F22 /* RenderCommand.cpp in Sources */,
+				77FD455117B3EE2F001B3F22 /* RenderDevice.cpp in Sources */,
+				77FD455217B3EE2F001B3F22 /* SceneGraphRender.cpp in Sources */,
+				77FD455317B3EE2F001B3F22 /* TextureObject.cpp in Sources */,
+				77FD455417B3EE2F001B3F22 /* BufferObject.cpp in Sources */,
+				77FD453D17B3EE08001B3F22 /* AnimLoader.cpp in Sources */,
+				77FD453F17B3EE08001B3F22 /* MrzLoader.cpp in Sources */,
+				77FD453B17B3EDDD001B3F22 /* viewermain.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		77FD452817B3ED5A001B3F22 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				77FD452917B3ED5A001B3F22 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		77E5214A15DF2A88000595F8 /* Debug */ = {
@@ -438,6 +554,44 @@
 			};
 			name = Release;
 		};
+		77FD453717B3ED5A001B3F22 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KSceneViewer/KSceneViewer-Prefix.pch";
+				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		77FD453817B3ED5A001B3F22 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "KSceneViewer/KSceneViewer-Prefix.pch";
+				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -458,6 +612,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		77FD453917B3ED5A001B3F22 /* Build configuration list for PBXNativeTarget "KSceneViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				77FD453717B3ED5A001B3F22 /* Debug */,
+				77FD453817B3ED5A001B3F22 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

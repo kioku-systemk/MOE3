@@ -1,19 +1,16 @@
 //
-//  main.cpp
+//  KsceneViewer.cpp
 //  MOE3
 //
-//  Created by kioku on 2012/12/28.
-//  Copyright (c) 2012 System K. All rights reserved.
+//  Created by kioku on 2013/08/08.
+//  Copyright (c) 2013 System K. All rights reserved.
 //
 
 #include "Core/MOE.h"
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
-/*#include "Utility/Parameters.h"
-#include "Utility/Range.h"
-#include "Utility/Parser.h"
-*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "Core/Stream.h"
@@ -33,13 +30,10 @@ class MOEWindow : public CoreWindow
 {
 public:
 	MOEWindow(int x, int y, int width, int height)
-	: CoreWindow(x, y, width, height, "MOE3"
-#ifdef RELEASEOUT
-	,true // fullscreen
-#endif
+	: CoreWindow(x, y, width, height, "KScene3"
 	){
         g = mnew MOE::Graphics();
-#ifndef RELEASEOUT
+
         m_midi = mnew EasyMIDIController();
         m_gui  = mnew SimpleGUI::GUIManager();
         m_gui->Resize(width, height);
@@ -54,7 +48,7 @@ public:
         win->AddChild(m_frame1);
         win->AddChild(m_frame2);
 
-        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 0, 0, "MOE3 Demo Engine", 16);
+        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 0, 0, "KScene3", 16);
         m_frame1->AddChild(cap);
         
         m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,10,80,16);
@@ -68,7 +62,7 @@ public:
 #if 1
         m_srender = mnew MOE::SceneGraphRender(g);
 
-        MOE::Stream mst("/Users/kioku/Desktop/testtest.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::Stream mst("/Users/kioku/Desktop/t2010.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         //MOE::Stream mst("scatx3.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
         MOE::SceneGraph::Node* node = loader.Load(&mst);
@@ -80,7 +74,7 @@ public:
         //MOE::Stream ast("scatx3_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::AnimLoader aloader;
         MOE::Animation* anim = aloader.Load(&ast);
-        //m_anim = anim;
+        m_anim = anim;
   
         //MOE::Stream mst("/Users/kioku/Desktop/git/MOE3/src/boxtest.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
 /*        MOE::Stream mst("/Users/kioku/Desktop/scatb.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
@@ -92,29 +86,11 @@ public:
         anim = anim;
         anim->Animate(node,1);*/
 #endif
-#endif
-#if 0
-		// @test:script test
-		MOE::CParameters mParams;
-		MOE::CParser parser;
-		parser.Parse("..\\data\\definition\\script.txt", mParams );		
-
-		mParams.UseNamespace("test");
-		s32 a = mParams.GetS32("a");
-		s32 b = mParams.GetS32("b");
-		f32 c = mParams.GetF32("c");
-		string tex = mParams.GetString("tex");
-		vec3 d = mParams.GetVector3("d");
-		vec4 e = mParams.GetColor("e");
-		MOE::CRange f = mParams.GetRange("f");
-		
-		MOELogI( "test:a(%d), b(%d), c(%f), d(%f,%f,%f), tex(%s) e(%f,%f,%f,%f) f(%f,%f)\n", 
-			a, b, c, d.x, d.y, d.z, tex.c_str(), e.r, e.g, e.b, e.a, f.GetMinimum(), f.GetMaximum() );
-#endif
-        rot = MOE::Math::Identity();
+        m_rot = m_view = MOE::Math::Identity();
+        m_zoom = 5.0f;
         mx = 0;
         my = 0;
-        press = false;
+        press = 0;
 	}
 	~MOEWindow()
     {
@@ -122,28 +98,62 @@ public:
 	
     s32 mx;
     s32 my;
-    b8  press;
-    MOE::Math::matrix rot;
+    s32 press;
+    f32 m_zoom;
+    MOE::Math::vec3 m_trans;
+    MOE::Math::matrix m_view;
+    MOE::Math::matrix m_rot;
 	void MouseLeftDown(int x, int y)
     {
         mx = x;
         my = y;
-        press = true;
+        press |= 1;
         m_gui->MouseDown(0, x,y);
     }
 	void MouseLeftUp(int x, int y)
     {
-        press = false;
+        press = (press & (~1));
         m_gui->MouseUp(0, x,y);
     }
+    void MouseRightDown(int x, int y)
+    {
+        mx = x;
+        my = y;
+        press |= 2;
+    }
+    void MouseRightUp(int x, int y)
+    {
+        press = (press & (~2));
+    }
+    void MouseMiddleDown(int x, int y)
+    {
+        mx = x;
+        my = y;
+        press |= 4;
+    }
+    void MouseMiddleUp(int x, int y)
+    {
+        press = (press & (~4));
+    }
+
 	void MouseMove(int x, int y)
     {
         s32 dx = x - mx;
         s32 dy = y - my;
-        if (press) {
-            rot = MOE::Math::RotationY(dx * 0.2) * rot;
-            rot = MOE::Math::RotationX(dy * 0.2) * rot;
+        if ((press & 4) || ((press&1)&&(press&2))) {
+            m_trans.x += -dx * 0.02;
+            m_trans.y +=  dy * 0.02;
         }
+        else if (press & 1) {
+            m_rot = MOE::Math::RotationY(dx * 0.2) * MOE::Math::RotationX(-dy * 0.2) * m_rot;
+            m_view = MOE::Math::RotationY(dx * 0.2) * MOE::Math::RotationX( dy * 0.2) * m_view;
+        }
+        else if (press & 2) {
+            m_zoom += m_zoom * -(dx+dy)/200.0;
+            if (m_zoom < 1.0)
+                m_zoom = 1.0;
+        }
+
         mx = x;
         my = y;
         m_gui->MouseMove(x, y);
@@ -188,11 +198,11 @@ public:
         g->Enable(VG_DEPTH_TEST);
         g->ClearColor(mr,mg,mb,0);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
-#if 1
+
         using namespace MOE::Math;
-        matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), 0.1, 100.0);
-        matrix view = LookAt(vec3(0,0,5), vec3(0,0,0), vec3(0,1,0));
-        view = view * rot;
+        matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
+        matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
+        view = view * m_view;
         m_srender->SetProjMatrix(proj);
         m_srender->SetViewMatrix(view);
         
@@ -201,7 +211,7 @@ public:
             m_anim->Animate(m_root, tm);
         m_srender->UpdateBuffers(m_root);
         m_srender->Draw(m_root);
-#endif
+
         g->Disable(VG_DEPTH_TEST);
         
         m_gui->Draw();
@@ -234,12 +244,12 @@ private:
     
     s32 m_width;
     s32 m_height;
-#ifndef RELEASEOUT
+
     EasyMIDIController* m_midi;
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
-#endif
+
 };
 
 #if defined(WIN32) && defined(RELEASEOUT)
@@ -253,7 +263,7 @@ int WINAPI WinMain(
 int main(int argc, char *argv[])
 #endif
 {
-    MOEWindow win(32, 32, 720, 480);
+    MOEWindow win(32, 32, 1024, 800);
     CoreWindow::MainLoop();
     return 0;
 }
