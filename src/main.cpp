@@ -10,7 +10,7 @@
 #include "Core/CoreWindow.h"
 #include "Gfx/Graphics.h"
 #include "EasyMIDIController/EasyMIDIController.h"
-#if 1	// for script
+#if 0	// for script
 #include "Utility/ScriptManager.h"
 #endif
 #include <stdio.h>
@@ -92,7 +92,7 @@ public:
         anim->Animate(node,1);*/
 #endif
 #endif
-#if 1	// for script
+#if 0	// for script
 	// インスタンス取得
 	MOE::CScriptManager *pScr = MOE::CScriptManager::GetInstance();
 
