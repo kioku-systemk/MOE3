@@ -62,7 +62,7 @@ public:
 #if 1
         m_srender = mnew MOE::SceneGraphRender(g);
 
-        MOE::Stream mst("/Users/kioku/Desktop/t2010.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::Stream mst("/Users/kioku/Desktop/homo.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         //MOE::Stream mst("scatx3.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
         MOE::SceneGraph::Node* node = loader.Load(&mst);
@@ -70,7 +70,7 @@ public:
             m_root = node;
         }
         
-        MOE::Stream ast("/Users/kioku/Desktop/t2010_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::Stream ast("/Users/kioku/Desktop/homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         //MOE::Stream ast("scatx3_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::AnimLoader aloader;
         MOE::Animation* anim = aloader.Load(&ast);
@@ -206,7 +206,7 @@ public:
         m_srender->SetProjMatrix(proj);
         m_srender->SetViewMatrix(view);
         
-        f64 tm = fmod(MOE::GetTimeCount(),2.0);
+        f64 tm = fmod(MOE::GetTimeCount(),5.0);
         if (m_anim)
             m_anim->Animate(m_root, tm);
         m_srender->UpdateBuffers(m_root);
