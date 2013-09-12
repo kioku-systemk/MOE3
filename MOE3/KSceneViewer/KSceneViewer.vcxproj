@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{75803F6B-246E-4143-BCCC-FA8C38A7FABA}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>KSceneViewer</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>winmm.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\Core\CoreWindow.h" />
+    <ClInclude Include="..\..\src\Core\CoreWindow_mac.h" />
+    <ClInclude Include="..\..\src\Core\CoreWindow_wgl.h" />
+    <ClInclude Include="..\..\src\Core\CoreWindow_x11.h" />
+    <ClInclude Include="..\..\src\Core\Log.h" />
+    <ClInclude Include="..\..\src\Core\Math.h" />
+    <ClInclude Include="..\..\src\Core\MatrixStack.h" />
+    <ClInclude Include="..\..\src\Core\Memory.h" />
+    <ClInclude Include="..\..\src\Core\MOE.h" />
+    <ClInclude Include="..\..\src\Core\Stream.h" />
+    <ClInclude Include="..\..\src\Core\Time.h" />
+    <ClInclude Include="..\..\src\Core\Type.h" />
+    <ClInclude Include="..\..\src\Core\UI\icons.h" />
+    <ClInclude Include="..\..\src\Core\UI\mplus1cmedium.h" />
+    <ClInclude Include="..\..\src\Core\UI\SimpleGUI.h" />
+    <ClInclude Include="..\..\src\Core\UI\SimpleShader.h" />
+    <ClInclude Include="..\..\src\Core\UI\SimpleTex.h" />
+    <ClInclude Include="..\..\src\Core\UI\SimpleVB.h" />
+    <ClInclude Include="..\..\src\Core\UI\skBaseGUI.h" />
+    <ClInclude Include="..\..\src\Core\UI\stb_truetype.h" />
+    <ClInclude Include="..\..\src\EasyMIDIController\EasyMIDIController.h" />
+    <ClInclude Include="..\..\src\Gfx\BufferObject.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics\glext.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics\GraphicsProfiler.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics\Graphics_impl.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics\wglext.h" />
+    <ClInclude Include="..\..\src\Gfx\Graphics\WGLExtention.h" />
+    <ClInclude Include="..\..\src\Gfx\RenderCommand.h" />
+    <ClInclude Include="..\..\src\Gfx\RenderDevice.h" />
+    <ClInclude Include="..\..\src\Gfx\SceneGraphRender.h" />
+    <ClInclude Include="..\..\src\Gfx\ShaderProgramObject.h" />
+    <ClInclude Include="..\..\src\Gfx\TextureObject.h" />
+    <ClInclude Include="..\..\src\SceneGraph\AnimLoader.h" />
+    <ClInclude Include="..\..\src\SceneGraph\BaseLoader.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Geometry.h" />
+    <ClInclude Include="..\..\src\SceneGraph\GeometryCache.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Group.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Material.h" />
+    <ClInclude Include="..\..\src\SceneGraph\MrzLoader.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Node.h" />
+    <ClInclude Include="..\..\src\SceneGraph\NodeType.h" />
+    <ClInclude Include="..\..\src\SceneGraph\SceneGraph.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Transform.h" />
+    <ClInclude Include="..\..\src\SceneGraph\Util.h" />
+    <ClInclude Include="..\..\src\Utility\ScriptManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\Core\CoreWindow_wgl.cpp" />
+    <ClCompile Include="..\..\src\Core\Log.cpp" />
+    <ClCompile Include="..\..\src\Core\Memory.cpp" />
+    <ClCompile Include="..\..\src\Core\Stream.cpp" />
+    <ClCompile Include="..\..\src\EasyMIDIController\EasyMIDIController.cpp" />
+    <ClCompile Include="..\..\src\Gfx\BufferObject.cpp" />
+    <ClCompile Include="..\..\src\Gfx\Graphics\WGLExtention.cpp" />
+    <ClCompile Include="..\..\src\Gfx\RenderCommand.cpp" />
+    <ClCompile Include="..\..\src\Gfx\RenderDevice.cpp" />
+    <ClCompile Include="..\..\src\Gfx\SceneGraphRender.cpp" />
+    <ClCompile Include="..\..\src\Gfx\ShaderProgramObject.cpp" />
+    <ClCompile Include="..\..\src\Gfx\TextureObject.cpp" />
+    <ClCompile Include="..\..\src\SceneGraph\AnimLoader.cpp" />
+    <ClCompile Include="..\..\src\SceneGraph\MrzLoader.cpp" />
+    <ClCompile Include="..\..\src\viewermain.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
