@@ -270,9 +270,12 @@ AnimLoader::AnimLoader(){
 AnimLoader::~AnimLoader(){
 }	
 
-Animation* AnimLoader::Load(const Stream* st){
-
+Animation* AnimLoader::Load(const Stream* st)
+{
 	MOELogDX("AnimLoader");
+	if (!st || !st->IsOpened())
+		return 0;
+
 	const s8* data = static_cast<const s8*>(st->GetData());
 	
 	// header

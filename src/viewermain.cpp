@@ -26,6 +26,10 @@
 
 #include "Core/Time.h"
 
+namespace {
+	std::string g_mrzfile;
+}
+
 class MOEWindow : public CoreWindow
 {
 public:
@@ -54,27 +58,39 @@ public:
         m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,10,80,16);
         m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,30,80,16);
         m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,50,80,16);
+		m_timeslider = mnew SimpleGUI::Slider(m_gui, 110,10,width - 120,16);
         m_frame2->AddChild(m_bar[0]);
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
-        
+		m_frame2->AddChild(m_timeslider);
         m_root = 0;
 #if 1
         m_srender = new MOE::SceneGraphRender(g);
 
-        //MOE::Stream mst("/Users/kioku/Desktop/homo.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::Stream mst("plane.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
         MOE::SceneGraph::Node* node = loader.Load(&mst);
         if (node) {
             m_root = node;
         }
-        
-        //MOE::Stream ast("/Users/kioku/Desktop/homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::Stream ast("homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::AnimLoader aloader;
-        MOE::Animation* anim = aloader.Load(&ast);
-        m_anim = 0;//anim;
+
+		std::string animfile;
+		size_t p = g_mrzfile.rfind(".");
+		if (p != std::string::npos)
+		{
+			animfile = g_mrzfile.substr(0,p);
+			animfile += "_mrz.anim";
+		}
+
+		m_anim = 0;
+		if (animfile != "") {
+			MOE::Stream ast(animfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+			MOE::AnimLoader aloader;
+			MOE::Animation* anim = aloader.Load(&ast);
+			m_anim = anim;
+			if (anim)
+				printf("Loaded Animation.\n");
+		}
   
         //MOE::Stream mst("/Users/kioku/Desktop/git/MOE3/src/boxtest.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
 /*        MOE::Stream mst("/Users/kioku/Desktop/scatb.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
@@ -89,7 +105,12 @@ public:
         m_rot = m_view = MOE::Math::Identity();
         m_zoom = 5.0f;
 		m_trans = MOE::Math::vec3(0,0,0);
-        mx = 0;
+        MOE::Math::vec3 bmax, bmin;
+		MOE::SceneGraph::GetBBox(m_root, bmax, bmin);
+        m_trans = (bmax + bmin) * .5;
+		m_zoom = MOE::Math::length(bmax - bmin);
+
+		mx = 0;
         my = 0;
         press = 0;
 		m_inited = true;
@@ -109,8 +130,8 @@ public:
     {
         mx = x;
         my = y;
-        press |= 1;
-        m_gui->MouseDown(0, x,y);
+        if (!m_gui->MouseDown(0, x,y))
+			press |= 1;
     }
 	void MouseLeftUp(int x, int y)
     {
@@ -235,6 +256,7 @@ public:
         m_gui->Resize(w, h);
         m_frame1->SetSize(w, 30);
         m_frame2->SetSize(100, h-30);
+		m_timeslider->SetSize(w-120,16);
         Draw();
 	}
     
@@ -251,6 +273,7 @@ private:
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
+	SimpleGUI::Slider* m_timeslider;
 
 };
 
@@ -265,6 +288,13 @@ int WINAPI WinMain(
 int main(int argc, char *argv[])
 #endif
 {
+	printf("KScene3 - System K(c)\n");
+	if (argc < 2)
+	{
+		printf("kscene3.exe [mrz file]\n\n");
+		return 0;
+	}
+	g_mrzfile = std::string(argv[1]);
     MOEWindow win(32, 32, 1024, 800);
     CoreWindow::MainLoop();
     return 0;

@@ -436,7 +436,7 @@ public:
 		return m_activeWindow;
 	}
 
-	void MouseDown(int button, int x, int y)
+	bool MouseDown(int button, int x, int y)
 	{
 		if (m_activeWindow)
 			m_activeWindow->SetActive(false);		
@@ -448,7 +448,10 @@ public:
 		{
 			m_root->MouseDown(button, x, y);
 		}
-
+		if (m_activeWindow)
+			return true;
+		else
+			return false;
 	}
 	void MouseUp(int button, int x, int y)
 	{
