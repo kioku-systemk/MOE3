@@ -168,7 +168,6 @@ CoreWindow::CoreWindow(int x, int y, int width, int height, const TCHAR* title, 
 	m_inited = false;
 	 createWindow(x, y, width, height, title, fullscreenmode);
 	 initGL(m_hWnd);
-	 m_inited = true;
 	 RECT rect;
 	 GetClientRect(m_hWnd, &rect);
 	 resize(rect.right - rect.left, rect.bottom - rect.top);
@@ -278,6 +277,7 @@ LRESULT CALLBACK CoreWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case WM_PAINT:
 		{
+			if (m_inited)
 			Draw();
 			break;
 		}

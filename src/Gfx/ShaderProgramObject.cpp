@@ -54,7 +54,7 @@ void printShaderInfoLog(MOE::Graphics* g, GLuint shader)
 	if (bufSize > 1)
 	{
 		s8 *infoLog;
-		infoLog = mnew s8[bufSize];
+		infoLog = new s8[bufSize];
 		if (infoLog != NULL)
 		{
 			s32 length;
@@ -79,7 +79,7 @@ void printProgramInfoLog(MOE::Graphics* g, GLuint program)
 	if (bufSize > 1)
 	{
 		s8 *infoLog;
-		infoLog = mnew s8[bufSize];
+		infoLog = new s8[bufSize];
 		if (infoLog != NULL)
 		{
 			s32 length;

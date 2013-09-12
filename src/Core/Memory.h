@@ -6,6 +6,7 @@
 #ifndef INCLUDE_MOE_MEMORY_HEADER
 #define INCLUDE_MOE_MEMORY_HEADER
 
+#define NOTUSE_MOEMEMORY
 #ifndef NOTUSE_MOEMEMORY
 
 #if defined(WIN32) || defined(WIN64)
@@ -102,6 +103,8 @@ template<class T> void mdeleteArray(T* p)
 
 #define mnew new
 #include <new>
+
+#define mdeleteArray(A) delete [] A
 
 template<typename T> void MOEdelete(T* p)
 {

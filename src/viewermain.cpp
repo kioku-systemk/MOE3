@@ -60,21 +60,21 @@ public:
         
         m_root = 0;
 #if 1
-        m_srender = mnew MOE::SceneGraphRender(g);
+        m_srender = new MOE::SceneGraphRender(g);
 
-        MOE::Stream mst("/Users/kioku/Desktop/homo.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        //MOE::Stream mst("scatx3.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        //MOE::Stream mst("/Users/kioku/Desktop/homo.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::Stream mst("plane.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
         MOE::SceneGraph::Node* node = loader.Load(&mst);
         if (node) {
             m_root = node;
         }
         
-        MOE::Stream ast("/Users/kioku/Desktop/homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        //MOE::Stream ast("scatx3_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        //MOE::Stream ast("/Users/kioku/Desktop/homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::Stream ast("homo_mrz.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::AnimLoader aloader;
         MOE::Animation* anim = aloader.Load(&ast);
-        m_anim = anim;
+        m_anim = 0;//anim;
   
         //MOE::Stream mst("/Users/kioku/Desktop/git/MOE3/src/boxtest.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
 /*        MOE::Stream mst("/Users/kioku/Desktop/scatb.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
@@ -88,9 +88,11 @@ public:
 #endif
         m_rot = m_view = MOE::Math::Identity();
         m_zoom = 5.0f;
+		m_trans = MOE::Math::vec3(0,0,0);
         mx = 0;
         my = 0;
         press = 0;
+		m_inited = true;
 	}
 	~MOEWindow()
     {
@@ -203,15 +205,15 @@ public:
         matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
         matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
         view = view * m_view;
-        m_srender->SetProjMatrix(proj);
-        m_srender->SetViewMatrix(view);
+		m_srender->SetProjMatrix(proj);
+		m_srender->SetViewMatrix(view);
         
-        f64 tm = fmod(MOE::GetTimeCount(),5.0);
-        if (m_anim)
-            m_anim->Animate(m_root, tm);
-        m_srender->UpdateBuffers(m_root);
-        m_srender->Draw(m_root);
-
+		f64 tm = fmod(MOE::GetTimeCount(),5.0);
+		if (m_anim)
+			m_anim->Animate(m_root, tm);
+		m_srender->UpdateBuffers(m_root);
+		m_srender->Draw(m_root);
+		
         g->Disable(VG_DEPTH_TEST);
         
         m_gui->Draw();
