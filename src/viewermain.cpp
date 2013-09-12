@@ -75,45 +75,11 @@ public:
 		
 		m_cameranode = 0;
         m_root = 0;
-#if 1
+		m_anim = 0;
         m_srender = new MOE::SceneGraphRender(g);
 
-		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::MrzLoader loader;
-        MOE::SceneGraph::Node* node = loader.Load(&mst);
-        if (node) {
-            m_root = node;
-        }
-		m_cameranode = MOE::SceneGraph::FindNode(m_root, "Camera");
-
-		std::string animfile;
-		size_t p = g_mrzfile.rfind(".");
-		if (p != std::string::npos)
-		{
-			animfile = g_mrzfile.substr(0,p);
-			animfile += "_mrz.anim";
-		}
-
-		m_anim = 0;
-		if (animfile != "") {
-			MOE::Stream ast(animfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-			MOE::AnimLoader aloader;
-			MOE::Animation* anim = aloader.Load(&ast);
-			m_anim = anim;
-			if (anim)
-				printf("Loaded Animation.\n");
-		}
-  
-        //MOE::Stream mst("/Users/kioku/Desktop/git/MOE3/src/boxtest.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-/*        MOE::Stream mst("/Users/kioku/Desktop/scatb.MRZ", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::MrzLoader loader;
-        MOE::SceneGraph::Node* node = loader.Load(&mst);
-        MOE::Stream ast("/Users/kioku/Desktop/scatb_a.anim", MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::AnimLoader aloader;
-        MOE::Animation* anim = aloader.Load(&ast);
-        anim = anim;
-        anim->Animate(node,1);*/
-#endif
+		ReloadModels();
+ 
         m_rot = m_view = MOE::Math::Identity();
         m_zoom = 5.0f;
 		m_trans = MOE::Math::vec3(0,0,0);
@@ -131,6 +97,33 @@ public:
     {
     }
 	
+	void ReloadModels()
+	{
+		printf("Load model:%s\n", g_mrzfile.c_str());
+		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+        MOE::MrzLoader loader;
+        MOE::SceneGraph::Node* node = loader.Load(&mst);
+        m_root = node;
+      
+		m_cameranode = MOE::SceneGraph::FindNode(m_root, "Camera");
+
+		std::string animfile;
+		size_t p = g_mrzfile.rfind(".");
+		if (p != std::string::npos)
+		{
+			animfile = g_mrzfile.substr(0,p);
+			animfile += "_mrz.anim";
+		}
+		if (animfile != "") {
+			MOE::Stream ast(animfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+			MOE::AnimLoader aloader;
+			MOE::Animation* anim = aloader.Load(&ast);
+			m_anim = anim;
+			if (anim)
+				printf("Loaded Animation.\n");
+		}
+	}
+
     s32 mx;
     s32 my;
     s32 press;
@@ -201,6 +194,8 @@ public:
 	}
 	void KeyUp(int key)
     {
+		if (key == 'r' || key == 'R')
+			ReloadModels();
         m_gui->KeyUp(key);
     }
 	
