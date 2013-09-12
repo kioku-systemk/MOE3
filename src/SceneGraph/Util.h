@@ -160,6 +160,51 @@ namespace SceneGraph{
 		visitAllNode(node, func);
 	}
 
+	inline const Node* FindNode(const Node* node, const char* name)
+	{
+		if (!node)
+			return 0;
+
+		if (node->GetName() == name)
+			return node;
+
+		const Node* nd = 0;
+		NODETYPE t = node->GetType();
+		if (t == NODETYPE_GROUP || t == NODETYPE_TRANSFORM || t == NODETYPE_JOINT)
+		{
+			const Group* g = static_cast<const Group*>(node);
+			const s32 n = g->GetChildCount();
+			for (s32 i = 0; i < n; i++)
+			{
+				nd = FindNode(g->GetChild(i), name);
+				if (nd)
+					return nd;
+			}
+		}
+		return nd;
+	}
+	inline void getParentMatrix(const Node* node, MOE::Math::matrix& mtx)
+	{
+		if (!node)
+			return;
+
+		NODETYPE t= node->GetType();
+		if (t == NODETYPE_GROUP || t == NODETYPE_TRANSFORM || t == NODETYPE_JOINT)
+		{
+			Group* p = node->GetParent();
+			getParentMatrix(p,mtx);
+
+			if (t != NODETYPE_GROUP)
+				mtx = mtx * static_cast<const Transform*>(node)->GetMatrix();
+		}
+	}
+
+	inline MOE::Math::matrix GetParentMatrix(const Node* node)
+	{
+		MOE::Math::matrix mtx = MOE::Math::Identity();
+		getParentMatrix(node,mtx);
+		return mtx;
+	}
 } // SG
 } // MOE
 

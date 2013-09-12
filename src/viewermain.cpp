@@ -69,7 +69,11 @@ public:
 		m_frame2->AddChild(m_bar[0]);
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
+
+		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",10,100);
+    	m_frame2->AddChild(m_cameracheck);
 		
+		m_cameranode = 0;
         m_root = 0;
 #if 1
         m_srender = new MOE::SceneGraphRender(g);
@@ -80,6 +84,7 @@ public:
         if (node) {
             m_root = node;
         }
+		m_cameranode = MOE::SceneGraph::FindNode(m_root, "Camera");
 
 		std::string animfile;
 		size_t p = g_mrzfile.rfind(".");
@@ -229,13 +234,7 @@ public:
         g->ClearColor(mr,mg,mb,0);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
-        using namespace MOE::Math;
-        matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
-        matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
-        view = view * m_view;
-		m_srender->SetProjMatrix(proj);
-		m_srender->SetViewMatrix(view);
-        
+		// Animation
 		if (m_anim) {
 			double maxanimtime = m_anim->GetMaxAnimTime();
 			if (m_animcheck->GetState()) {
@@ -244,6 +243,24 @@ public:
 			}
 			m_anim->Animate(m_root, m_timeslider->GetValue()*maxanimtime);
 		}
+
+		// View
+        using namespace MOE::Math;
+        matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
+		matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
+		view = view * m_view;
+		if (m_cameracheck->GetState() && m_cameranode)
+		{
+			const matrix cammat = GetParentMatrix(m_cameranode);
+			const vec3 cpos = (cammat * vec4(0,0,0,1)).xyz();
+			const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
+			const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
+			view = LookAt(cpos, ctar, cup);
+		}
+		m_srender->SetProjMatrix(proj);
+		m_srender->SetViewMatrix(view);
+        
+		// Update,Render
 		m_srender->UpdateBuffers(m_root);
 		m_srender->Draw(m_root);
 		
@@ -287,7 +304,8 @@ private:
     SimpleGUI::Slider* m_bar[3];
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
-
+	SimpleGUI::Check* m_cameracheck;
+	const MOE::SceneGraph::Node* m_cameranode;
 };
 
 #if defined(WIN32) && defined(RELEASEOUT)
