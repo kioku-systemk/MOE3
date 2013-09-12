@@ -288,22 +288,28 @@ LRESULT CALLBACK CoreWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 
 		case WM_LBUTTONDOWN:
+			SetCapture(hWnd);
 			MouseLeftDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 		case WM_LBUTTONUP:
 			MouseLeftUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			ReleaseCapture();
 		break;
 		case WM_RBUTTONDOWN:
+			SetCapture(hWnd);
 			MouseRightDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 		case WM_RBUTTONUP:
 			MouseRightUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			ReleaseCapture();
 		break;
 		case WM_MBUTTONDOWN:
+			SetCapture(hWnd);
 			MouseMiddleDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
 		case WM_MBUTTONUP:
 			MouseMiddleUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
+			ReleaseCapture();
 		break;
 		case WM_MOUSEMOVE:
 			MouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
