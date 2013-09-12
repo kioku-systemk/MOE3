@@ -13,6 +13,8 @@ namespace SceneGraph{
 
 	inline b8 _getbbox(const Node* node, Math::vec3& box_max, Math::vec3& box_min, const Math::matrix4x4& mat)
 	{
+        if (!node)
+            return false;
 		b8 r = false;
 		NODETYPE t = node->GetType();
 		if (t == NODETYPE_GROUP)

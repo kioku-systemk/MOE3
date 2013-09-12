@@ -266,8 +266,6 @@
 		77E5212315DF2A87000595F8 = {
 			isa = PBXGroup;
 			children = (
-				77FD455717B3EE42001B3F22 /* CoreMIDI.framework */,
-				77FD455517B3EE3E001B3F22 /* OpenGL.framework */,
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5213815DF2A87000595F8 /* Resource */,
 				77FD452517B3ED5A001B3F22 /* KSceneViewer */,
@@ -288,6 +286,8 @@
 		77E5213115DF2A87000595F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				77FD455717B3EE42001B3F22 /* CoreMIDI.framework */,
+				77FD455517B3EE3E001B3F22 /* OpenGL.framework */,
 				77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */,
 				77E5215D15DF2CDE000595F8 /* OpenGL.framework */,
 				77E5213215DF2A87000595F8 /* Cocoa.framework */,
@@ -620,6 +620,7 @@
 				77FD453817B3ED5A001B3F22 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
