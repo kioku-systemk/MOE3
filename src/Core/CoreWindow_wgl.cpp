@@ -165,8 +165,10 @@ void CoreWindow::Toplevel(bool top)
 
 CoreWindow::CoreWindow(int x, int y, int width, int height, const TCHAR* title, bool fullscreenmode)
 {
+	m_inited = false;
 	 createWindow(x, y, width, height, title, fullscreenmode);
 	 initGL(m_hWnd);
+	 m_inited = true;
 	 RECT rect;
 	 GetClientRect(m_hWnd, &rect);
 	 resize(rect.right - rect.left, rect.bottom - rect.top);

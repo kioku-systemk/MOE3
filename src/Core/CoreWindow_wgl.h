@@ -27,6 +27,7 @@ protected:
 	HGLRC m_hRC;
 	HDC   m_hDC;
 	int m_w,m_h;
+	bool m_inited;
 	
 public:
 	CoreWindow(int x, int y, int width, int height, const TCHAR* title, bool fullscreenmode = false);
