@@ -246,7 +246,7 @@ public:
 
 		// View
         using namespace MOE::Math;
-        matrix proj = PerspectiveFov(45, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
+        matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
 		matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
 		view = view * m_view;
 		if (m_cameracheck->GetState() && m_cameranode)
