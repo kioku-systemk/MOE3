@@ -52,17 +52,24 @@ public:
         win->AddChild(m_frame1);
         win->AddChild(m_frame2);
 
-        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 0, 0, "KScene3", 16);
+        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 10, 5, "KScene3", 16);
         m_frame1->AddChild(cap);
+
+		m_timeslider = mnew SimpleGUI::Slider(m_gui, 200,10,width - 220,16);
+		m_animcheck = mnew SimpleGUI::Check(m_gui,"Realtime",110,5);
+    	m_frame1->AddChild(m_timeslider);
+		m_frame1->AddChild(m_animcheck);
         
-        m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,10,80,16);
-        m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,30,80,16);
-        m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,50,80,16);
-		m_timeslider = mnew SimpleGUI::Slider(m_gui, 110,10,width - 120,16);
-        m_frame2->AddChild(m_bar[0]);
+		SimpleGUI::Caption* clcl = mnew SimpleGUI::Caption(m_gui, 10, 0, "ClearColor", 16);
+        m_frame2->AddChild(clcl);
+
+        m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,20,80,16);
+        m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,40,80,16);
+        m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,60,80,16);
+		m_frame2->AddChild(m_bar[0]);
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
-		m_frame2->AddChild(m_timeslider);
+		
         m_root = 0;
 #if 1
         m_srender = new MOE::SceneGraphRender(g);
@@ -229,9 +236,14 @@ public:
 		m_srender->SetProjMatrix(proj);
 		m_srender->SetViewMatrix(view);
         
-		f64 tm = fmod(MOE::GetTimeCount(),5.0);
-		if (m_anim)
-			m_anim->Animate(m_root, tm);
+		if (m_anim) {
+			double maxanimtime = m_anim->GetMaxAnimTime();
+			if (m_animcheck->GetState()) {
+				f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
+				m_timeslider->SetValue(tm/maxanimtime);
+			}
+			m_anim->Animate(m_root, m_timeslider->GetValue()*maxanimtime);
+		}
 		m_srender->UpdateBuffers(m_root);
 		m_srender->Draw(m_root);
 		
@@ -256,7 +268,7 @@ public:
         m_gui->Resize(w, h);
         m_frame1->SetSize(w, 30);
         m_frame2->SetSize(100, h-30);
-		m_timeslider->SetSize(w-120,16);
+		m_timeslider->SetSize(w-220,16);
         Draw();
 	}
     
@@ -274,6 +286,7 @@ private:
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
 	SimpleGUI::Slider* m_timeslider;
+	SimpleGUI::Check* m_animcheck;
 
 };
 

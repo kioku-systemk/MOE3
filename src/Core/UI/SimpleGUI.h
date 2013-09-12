@@ -232,7 +232,8 @@ enum UITYPE{
 	UITYPE_GRAPHIC,
 	UITYPE_BUTTON,
     UITYPE_SLIDER,
-	UITYPE_CAPTION
+	UITYPE_CAPTION,
+	UITYPE_CHECK
 };
 	
 class Frame : public skGUI::BaseWindow
@@ -273,8 +274,8 @@ protected:
 		m_defvb->Rect2f(static_cast<float>(sx), static_cast<float>(sy),
 			static_cast<float>(sx + m_width), static_cast<float>(sy + m_height), static_cast<float>(m_z));
 	}
-	void ownMouseDown (int button, int x, int y){}
-	void ownMouseUp   (int button, int x, int y){}
+	bool ownMouseDown (int button, int x, int y){ return ownHit(x,y) > 0; }
+	bool ownMouseUp   (int button, int x, int y){ return ownHit(x,y) > 0; }
 	void ownMouseMove (int x, int y){}
 private:
 	skGUI::SimpleVB* m_defvb;
@@ -296,10 +297,16 @@ public:
         m_width = w; m_height = h;
         m_z = z;
         m_press = false;
+		m_alpha = 1.0f;
     }
     ~Dialog()
     {
     }
+	
+	void SetAlpha(float alpha)
+	{
+		m_alpha = alpha;
+	}
 protected:
     BaseWindow* ownHit(int x, int y){
         if (x >= 0 && x < m_width
@@ -322,24 +329,30 @@ protected:
         const float du =  4.0f / m_tex_w;
         const float dv = -4.0f / m_tex_h;
 
-        m_defvb->Color4f(1.0f,1.0f,1.0f,1.0f);
+        m_defvb->Color4f(1.0f,1.0f,1.0f,m_alpha);
         m_defvb->RectUV9Grid(static_cast<const float>(sx), static_cast<const float>(sy),
                              static_cast<const float>(ex), static_cast<const float>(ey), static_cast<const float>(m_z), static_cast<const float>(dxy),
                              su, sv, eu, ev, du,dv);
                              
     }
-    void ownMouseDown (int button, int x, int y)
+    bool ownMouseDown (int button, int x, int y)
     {
         if (ownHit(x,y))
         {
             m_press = true;
             m_mousex = x;
             m_mousey = y;
+			return true;
         }
+		return false;
     }
-    void ownMouseUp   (int button, int x, int y)
+    bool ownMouseUp   (int button, int x, int y)
     {
+		bool r = false;
+		if (m_press)
+			r = true;
         m_press = false;
+		return r;
     }
     void ownMouseMove (int x, int y)
     {
@@ -358,6 +371,7 @@ protected:
     float m_tex_w,m_tex_h;
     bool m_press;
     int m_mousex,m_mousey;
+	float m_alpha;
 };
 
 class textRasterizer
@@ -515,8 +529,8 @@ protected:
 		m_cache_w = m_width;
 		m_cache_h = m_height;
 	}
-	void ownMouseDown (int button, int x, int y) {}
-	void ownMouseUp   (int button, int x, int y) {}
+	bool ownMouseDown (int button, int x, int y) { return false; }
+	bool ownMouseUp   (int button, int x, int y) { return false; }
 	void ownMouseMove (int x, int y) {}
 private:
 	GUIManager* m_mgr;
@@ -585,7 +599,9 @@ protected:
         const float du = 4.0f / m_tex_w;
         const float dv = -4.0f / m_tex_h;
         
-        if (m_over)
+		if (m_press)
+			m_defvb->Color4f(1.0f,0.5f,0.4f,1.0f);
+        else if (m_over)
             m_defvb->Color4f(1.0f,0.8f,0.7f,1.0f);
         else
             m_defvb->Color4f(1.0f,1.0f,1.0f,1.0f);
@@ -595,17 +611,23 @@ protected:
                              su, sv, eu, ev, du,dv);
         
     }
-    void ownMouseDown (int button, int x, int y)
+    bool ownMouseDown (int button, int x, int y)
     {
-        if (ownHit(x,y))
+        if (ownHit(x,y)) {
             m_press = true;
+			return true;
+		}
+		return false;
     }
-    void ownMouseUp   (int button, int x, int y)
+    bool ownMouseUp   (int button, int x, int y)
     {
-        if (ownHit(x,y) && m_func)
+		bool r = false;
+        if (m_press && ownHit(x,y) && m_func) {
             (*m_func)(m_thisptr);
-        
+			r = true;
+		}
         m_press = false;
+		return r;
     }
     void ownMouseMove (int x, int y)
     {
@@ -706,16 +728,22 @@ protected:
         if (m_func)
             (*m_func)(m_val, m_thisptr);
     }
-    void ownMouseDown (int button, int x, int y)
+    bool ownMouseDown (int button, int x, int y)
     {
         if (ownHit(x,y)) {
             m_press = true;
             changeVal(x / static_cast<float>(m_width));
+			return true;
         }
+		return false;
     }
-    void ownMouseUp   (int button, int x, int y)
+    bool ownMouseUp   (int button, int x, int y)
     {
+		bool r = false;
+		if (m_press)
+			r = true;
         m_press = false;
+		return r;
     }
     void ownMouseMove (int x, int y)
     {
@@ -744,6 +772,120 @@ protected:
     void* m_thisptr;
 };
 
+class Check : public skGUI::BaseWindow
+{
+public:
+	Check(GUIManager* mgr, const char* caption, int x, int y, int z = 0)
+	: skGUI::BaseWindow(UITYPE_CHECK)
+	{
+		m_defvb = mgr->GetDefaultVB();
+		m_tex_w = static_cast<float>(mgr->GetTex()->GetWidth());
+		m_tex_h = static_cast<float>(mgr->GetTex()->GetHeight());
+		m_x = x; m_y = y;
+		m_z = z;
+		m_over  = false;
+		m_press = false;
+		m_state = false;
+		m_func = 0;
+		m_thisptr = 0;
+		Caption* txt = new Caption(mgr, 0,0,caption, UITextSize, z+1);
+		m_width  = 16 + txt->GetRealWidth();
+		m_height = static_cast<int>(UITextSize);
+		int txt_x = 16;
+		int txt_y = (16 - txt->GetHeight()) / 2;
+		txt->SetPos(txt_x, txt_y);
+		AddChild(txt);
+	}
+	~Check()
+	{
+	}
+	void SetChangedFunc(void (*func)(bool, void*), void* thisptr)
+	{
+		m_func = func;
+		m_thisptr = thisptr;
+	}
+protected:
+	BaseWindow* ownHit(int x, int y){
+		if (x >= 0 && x < m_width
+			&&  y >= 0 && y < m_height)
+			return this;
+		else
+			return 0;
+	}
+	void ownDraw      (int parent_x, int parent_y)
+	{
+		const int sx = parent_x + m_x + 3;
+		const int sy = parent_y + m_y + 3;
+		const int ex = parent_x + m_x + 15;
+		const int ey = parent_y + m_y + 15;
+		const int tx = 28;
+		int ty = 0;
+		if (m_state)
+			ty = 12;
+		const float su = tx / m_tex_w;
+		const float sv = 1.0f - ty / m_tex_h;
+		const float eu = (tx + 12) / m_tex_w;
+		const float ev = 1.0f - (ty + 12) / m_tex_h;
+		
+		if (m_over)
+			m_defvb->Color4f(1.0f,0.8f,0.7f,1.0f);
+		else
+			m_defvb->Color4f(1.0f,1.0f,1.0f,1.0f);
+		
+		m_defvb->RectUV2f(static_cast<const float>(sx), static_cast<const float>(sy),
+						static_cast<const float>(ex), static_cast<const float>(ey), static_cast<const float>(m_z),
+						su, sv, eu, ev);
+		
+	}
+	bool ownMouseDown (int button, int x, int y)
+	{
+		if (ownHit(x,y)) {
+			m_press = true;
+			return true;
+		}
+		return false;
+	}
+	bool ownMouseUp   (int button, int x, int y)
+	{
+		bool r = false;
+		if (m_press && ownHit(x,y)){
+			m_state = !m_state;
+			if (m_func)
+				(*m_func)(m_state,m_thisptr);
+			r = true;
+		}
+		m_press = false;
+		return r;
+	}
+	void ownMouseMove (int x, int y)
+	{
+		if (ownHit(x,y))
+			m_over = true;
+		else
+			m_over = false;
+		
+	}
+	
+public:
+	void SetState(bool state)
+	{
+		m_state = state;
+		if (m_func)
+			(*m_func)(state,m_thisptr);
+	}
+	
+	bool GetState() const
+	{
+		return m_state;
+	}
+	
+	skGUI::SimpleVB* m_defvb;
+	int m_z;
+	float m_tex_w,m_tex_h;
+	bool m_over, m_press, m_state;
+	void (*m_func)(bool,void*);
+	void* m_thisptr;
+};
 
 }// SimpleGUI
 
