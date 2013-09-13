@@ -10,6 +10,7 @@
 #include <string.h>
 #include <map>
 #include <vector>
+#include <string>
 #include "../Core/Math.h"
 
 namespace MOE
@@ -32,7 +33,8 @@ namespace MOE
 
 		void SetProjMatrix(const Math::matrix& mat);
 		void SetViewMatrix(const Math::matrix& mat);
-		void SetModerate(const Math::vec4& moderate);
+		void SetUniform(const s8* name, const Math::vec4& val);
+        void SetUniform(const s8* name, const Math::matrix& val);
 		
 		void UpdateBuffers(const SceneGraph::Node* node);
 		void RemoveBuffers(const SceneGraph::Node* node);
@@ -55,10 +57,9 @@ namespace MOE
 		
         std::map<std::string, TextureObject*> m_texturecache;
 		TextureObject* m_blanktexture;
-		
-		Math::matrix m_proj;
-		Math::matrix m_view;
-		Math::vec4 m_moderate;
+
+        std::map<std::string, Math::vec4> m_vec4s;
+        std::map<std::string, Math::matrix> m_matrixs;
 		
 		ProgramObject* m_defprg;
 		RenderCommand* m_rc;

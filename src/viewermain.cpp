@@ -251,9 +251,15 @@ public:
 				f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
 				m_timeslider->SetValue(tm/maxanimtime);
 			}
-			m_anim->Animate(m_root, m_timeslider->GetValue()*maxanimtime);
-		}
-
+            const f32 animtime = m_timeslider->GetValue()*maxanimtime;
+			m_anim->Animate(m_root, animtime);
+            
+            m_srender->SetUniform("time", MOE::Math::vec4(animtime,animtime,animtime,animtime));
+		} else {
+            f32 tm = fmod(MOE::GetTimeCount(), 10.0);
+            m_srender->SetUniform("time", MOE::Math::vec4(tm,tm,tm,tm));
+        }
+        
 		// View
         using namespace MOE::Math;
         matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);

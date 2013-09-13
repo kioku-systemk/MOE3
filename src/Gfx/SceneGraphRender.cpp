@@ -76,11 +76,7 @@ public:
 SceneGraphRender::SceneGraphRender(Graphics* mg)
 {
 	g = mg;
-	
-	m_moderate = MOE::Math::vec4(0,0,0,0);
-	m_view = MOE::Math::Identity();
-	m_proj = MOE::Math::Identity();
-	
+    
 	// ---- Shader ----
 	MOE::ShaderObject vs(g,true), fs(g,true);
 	vs.LoadFromMemory(vsShader, MOE::ShaderObject::VERTEX_SHADER);
@@ -137,18 +133,24 @@ void SceneGraphRender::Clear()
 }
 void SceneGraphRender::SetProjMatrix(const MOE::Math::matrix& mat)
 {
-	m_proj = mat;
+	m_matrixs["proj"] = mat;
 }
 
 void SceneGraphRender::SetViewMatrix(const MOE::Math::matrix& mat)
 {
-	m_view = mat;
+	m_matrixs["view"] = mat;
 }
 	
-void SceneGraphRender::SetModerate(const Math::vec4& moderate)
+void SceneGraphRender::SetUniform(const s8* name, const Math::vec4& val)
 {
-	m_moderate = moderate;
+    m_vec4s[name] = val;
 }
+
+void SceneGraphRender::SetUniform(const s8* name, const Math::matrix& val)
+{
+    m_matrixs[name] = val;
+}
+    
 
 void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 {
@@ -382,9 +384,14 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 			return;
 		
 		m_rc->BindProgram(it->second[0]->pg);
-		m_rc->SetUniform("view", m_view);
-		m_rc->SetUniform("proj", m_proj);
-		m_rc->SetUniform("mode", m_moderate);
+        
+        std::map<std::string,Math::vec4>::iterator vit,veit = m_vec4s.end();
+        for (vit = m_vec4s.begin(); vit != veit; ++vit)
+            m_rc->SetUniform(vit->first.c_str(), vit->second);
+        std::map<std::string,Math::matrix>::iterator mit,meit = m_matrixs.end();
+        for (mit = m_matrixs.begin(); mit != meit; ++mit)
+            m_rc->SetUniform(mit->first.c_str(), mit->second);
+        
 		m_rc->SetUniform("world", world);
 
 		MOE::RenderCommand::PrimitiveType ptype = MOE::RenderCommand::TRIANGLES;
@@ -435,12 +442,12 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 
 		if (it->second.size() == 2)
 			it = it;
-        std::vector<RenderBuffer*>::const_iterator vit,veit = it->second.end();
-		for (vit = it->second.begin(); vit != veit; ++vit)
+        std::vector<RenderBuffer*>::const_iterator bit,beit = it->second.end();
+		for (bit = it->second.begin(); bit != beit; ++bit)
 		{
 			//MOELogD("NODE=0x%X : VB=0x%X / IB=0x%X / PG=0x%X",node,(*vit)->vb, (*vit)->ib, (*vit)->pg);
-			MOE::VertexBuffer* vb = (*vit)->vb;
-			MOE::IndexBuffer* ib = (*vit)->ib;
+			MOE::VertexBuffer* vb = (*bit)->vb;
+			MOE::IndexBuffer* ib = (*bit)->ib;
 			
 			if (ib) {
 				m_rc->BindVB(vb);
