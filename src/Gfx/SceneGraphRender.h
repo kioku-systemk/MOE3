@@ -41,7 +41,8 @@ namespace MOE
 		
 		void Draw(const SceneGraph::Node* node);
 		void Clear();
-		
+		void ClearPrograms();
+
 		void AddTexture(const s8* name, TextureObject* tex);
 		void SetResourcePath(const s8* path);
 
@@ -50,7 +51,7 @@ namespace MOE
 		
 		class RenderBuffer;
         std::map<const SceneGraph::Node*, std::vector<RenderBuffer*> > m_buffers;
-		
+
 		// for ProgramObject
         std::map<std::string, ProgramObject*> m_prgcache;
         std::map<const SceneGraph::Node*, RenderBuffer*> m_prgtable;// don't need release

@@ -138,6 +138,19 @@ public:
 				printf("Loaded Animation.\n");
 		}
 	}
+	class forceupdate{
+	public:
+		void operator()(MOE::SceneGraph::Geometry* geo)
+		{
+			geo->EnableNeedUpdate();
+		}
+	};
+	void ReloadBuffers()
+	{
+		m_srender->Clear();
+		forceupdate needupdatefunc;
+		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
+	}
 
     s32 mx;
     s32 my;
@@ -211,7 +224,10 @@ public:
     {
 		if (key == 'r' || key == 'R')
 			ReloadModels();
-        m_gui->KeyUp(key);
+        if (key == 'b' || key == 'B')
+			ReloadBuffers();
+        
+		m_gui->KeyUp(key);
     }
 	
     void updateGUI()
@@ -245,7 +261,7 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
-		if (m_anim) {
+		if (m_anim && m_anim->GetMaxAnimTime() != 0) {
 			double maxanimtime = m_anim->GetMaxAnimTime();
 			if (m_animcheck->GetState()) {
 				f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);

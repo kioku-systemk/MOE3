@@ -103,6 +103,18 @@ SceneGraphRender::~SceneGraphRender()
 	delete m_defprg;
 }
 	
+void SceneGraphRender::ClearPrograms()
+{
+	// ProgramObject
+    std::map<std::string, MOE::ProgramObject*>::iterator pit, peit = m_prgcache.end();
+	for (pit = m_prgcache.begin(); pit != peit; ++pit) {
+		if (pit->second != m_defprg)
+			delete pit->second;
+	}
+	m_prgcache.clear();
+	m_prgtable.clear();	
+}
+
 void SceneGraphRender::Clear()
 {
 	// Buffer
@@ -122,14 +134,7 @@ void SceneGraphRender::Clear()
 	}
 	m_texturecache.clear();
 
-	// ProgramObject
-    std::map<std::string, MOE::ProgramObject*>::iterator pit, peit = m_prgcache.end();
-	for (pit = m_prgcache.begin(); pit != peit; ++pit) {
-		delete pit->second;
-	}
-	m_prgcache.clear();
-	m_prgtable.clear();
-
+	ClearPrograms();
 }
 void SceneGraphRender::SetProjMatrix(const MOE::Math::matrix& mat)
 {
@@ -149,8 +154,7 @@ void SceneGraphRender::SetUniform(const s8* name, const Math::vec4& val)
 void SceneGraphRender::SetUniform(const s8* name, const Math::matrix& val)
 {
     m_matrixs[name] = val;
-}
-    
+}    
 
 void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 {
