@@ -78,6 +78,19 @@ public:
 		m_anim = 0;
         m_srender = new MOE::SceneGraphRender(g);
 
+#if MOE_PLATFORM_WINDOWS
+		const s8* dirchar = "\\";
+#else
+		const s8* dirchar = "/";
+#endif
+		size_t np;
+		if ((np = g_mrzfile.rfind(dirchar)) != std::string::npos)
+		{
+			const std::string dirpath = g_mrzfile.substr(0, np+1);
+			m_srender->SetResourcePath(dirpath.c_str());
+		}
+			
+
 		ReloadModels();
  
         m_rot = m_view = MOE::Math::Identity();

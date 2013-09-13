@@ -41,7 +41,8 @@ namespace MOE
 		void Clear();
 		
 		void AddTexture(const s8* name, TextureObject* tex);
-		
+		void SetResourcePath(const s8* path);
+
 	private:
 		void recDraw(const SceneGraph::Node* node,const Math::matrix& world);
 		
@@ -61,6 +62,8 @@ namespace MOE
 		
 		ProgramObject* m_defprg;
 		RenderCommand* m_rc;
+
+		std::string m_respath;
 		
 		Graphics* g;
 		

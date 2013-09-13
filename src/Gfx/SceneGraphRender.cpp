@@ -312,8 +312,8 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 			if (pit == m_prgcache.end()) {
 				const std::string vsname = fname + ".vs";
 				const std::string fsname = fname + ".fs";
-                MOE::Stream vshader_file(vsname.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-                MOE::Stream fshader_file(fsname.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+                MOE::Stream vshader_file((m_respath + vsname).c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+                MOE::Stream fshader_file((m_respath + fsname).c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
                 s8* vshader_src = mnew s8[vshader_file.GetSize() + 1];
                 s8* fshader_src = mnew s8[fshader_file.GetSize() + 1];
                 memcpy(vshader_src, vshader_file.GetData(), vshader_file.GetSize()); vshader_src[vshader_file.GetSize()] = 0;
@@ -338,6 +338,11 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 			}
 		}
 	}
+}
+
+void SceneGraphRender::SetResourcePath(const s8* fpath)
+{
+	m_respath = std::string(fpath);
 }
 
 void SceneGraphRender::Draw(const MOE::SceneGraph::Node* node)
