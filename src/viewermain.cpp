@@ -104,7 +104,9 @@ public:
 		mx = 0;
         my = 0;
         press = 0;
+#if MOE_PLATFORM_WINDOWS
 		m_inited = true;
+#endif
 	}
 	~MOEWindow()
     {
