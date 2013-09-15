@@ -8,10 +8,33 @@
 
 #include "CoreWindow_wgl.h"
 #include <gl/GL.h>
+#include <Windows.h>
 #include <WindowsX.h>
 #include <stdio.h>
+#include <string.h>
+#include <string>
+#include <vector>
 
+namespace {
 CoreWindow* g_mainWin = 0;
+
+std::vector<std::string> split(std::string str, const std::string& delim)
+{
+	std::vector<std::string> result;
+	size_t cutAt;
+	while( (cutAt = str.find_first_of(delim)) != str.npos ) {
+		if(cutAt > 0) {
+			result.push_back(str.substr(0, cutAt));
+		}
+		str = str.substr(cutAt + 1);
+	}
+	if (str.length() > 0) {
+		result.push_back(str);
+	}
+	return result;
+}
+
+} // namespace
 
 #if _UNICODE
 #define _TX(x) L##x
@@ -165,7 +188,7 @@ void CoreWindow::Toplevel(bool top)
 
 CoreWindow::CoreWindow(int x, int y, int width, int height, const TCHAR* title, bool fullscreenmode)
 {
-	m_inited = false;
+    m_inited = false;
 	 createWindow(x, y, width, height, title, fullscreenmode);
 	 initGL(m_hWnd);
 	 RECT rect;
@@ -277,7 +300,7 @@ LRESULT CALLBACK CoreWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 
 		case WM_PAINT:
 		{
-			if (m_inited)
+            if (m_inited)
 			Draw();
 			break;
 		}
@@ -287,30 +310,30 @@ LRESULT CALLBACK CoreWindow::WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM 
 			break;
 		}
 
-		case WM_LBUTTONDOWN:
+        case WM_LBUTTONDOWN:
 			SetCapture(hWnd);
 			MouseLeftDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		break;
+            break;
 		case WM_LBUTTONUP:
 			MouseLeftUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			ReleaseCapture();
-		break;
+            break;
 		case WM_RBUTTONDOWN:
 			SetCapture(hWnd);
 			MouseRightDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		break;
+            break;
 		case WM_RBUTTONUP:
 			MouseRightUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			ReleaseCapture();
-		break;
+            break;
 		case WM_MBUTTONDOWN:
 			SetCapture(hWnd);
 			MouseMiddleDown(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-		break;
+            break;
 		case WM_MBUTTONUP:
 			MouseMiddleUp(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 			ReleaseCapture();
-		break;
+            break;
 		case WM_MOUSEMOVE:
 			MouseMove(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
 		break;
@@ -385,4 +408,81 @@ const char* CoreWindow::GetExePath() const
 	_splitpath(exefilepath, 0, exepath, 0, 0);
 #pragma warning(pop)
 	return exepath;
+}
+
+const char* CoreWindow::FileOpenDialog(const char* ext) const
+{
+	static char filename[MAX_PATH];
+	static OPENFILENAMEA ofn;
+	ZeroMemory(filename,MAX_PATH);
+	ZeroMemory(&ofn,sizeof(ofn));
+	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = m_hWnd;
+	std::string allfilters;
+	std::vector<std::string> exts = split(std::string(ext), "|");
+	for (size_t i = 0; i < exts.size(); ++i)
+	{
+		char filter[512];
+		wsprintf(filter, "%s files\\*.%s\\", exts[i].c_str(),exts[i].c_str());
+		allfilters += std::string(filter);
+	}
+	allfilters += std::string("All files\\*.*\\\\");
+	const int sn = static_cast<int>(allfilters.size());
+	for (int i = 0; i < sn; ++i) // Convert
+		if (allfilters[i] == '\\')
+			allfilters[i] = '\0';
+	ofn.lpstrFilter = allfilters.c_str();
+	ofn.lpstrFile = filename;
+	ofn.nMaxFile = sizeof(filename);
+	ofn.Flags = OFN_FILEMUSTEXIST;
+	ofn.lpstrTitle = "Open";
+	if (exts.size())
+		ofn.lpstrDefExt = exts[0].c_str();
+
+	if (!GetOpenFileName( &ofn ) )
+		return 0;
+	
+	return filename;
+}
+
+const char* CoreWindow::FileSaveDialog(const char* ext) const
+{
+	static char filename[MAX_PATH];
+	static OPENFILENAMEA ofn;
+	ZeroMemory(filename,MAX_PATH);
+	ZeroMemory(&ofn,sizeof(ofn));
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = m_hWnd;
+	ofn.lpstrFile = filename;
+	std::string allfilters;
+	std::vector<std::string> exts = split(std::string(ext), "|");
+	for (size_t i = 0; i < exts.size(); ++i)
+	{
+		char filter[512];
+		wsprintf(filter, "%s files\\*.%s\\", exts[i].c_str(),exts[i].c_str());
+		allfilters += std::string(filter);
+	}
+	allfilters += std::string("All files\\*.*\\\\");
+	const int sn = static_cast<int>(allfilters.size());
+	for (int i = 0; i < sn; ++i) // Convert
+		if (allfilters[i] == '\\')
+			allfilters[i] = '\0';
+	ofn.lpstrFilter = allfilters.c_str();
+	ofn.nMaxFile = MAX_PATH;
+	ofn.Flags = OFN_OVERWRITEPROMPT | OFN_HIDEREADONLY;
+	ofn.lpstrTitle = "Save";
+	ofn.lpstrDefExt = exts[0].c_str();
+	if (!GetSaveFileName(&ofn))
+		return 0;
+
+	// add default extension
+	const char* ptr = strrchr(filename, '\\');
+	ptr = strrchr(ptr, '.');
+	if (!ptr && allfilters.size()) 
+	{
+		char buf[MAX_PATH];
+		memcpy(buf, filename, MAX_PATH);
+		wsprintf(filename,"%s%s",buf,exts[0].c_str());
+	}
+	return filename;
 }
