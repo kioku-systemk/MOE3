@@ -96,10 +96,8 @@ public:
         m_rot = m_view = MOE::Math::Identity();
         m_zoom = 5.0f;
 		m_trans = MOE::Math::vec3(0,0,0);
-        MOE::Math::vec3 bmax, bmin;
-		MOE::SceneGraph::GetBBox(m_root, bmax, bmin);
-        m_trans = (bmax + bmin) * .5;
-		m_zoom = MOE::Math::length(bmax - bmin);
+        
+        Fit();
 
 		mx = 0;
         my = 0;
@@ -114,6 +112,9 @@ public:
 	
 	void ReloadModels()
 	{
+        delete m_root;
+        delete m_anim;
+        
 		printf("Load model:%s\n", g_mrzfile.c_str());
 		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
@@ -138,6 +139,14 @@ public:
 				printf("Loaded Animation.\n");
 		}
 	}
+    void Fit()
+    {
+        MOE::Math::vec3 bmax, bmin;
+		MOE::SceneGraph::GetBBox(m_root, bmax, bmin);
+        m_trans = (bmax + bmin) * .5;
+		m_zoom = MOE::Math::length(bmax - bmin);
+    }
+    
 	class forceupdate{
 	public:
 		void operator()(MOE::SceneGraph::Geometry* geo)
@@ -227,6 +236,17 @@ public:
         if (key == 'b' || key == 'B')
 			ReloadBuffers();
         
+        if (key == 'o' || key == 'O')
+        {
+            const char* fn = FileOpenDialog("MRZ");
+            if (fn)
+            {
+                g_mrzfile = std::string(fn);
+                ReloadModels();
+                Fit();
+                m_srender->Clear();
+            }
+        }
 		m_gui->KeyUp(key);
     }
 	
