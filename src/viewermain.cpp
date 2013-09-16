@@ -70,9 +70,19 @@ public:
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
 
-		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",10,100);
+		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,100);
     	m_frame2->AddChild(m_cameracheck);
-		
+
+        m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenModel",5,height - 100, 90, 16);
+        m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
+    	m_frame2->AddChild(m_openbtn);
+        m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadModel",5,height - 80, 90, 16);
+        m_reloadbtn->SetClickedFunc(MOEWindow::reloadModelBtnFunc, this);
+    	m_frame2->AddChild(m_reloadbtn);
+        m_rebufbtn = mnew SimpleGUI::Button(m_gui,"ReloadShader",5,height - 60, 90, 16);
+        m_rebufbtn->SetClickedFunc(MOEWindow::reloadShaderFunc, this);
+    	m_frame2->AddChild(m_rebufbtn);
+
 		m_cameranode = 0;
         m_root = 0;
 		m_anim = 0;
@@ -160,7 +170,21 @@ public:
 		forceupdate needupdatefunc;
 		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
 	}
-
+    void OpenModel()
+    {
+        const char* fn = FileOpenDialog("MRZ");
+        if (fn)
+        {
+            g_mrzfile = std::string(fn);
+            ReloadModels();
+            Fit();
+            m_srender->Clear();
+        }
+    }
+    static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenModel(); }
+    static void reloadModelBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadModels(); }
+    static void reloadShaderFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadBuffers(); }
+    
     s32 mx;
     s32 my;
     s32 press;
@@ -235,18 +259,9 @@ public:
 			ReloadModels();
         if (key == 'b' || key == 'B')
 			ReloadBuffers();
-        
         if (key == 'o' || key == 'O')
-        {
-            const char* fn = FileOpenDialog("MRZ");
-            if (fn)
-            {
-                g_mrzfile = std::string(fn);
-                ReloadModels();
-                Fit();
-                m_srender->Clear();
-            }
-        }
+            OpenModel();
+        
 		m_gui->KeyUp(key);
     }
 	
@@ -272,10 +287,11 @@ public:
     void Draw()
     {
         updateGUI();
-
         const float mr = m_bar[0]->GetValue();
         const float mg = m_bar[1]->GetValue();
         const float mb = m_bar[2]->GetValue();
+        
+        g->Enable(VG_CULL_FACE);
         g->Enable(VG_DEPTH_TEST);
         g->ClearColor(mr,mg,mb,0);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
@@ -317,6 +333,7 @@ public:
 		m_srender->Draw(m_root);
 		
         g->Disable(VG_DEPTH_TEST);
+        g->Disable(VG_CULL_FACE);
         
         m_gui->Draw();
         // own graphics code.
@@ -338,6 +355,9 @@ public:
         m_frame1->SetSize(w, 30);
         m_frame2->SetSize(100, h-30);
 		m_timeslider->SetSize(w-220,16);
+        m_openbtn->SetPos(5, h - 100);
+        m_reloadbtn->SetPos(5, h -  80);
+        m_rebufbtn->SetPos(5, h -  60);
         Draw();
 	}
     
@@ -357,6 +377,10 @@ private:
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_cameracheck;
+    SimpleGUI::Button* m_openbtn;
+    SimpleGUI::Button* m_reloadbtn;
+    SimpleGUI::Button* m_rebufbtn;
+    
 	const MOE::SceneGraph::Node* m_cameranode;
 };
 
