@@ -86,21 +86,9 @@ public:
 		m_cameranode = 0;
         m_root = 0;
 		m_anim = 0;
-        m_srender = new MOE::SceneGraphRender(g);
+        m_srender = new MOE::SceneGraphRender(g);	
 
-#if MOE_PLATFORM_WINDOWS
-		const s8* dirchar = "\\";
-#else
-		const s8* dirchar = "/";
-#endif
-		size_t np;
-		if ((np = g_mrzfile.rfind(dirchar)) != std::string::npos)
-		{
-			const std::string dirpath = g_mrzfile.substr(0, np+1);
-			m_srender->SetResourcePath(dirpath.c_str());
-		}
-			
-
+		setupResourcePath();
 		ReloadModels();
  
         m_rot = m_view = MOE::Math::Identity();
@@ -170,12 +158,30 @@ public:
 		forceupdate needupdatefunc;
 		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
 	}
+
+	void setupResourcePath()
+	{
+#if MOE_PLATFORM_WINDOWS
+		const s8* dirchar = "\\";
+#else
+		const s8* dirchar = "/";
+#endif
+		size_t np;
+		if ((np = g_mrzfile.rfind(dirchar)) != std::string::npos)
+		{
+			const std::string dirpath = g_mrzfile.substr(0, np+1);
+			m_srender->SetResourcePath(dirpath.c_str());
+		}
+		
+	}
+
     void OpenModel()
     {
         const char* fn = FileOpenDialog("MRZ");
         if (fn)
         {
             g_mrzfile = std::string(fn);
+			setupResourcePath();
             ReloadModels();
             Fit();
             m_srender->Clear();
@@ -396,12 +402,8 @@ int main(int argc, char *argv[])
 #endif
 {
 	printf("KScene3 - System K(c)\n");
-	if (argc < 2)
-	{
-		printf("kscene3.exe [mrz file]\n\n");
-		return 0;
-	}
-	g_mrzfile = std::string(argv[1]);
+	if (argc >= 2)
+		g_mrzfile = std::string(argv[1]);
     MOEWindow win(32, 32, 1024, 800);
     CoreWindow::MainLoop();
     return 0;
