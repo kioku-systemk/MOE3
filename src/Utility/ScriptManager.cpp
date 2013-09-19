@@ -156,7 +156,7 @@ namespace MOE {
 			char *p;
 
 			va_start( list,  argv );
-			for( p = (char *)argv, i = 0; *p != NULL; p++, i++ ){
+			for( p = (char *)argv, i = 0; *p != '\0'; p++, i++ ){
 				if( p[0] == '%' ){
 					if( p[1] == 's' ){
 						// s8*
@@ -260,7 +260,7 @@ namespace MOE {
 		if( ! pLuaState ){
 			// エラーだったら内容を出力し終了
 			MOELogE( "ExecFuncResultF32:luaL_newstate==NULL" );
-			return false;
+			return str;
 		}
 
 		// 返却されたスタックから値を検索
@@ -345,7 +345,7 @@ namespace MOE {
 		if( ! pLuaState ){
 			// エラーだったら内容を出力し終了
 			MOELogE( "ExecFuncResultF32:luaL_newstate==NULL" );
-			return false;
+			return str;
 		}
 
 		// グローバル変数をスタックに積む
