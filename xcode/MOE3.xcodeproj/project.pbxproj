@@ -14,13 +14,15 @@
 		770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
 		770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519B16DE6FCF00872F21 /* WGLExtention.cpp */; };
 		770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
+		7750233917F0853D005F5112 /* RenderBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* RenderBuffer.cpp */; };
+		7750233A17F0853D005F5112 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
+		7750233B17F0853D005F5112 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
 		779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
 		779C2E8C176C9D8D00DE219C /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E85176C9D8D00DE219C /* RenderDevice.cpp */; };
 		779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */; };
 		779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
 		779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E8F176C9E7E00DE219C /* BufferObject.cpp */; };
 		77B04A45168DE9700068FCE6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77B04A44168DE9700068FCE6 /* main.cpp */; };
-		77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 77B04A46168DEA590068FCE6 /* MOE3-Info.plist */; };
 		77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
 		77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
 		77C04C981718959700C9269B /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
@@ -90,6 +92,12 @@
 		770A51B416E23CE200872F21 /* SceneGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
 		770A51B516E23CE200872F21 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform.h; sourceTree = "<group>"; };
 		770A51B616E23CE200872F21 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		7750233317F0853D005F5112 /* RenderBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderBuffer.cpp; sourceTree = "<group>"; };
+		7750233417F0853D005F5112 /* RenderBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderBuffer.h; sourceTree = "<group>"; };
+		7750233517F0853D005F5112 /* Demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Demo.cpp; sourceTree = "<group>"; };
+		7750233617F0853D005F5112 /* Demo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo.h; sourceTree = "<group>"; };
+		7750233717F0853D005F5112 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
+		7750233817F0853D005F5112 /* Scene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scene.h; sourceTree = "<group>"; };
 		779C2E84176C9D8D00DE219C /* RenderCommand.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderCommand.cpp; sourceTree = "<group>"; };
 		779C2E85176C9D8D00DE219C /* RenderDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderDevice.cpp; sourceTree = "<group>"; };
 		779C2E86176C9D8D00DE219C /* RenderDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderDevice.h; sourceTree = "<group>"; };
@@ -250,9 +258,23 @@
 			path = SceneGraph;
 			sourceTree = "<group>";
 		};
+		7750233217F0853D005F5112 /* Demo */ = {
+			isa = PBXGroup;
+			children = (
+				7750233317F0853D005F5112 /* RenderBuffer.cpp */,
+				7750233417F0853D005F5112 /* RenderBuffer.h */,
+				7750233517F0853D005F5112 /* Demo.cpp */,
+				7750233617F0853D005F5112 /* Demo.h */,
+				7750233717F0853D005F5112 /* Scene.cpp */,
+				7750233817F0853D005F5112 /* Scene.h */,
+			);
+			path = Demo;
+			sourceTree = "<group>";
+		};
 		77B04A43168DE9700068FCE6 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7750233217F0853D005F5112 /* Demo */,
 				770A51AD16E23CE200872F21 /* SceneGraph */,
 				770A517516DE6FCF00872F21 /* Core */,
 				770A519116DE6FCF00872F21 /* EasyMIDIController */,
@@ -378,7 +400,7 @@
 		77E5212515DF2A87000595F8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0440;
+				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = kioku;
 			};
 			buildConfigurationList = 77E5212815DF2A87000595F8 /* Build configuration list for PBXProject "MOE3" */;
@@ -404,7 +426,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				77B04A47168DEA590068FCE6 /* MOE3-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +459,9 @@
 				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
 				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
 				779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */,
+				7750233917F0853D005F5112 /* RenderBuffer.cpp in Sources */,
+				7750233A17F0853D005F5112 /* Demo.cpp in Sources */,
+				7750233B17F0853D005F5112 /* Scene.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,7 +504,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -499,7 +522,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -507,7 +530,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = YES;
@@ -519,7 +541,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx10.7;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};
