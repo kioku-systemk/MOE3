@@ -112,7 +112,7 @@ private:
             const int w     = eval<int>(L, "return Buffer[%d].width",i+1);
             const int h     = eval<int>(L, "return Buffer[%d].height",i+1);
             if (name != "" && w != 0 && h != 0) {
-                EffectBuffer* eb = new EffectBuffer(g, name.c_str(), color.c_str(), depth.c_str(), w, h);
+                EffectBuffer* eb = mnew EffectBuffer(g, name.c_str(), color.c_str(), depth.c_str(), w, h);
                 m_buffers[name] = eb;
             }
         }
@@ -127,7 +127,7 @@ private:
             const std::string path = eval<std::string>(L, "return Scene[%d].path",i+1);
             if (name != "" && path != "") {
                 std::string fullpath = m_respath + path;
-                Scene* sc = new Scene(g, name.c_str(), fullpath.c_str());
+                MOE::Scene* sc = mnew MOE::Scene(g, name.c_str(), fullpath.c_str());
                 m_scenes[name] = sc;
             }
         }
@@ -144,7 +144,7 @@ private:
             const int dt_start = eval<int>(L, "return Process[%d].demotime[1]",i+1);
             const int dt_end   = eval<int>(L, "return Process[%d].demotime[2]",i+1);
             if (scene != "") {
-                ProcessInfo* pi = new ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene]);
+                ProcessInfo* pi = mnew ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene]);
                 m_processes.push_back(pi);
             }
         }
@@ -162,7 +162,7 @@ private:
             const int dt_start = eval<int>(L, "return Render[%d].demotime[1]",i+1);
             const int dt_end   = eval<int>(L, "return Render[%d].demotime[2]",i+1);
             if (src != "" && target != "") {
-                RenderEffectInfo* re = new RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader);
+                RenderEffectInfo* re = mnew RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader);
                 m_renderEffects.push_back(re);
             }
         }

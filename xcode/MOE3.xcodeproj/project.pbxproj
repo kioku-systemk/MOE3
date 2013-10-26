@@ -659,6 +659,7 @@
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -693,6 +694,7 @@
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
