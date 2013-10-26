@@ -29,14 +29,14 @@
 #include "Demo/Demo.h"
 
 namespace {
-	std::string g_mrzfile;
+	std::string g_demoluafile;
 }
 
 class MOEWindow : public CoreWindow
 {
 public:
 	MOEWindow(int x, int y, int width, int height)
-	: CoreWindow(x, y, width, height, "KScene3"
+	: CoreWindow(x, y, width, height, "KScene3 Demoview"
 	){
         g = mnew MOE::Graphics();
 
@@ -46,6 +46,15 @@ public:
         skGUI::BaseWindow* win = m_gui->GetRoot();
         m_width  = width;
         m_height = height;
+        
+        m_demo = 0;
+        // load lua
+        if (g_demoluafile != "") {
+            m_demo = new MOE::Demo(g);
+            b8 r = m_demo->Load(g_demoluafile.c_str());
+            if (!r)
+                MOELogE("Load error: demo.lua");
+        }
         
         // TEST
         const f32 col[] = {0.50,0.50,0.50,0.50};
@@ -75,7 +84,7 @@ public:
 		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,100);
     	m_frame2->AddChild(m_cameracheck);
 
-        m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenModel",5,height - 100, 90, 16);
+        m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 100, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
     	m_frame2->AddChild(m_openbtn);
         m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadModel",5,height - 80, 90, 16);
@@ -86,19 +95,11 @@ public:
     	m_frame2->AddChild(m_rebufbtn);
 
 		m_cameranode = 0;
-        m_root = 0;
-		m_anim = 0;
-        m_srender = new MOE::SceneGraphRender(g);	
-
-		setupResourcePath();
-		ReloadModels();
  
         m_rot = m_view = MOE::Math::Identity();
         m_zoom = 5.0f;
 		m_trans = MOE::Math::vec3(0,0,0);
         
-        Fit();
-
 		mx = 0;
         my = 0;
         press = 0;
@@ -112,84 +113,23 @@ public:
 	
 	void ReloadModels()
 	{
-        delete m_root;
-        delete m_anim;
-        
-		printf("Load model:%s\n", g_mrzfile.c_str());
-		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-        MOE::MrzLoader loader;
-        MOE::SceneGraph::Node* node = loader.Load(&mst);
-        m_root = node;
-      
-		m_cameranode = MOE::SceneGraph::FindNode(m_root, "Camera");
-
-		std::string animfile;
-		size_t p = g_mrzfile.rfind(".");
-		if (p != std::string::npos)
-		{
-			animfile = g_mrzfile.substr(0,p);
-			animfile += "_mrz.anim";
-		}
-		if (animfile != "") {
-			MOE::Stream ast(animfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
-			MOE::AnimLoader aloader;
-			MOE::Animation* anim = aloader.Load(&ast);
-			m_anim = anim;
-			if (anim)
-				printf("Loaded Animation.\n");
-		}
 	}
-    void Fit()
-    {
-        MOE::Math::vec3 bmax, bmin;
-		MOE::SceneGraph::GetBBox(m_root, bmax, bmin);
-        m_trans = (bmax + bmin) * .5;
-		m_zoom = MOE::Math::length(bmax - bmin);
-    }
+    void ReloadBuffers()
+	{
+	}
     
-	class forceupdate{
-	public:
-		void operator()(MOE::SceneGraph::Geometry* geo)
-		{
-			geo->EnableNeedUpdate();
-		}
-	};
-	void ReloadBuffers()
-	{
-		m_srender->Clear();
-		forceupdate needupdatefunc;
-		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
-	}
-
-	void setupResourcePath()
-	{
-#if MOE_PLATFORM_WINDOWS
-		const s8* dirchar = "\\";
-#else
-		const s8* dirchar = "/";
-#endif
-		size_t np;
-		if ((np = g_mrzfile.rfind(dirchar)) != std::string::npos)
-		{
-			const std::string dirpath = g_mrzfile.substr(0, np+1);
-			m_srender->SetResourcePath(dirpath.c_str());
-		}
-		
-	}
-
-    void OpenModel()
+    void OpenDemo()
     {
-        const char* fn = FileOpenDialog("MRZ");
+        const char* fn = FileOpenDialog("lua");
         if (fn)
         {
-            g_mrzfile = std::string(fn);
-			setupResourcePath();
-            ReloadModels();
-            Fit();
-            m_srender->Clear();
+            delete m_demo;
+            g_demoluafile = std::string(fn);
+            m_demo = new MOE::Demo(g);
+            m_demo->Load(g_demoluafile.c_str());
         }
     }
-    static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenModel(); }
+    static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenDemo(); }
     static void reloadModelBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadModels(); }
     static void reloadShaderFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadBuffers(); }
     
@@ -268,7 +208,7 @@ public:
         if (key == 'b' || key == 'B')
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
-            OpenModel();
+            OpenDemo();
         
 		m_gui->KeyUp(key);
     }
@@ -305,41 +245,21 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
-		if (m_anim && m_anim->GetMaxAnimTime() != 0) {
-			double maxanimtime = m_anim->GetMaxAnimTime();
-			if (m_animcheck->GetState()) {
-				f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
-				m_timeslider->SetValue(tm/maxanimtime);
-			}
-            const f32 animtime = m_timeslider->GetValue()*maxanimtime;
-			m_anim->Animate(m_root, animtime);
-            
-            m_srender->SetUniform("time", MOE::Math::vec4(animtime,animtime,animtime,animtime));
-		} else {
-            f32 tm = fmod(MOE::GetTimeCount(), 10.0);
-            m_srender->SetUniform("time", MOE::Math::vec4(tm,tm,tm,tm));
+        double maxanimtime = 10.0;
+        if (m_animcheck->GetState()) {
+            f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
+            m_timeslider->SetValue(tm/maxanimtime);
         }
-        
-		// View
-        using namespace MOE::Math;
-        matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
-		matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
-		view = view * m_view;
-		if (m_cameracheck->GetState() && m_cameranode)
-		{
-			const matrix cammat = GetParentMatrix(m_cameranode);
-			const vec3 cpos = (cammat * vec4(0,0,0,1)).xyz();
-			const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
-			const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
-			view = LookAt(cpos, ctar, cup);
-		}
-		m_srender->SetProjMatrix(proj);
-		m_srender->SetViewMatrix(view);
-        
-		// Update,Render
-		m_srender->UpdateBuffers(m_root);
-		m_srender->Draw(m_root);
-		
+        const f32 animtime = m_timeslider->GetValue()*maxanimtime;
+    
+        if (m_demo)
+        {
+            //m_demo->SetMatrix("proj",proj);
+            //m_demo->SetMatrix("view",view);
+            // Update,Render
+            m_demo->Update(animtime);
+            m_demo->Render(animtime);
+        }
         g->Disable(VG_DEPTH_TEST);
         g->Disable(VG_CULL_FACE);
         
@@ -371,9 +291,7 @@ public:
     
 private:
     MOE::Graphics* g;
-    MOE::SceneGraphRender* m_srender;
-    MOE::SceneGraph::Node* m_root;
-    MOE::Animation* m_anim;
+    MOE::Demo* m_demo;
     
     s32 m_width;
     s32 m_height;
@@ -405,7 +323,7 @@ int main(int argc, char *argv[])
 {
 	printf("KScene3 - System K(c)\n");
 	if (argc >= 2)
-		g_mrzfile = std::string(argv[1]);
+		g_demoluafile = std::string(argv[1]);
     MOEWindow win(32, 32, 1024, 800);
     CoreWindow::MainLoop();
     return 0;

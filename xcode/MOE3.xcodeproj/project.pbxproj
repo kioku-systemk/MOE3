@@ -14,7 +14,32 @@
 		770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
 		770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A519B16DE6FCF00872F21 /* WGLExtention.cpp */; };
 		770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
-		7750233917F0853D005F5112 /* RenderBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* RenderBuffer.cpp */; };
+		770FFFAE181C318E0074F472 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
+		770FFFB4181C318E0074F472 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 770FFFB2181C318E0074F472 /* InfoPlist.strings */; };
+		770FFFDB181C32460074F472 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
+		770FFFDC181C32460074F472 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
+		770FFFDD181C32460074F472 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
+		770FFFDE181C32460074F472 /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
+		770FFFDF181C32460074F472 /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
+		770FFFE0181C32460074F472 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */; };
+		770FFFE1181C32460074F472 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A517D16DE6FCF00872F21 /* Log.cpp */; };
+		770FFFE2181C32460074F472 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518116DE6FCF00872F21 /* Memory.cpp */; };
+		770FFFE3181C32460074F472 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518416DE6FCF00872F21 /* Stream.cpp */; };
+		770FFFE4181C32460074F472 /* EasyMIDIController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A519416DE6FCF00872F21 /* EasyMIDIController.mm */; };
+		770FFFE5181C32460074F472 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
+		770FFFE6181C32460074F472 /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
+		770FFFE7181C32460074F472 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E85176C9D8D00DE219C /* RenderDevice.cpp */; };
+		770FFFE8181C32460074F472 /* SceneGraphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */; };
+		770FFFE9181C32460074F472 /* BufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E8F176C9E7E00DE219C /* BufferObject.cpp */; };
+		770FFFEB181C32580074F472 /* demoview.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEA181C32580074F472 /* demoview.cpp */; };
+		770FFFEC181C32A90074F472 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
+		770FFFED181C33F50074F472 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
+		770FFFEE181C34300074F472 /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
+		772676A9181433B6004C0113 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
+		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
+		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
+		772676AD18144848004C0113 /* demo.lua in Resources */ = {isa = PBXBuildFile; fileRef = 772676AC18144848004C0113 /* demo.lua */; };
+		7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		7750233A17F0853D005F5112 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		7750233B17F0853D005F5112 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
 		779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
@@ -92,8 +117,15 @@
 		770A51B416E23CE200872F21 /* SceneGraph.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneGraph.h; sourceTree = "<group>"; };
 		770A51B516E23CE200872F21 /* Transform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Transform.h; sourceTree = "<group>"; };
 		770A51B616E23CE200872F21 /* Util.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
-		7750233317F0853D005F5112 /* RenderBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderBuffer.cpp; sourceTree = "<group>"; };
-		7750233417F0853D005F5112 /* RenderBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderBuffer.h; sourceTree = "<group>"; };
+		770FFFAD181C318E0074F472 /* demoview.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoview.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		770FFFB1181C318E0074F472 /* demoview-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "demoview-Info.plist"; sourceTree = "<group>"; };
+		770FFFB3181C318E0074F472 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		770FFFB7181C318E0074F472 /* demoview-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "demoview-Prefix.pch"; sourceTree = "<group>"; };
+		770FFFC8181C318E0074F472 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		770FFFEA181C32580074F472 /* demoview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demoview.cpp; path = ../../src/demoview.cpp; sourceTree = "<group>"; };
+		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
+		7750233317F0853D005F5112 /* EffectBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectBuffer.cpp; sourceTree = "<group>"; };
+		7750233417F0853D005F5112 /* EffectBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectBuffer.h; sourceTree = "<group>"; };
 		7750233517F0853D005F5112 /* Demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Demo.cpp; sourceTree = "<group>"; };
 		7750233617F0853D005F5112 /* Demo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Demo.h; sourceTree = "<group>"; };
 		7750233717F0853D005F5112 /* Scene.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scene.cpp; sourceTree = "<group>"; };
@@ -133,6 +165,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		770FFFAA181C318E0074F472 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				770FFFED181C33F50074F472 /* CoreMIDI.framework in Frameworks */,
+				770FFFEC181C32A90074F472 /* OpenGL.framework in Frameworks */,
+				770FFFAE181C318E0074F472 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77E5212B15DF2A87000595F8 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -258,11 +300,29 @@
 			path = SceneGraph;
 			sourceTree = "<group>";
 		};
+		770FFFAF181C318E0074F472 /* demoview */ = {
+			isa = PBXGroup;
+			children = (
+				770FFFB0181C318E0074F472 /* Supporting Files */,
+			);
+			path = demoview;
+			sourceTree = "<group>";
+		};
+		770FFFB0181C318E0074F472 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				770FFFB1181C318E0074F472 /* demoview-Info.plist */,
+				770FFFB2181C318E0074F472 /* InfoPlist.strings */,
+				770FFFB7181C318E0074F472 /* demoview-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		7750233217F0853D005F5112 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
-				7750233317F0853D005F5112 /* RenderBuffer.cpp */,
-				7750233417F0853D005F5112 /* RenderBuffer.h */,
+				7750233317F0853D005F5112 /* EffectBuffer.cpp */,
+				7750233417F0853D005F5112 /* EffectBuffer.h */,
 				7750233517F0853D005F5112 /* Demo.cpp */,
 				7750233617F0853D005F5112 /* Demo.h */,
 				7750233717F0853D005F5112 /* Scene.cpp */,
@@ -291,6 +351,7 @@
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5213815DF2A87000595F8 /* Resource */,
 				77FD452517B3ED5A001B3F22 /* KSceneViewer */,
+				770FFFAF181C318E0074F472 /* demoview */,
 				77E5213115DF2A87000595F8 /* Frameworks */,
 				77E5212F15DF2A87000595F8 /* Products */,
 			);
@@ -301,6 +362,7 @@
 			children = (
 				77E5212E15DF2A87000595F8 /* MOE3.app */,
 				77FD452317B3ED5A001B3F22 /* KSceneViewer.app */,
+				770FFFAD181C318E0074F472 /* demoview.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -313,6 +375,7 @@
 				77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */,
 				77E5215D15DF2CDE000595F8 /* OpenGL.framework */,
 				77E5213215DF2A87000595F8 /* Cocoa.framework */,
+				770FFFC8181C318E0074F472 /* XCTest.framework */,
 				77E5213415DF2A87000595F8 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -341,7 +404,9 @@
 		77FD452517B3ED5A001B3F22 /* KSceneViewer */ = {
 			isa = PBXGroup;
 			children = (
+				772676AC18144848004C0113 /* demo.lua */,
 				77FD453A17B3EDDD001B3F22 /* viewermain.cpp */,
+				770FFFEA181C32580074F472 /* demoview.cpp */,
 				77FD452617B3ED5A001B3F22 /* Supporting Files */,
 			);
 			path = KSceneViewer;
@@ -360,6 +425,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		770FFFAC181C318E0074F472 /* demoview */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 770FFFD9181C318E0074F472 /* Build configuration list for PBXNativeTarget "demoview" */;
+			buildPhases = (
+				770FFFA9181C318E0074F472 /* Sources */,
+				770FFFAA181C318E0074F472 /* Frameworks */,
+				770FFFAB181C318E0074F472 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = demoview;
+			productName = demoview;
+			productReference = 770FFFAD181C318E0074F472 /* demoview.app */;
+			productType = "com.apple.product-type.application";
+		};
 		77E5212D15DF2A87000595F8 /* MOE3 */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 77E5214C15DF2A88000595F8 /* Build configuration list for PBXNativeTarget "MOE3" */;
@@ -409,6 +491,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 77E5212315DF2A87000595F8;
 			productRefGroup = 77E5212F15DF2A87000595F8 /* Products */;
@@ -417,11 +500,20 @@
 			targets = (
 				77E5212D15DF2A87000595F8 /* MOE3 */,
 				77FD452217B3ED5A001B3F22 /* KSceneViewer */,
+				770FFFAC181C318E0074F472 /* demoview */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		770FFFAB181C318E0074F472 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				770FFFB4181C318E0074F472 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77E5212C15DF2A87000595F8 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -434,12 +526,37 @@
 			buildActionMask = 2147483647;
 			files = (
 				77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */,
+				772676AD18144848004C0113 /* demo.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		770FFFA9181C318E0074F472 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				770FFFEE181C34300074F472 /* TextureObject.cpp in Sources */,
+				770FFFDB181C32460074F472 /* EffectBuffer.cpp in Sources */,
+				770FFFDC181C32460074F472 /* Demo.cpp in Sources */,
+				770FFFDD181C32460074F472 /* Scene.cpp in Sources */,
+				770FFFDE181C32460074F472 /* AnimLoader.cpp in Sources */,
+				770FFFDF181C32460074F472 /* MrzLoader.cpp in Sources */,
+				770FFFE0181C32460074F472 /* CoreWindow_mac.mm in Sources */,
+				770FFFE1181C32460074F472 /* Log.cpp in Sources */,
+				770FFFE2181C32460074F472 /* Memory.cpp in Sources */,
+				770FFFE3181C32460074F472 /* Stream.cpp in Sources */,
+				770FFFE4181C32460074F472 /* EasyMIDIController.mm in Sources */,
+				770FFFE5181C32460074F472 /* ShaderProgramObject.cpp in Sources */,
+				770FFFE6181C32460074F472 /* RenderCommand.cpp in Sources */,
+				770FFFE7181C32460074F472 /* RenderDevice.cpp in Sources */,
+				770FFFEB181C32580074F472 /* demoview.cpp in Sources */,
+				770FFFE8181C32460074F472 /* SceneGraphRender.cpp in Sources */,
+				770FFFE9181C32460074F472 /* BufferObject.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77E5212A15DF2A87000595F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -459,7 +576,7 @@
 				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
 				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
 				779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */,
-				7750233917F0853D005F5112 /* RenderBuffer.cpp in Sources */,
+				7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */,
 				7750233A17F0853D005F5112 /* Demo.cpp in Sources */,
 				7750233B17F0853D005F5112 /* Scene.cpp in Sources */,
 			);
@@ -469,6 +586,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				772676A9181433B6004C0113 /* Demo.cpp in Sources */,
+				772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */,
+				772676AB181433BE004C0113 /* Scene.cpp in Sources */,
 				77FD454A17B3EE2F001B3F22 /* CoreWindow_mac.mm in Sources */,
 				77FD454B17B3EE2F001B3F22 /* Log.cpp in Sources */,
 				77FD454C17B3EE2F001B3F22 /* Memory.cpp in Sources */,
@@ -489,6 +609,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		770FFFB2181C318E0074F472 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				770FFFB3181C318E0074F472 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		77FD452817B3ED5A001B3F22 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -500,6 +628,77 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		770FFFD5181C318E0074F472 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "demoview/demoview-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
+				INFOPLIST_FILE = "demoview/demoview-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-llua";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		770FFFD6181C318E0074F472 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "demoview/demoview-Prefix.pch";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
+				INFOPLIST_FILE = "demoview/demoview-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-llua";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 		77E5214A15DF2A88000595F8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -516,6 +715,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -536,6 +736,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -555,8 +756,16 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = MOE3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -569,8 +778,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "MOE3-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = MOE3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -587,8 +804,15 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KSceneViewer/KSceneViewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -606,8 +830,15 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "KSceneViewer/KSceneViewer-Prefix.pch";
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
+				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -617,6 +848,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		770FFFD9181C318E0074F472 /* Build configuration list for PBXNativeTarget "demoview" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				770FFFD5181C318E0074F472 /* Debug */,
+				770FFFD6181C318E0074F472 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		77E5212815DF2A87000595F8 /* Build configuration list for PBXProject "MOE3" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

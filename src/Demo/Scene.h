@@ -4,13 +4,14 @@
 #include "../Core/Type.h"
 
 namespace MOE {
+    class Graphics;
     class Scene{
     public:
-        Scene();
+        Scene(Graphics* mg, const s8* name, const s8* path);
         virtual ~Scene();
         
         void Update(f64 demotime, f64 scenetime);
-        void Render(f64 demotime, f64 scenetime);
+        void Render(f64 demotime);
     private:
         class Impl;
         Impl* m_imp;

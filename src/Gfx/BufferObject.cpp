@@ -51,7 +51,7 @@ void VertexBuffer::Bind()
 								   m_info.desc[i].num,
 								   m_info.desc[i].type,
 								   m_info.desc[i].normalize,
-								   m_info.vertexSize, (const void*)m_info.desc[i]._offset);
+								   m_info.vertexSize, reinterpret_cast<const void*>(m_info.desc[i]._offset));
 		}
 	}
 	

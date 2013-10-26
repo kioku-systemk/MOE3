@@ -5,7 +5,9 @@
 
 namespace MOE {
     class Graphics;
-    
+    namespace Math{
+        struct matrix4x4;
+    }
     class Demo{
     public:
         Demo(Graphics* mg);
@@ -16,6 +18,8 @@ namespace MOE {
         
         void Update(f64 time);
         void Render(f64 time);
+        
+        void SetMatrix(const s8* name, const Math::matrix4x4& mat);
         
     private:
         class Impl;
