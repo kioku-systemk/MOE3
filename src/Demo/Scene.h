@@ -12,6 +12,9 @@ namespace MOE {
         
         void Update(f64 demotime, f64 scenetime);
         void Render(f64 demotime);
+        
+        void Resize(s32 w, s32 h);
+        const s8* GetName() const;
     private:
         class Impl;
         Impl* m_imp;

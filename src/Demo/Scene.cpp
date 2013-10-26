@@ -35,6 +35,8 @@ namespace MOE {
         : g(mg)
         {
             m_render = new SceneGraphRender(g);
+            m_width = 640;
+            m_height = 480;
             m_name = std::string(name);
             m_path = std::string(path);
             m_root = 0;
@@ -64,6 +66,8 @@ namespace MOE {
                 MOELogD("Loaded MRZ. [%s]", m_path.c_str());
                 
                 m_cameranode = static_cast<const SceneGraph::Transform*>(SceneGraph::FindNode(m_root, "Camera"));
+                if (!m_cameranode)
+                    MOELogW("can't find Camera node.");
                 
                 // load Anim
                 std::string animfile(path);
@@ -93,7 +97,21 @@ namespace MOE {
         
         void Update(f64 demotime, f64 scenetime)
         {
-            
+            // View
+            using namespace MOE::Math;
+            matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), 0.1, 1000.0);
+            matrix view = Identity();
+            if (m_cameranode)
+            {
+                const matrix cammat = GetParentMatrix(m_cameranode);
+                const vec3 cpos = (cammat * vec4(0,0,0,1)).xyz();
+                const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
+                const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
+                view = LookAt(cpos, ctar, cup);
+            }
+            m_render->SetProjMatrix(proj);
+            m_render->SetViewMatrix(view);
+            m_anim->Animate(m_root, scenetime);
             m_render->UpdateBuffers(m_root);
         }
         
@@ -101,6 +119,18 @@ namespace MOE {
         {
             m_render->Draw(m_root);
         }
+        
+        void Resize(int w, int h)
+        {
+            m_width = w;
+            m_height = h;
+        }
+        
+        const s8* GetName() const
+        {
+            return m_name.c_str();
+        }
+        
     private:
         std::string m_name;
         std::string m_path;
@@ -109,6 +139,7 @@ namespace MOE {
         Animation* m_anim;
         Graphics* g;
         SceneGraphRender* m_render;
+        int m_width, m_height;
     };
     
 // -----------------------------------------------------------------------------
@@ -116,5 +147,7 @@ namespace MOE {
     Scene::~Scene() { delete m_imp; }
     void Scene::Update(f64 demotime, f64 scenetime) { m_imp->Update(demotime,scenetime); }
     void Scene::Render(f64 demotime) { m_imp->Render(demotime); }
+    void Scene::Resize(s32 w, s32 h) { m_imp->Resize(w, h); };
+    const s8* Scene::GetName() const { return m_imp->GetName(); };
 } // MOE
 

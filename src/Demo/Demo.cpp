@@ -235,14 +235,15 @@ public:
         auto eit = m_processes.end();
         for (auto it = m_processes.begin(); it != eit; ++it)
         {
-            if ((*it)->demo_startTime <= time
-                &&  (*it)->demo_endTime   >  time) {
-                const f64 demospantime  = (*it)->demo_endTime - (*it)->demo_startTime;
-                const f64 scenedirtime  = (*it)->scene_endTime - (*it)->scene_startTime;
-                const f64 scenespantime = fabs((*it)->scene_endTime - (*it)->scene_startTime);
+            ProcessInfo* pi = (*it);
+            if (pi->demo_startTime <= time
+            &&  pi->demo_endTime   >  time) {
+                const f64 demospantime  = pi->demo_endTime - (*it)->demo_startTime;
+                const f64 scenedirtime  = pi->scene_endTime - (*it)->scene_startTime;
+                const f64 scenespantime = fabs(pi->scene_endTime - (*it)->scene_startTime);
                 const f64 scenedir      = scenedirtime >= 0.0 ? 1.0 : -1.0;
-                const f64 ltime = (time - (*it)->demo_startTime) * scenedir * scenespantime / demospantime + (*it)->scene_startTime;
-                (*it)->scene->Update(time, ltime);
+                const f64 ltime = (time - pi->demo_startTime) * scenedir * scenespantime / demospantime + pi->scene_startTime;
+                pi->scene->Update(time, ltime);
             }
         }
     }
@@ -251,10 +252,14 @@ public:
         auto eit = m_renderEffects.end();
         for (auto it = m_renderEffects.begin(); it != eit; ++it)
         {
-            if ((*it)->demo_startTime <= time
-            &&  (*it)->demo_endTime   >  time) {
+            RenderEffectInfo* re = (*it);
+            if (re->demo_startTime <= time
+            &&  re->demo_endTime   >  time) {
                 //const f64 demospantime  = (*it)->demo_endTime - (*it)->demo_startTime;
-                (*it)->scene->Render(time);
+                Scene* sc = re->scene;
+                if (!sc)
+                    continue;
+                sc->Render(time);
             }
         }
     }
@@ -262,6 +267,16 @@ public:
     void SetMatrix(const s8* name, const Math::matrix4x4& mat)
     {
         m_render->SetUniform(name, mat);
+    }
+    
+    void Resize(s32 w, s32 h)
+    {
+        auto eit = m_scenes.end();
+        for (auto it = m_scenes.begin(); it != eit; ++it)
+        {
+            if (it->second)
+                it->second->Resize(w, h);
+        }
     }
     
 private:
@@ -330,5 +345,5 @@ void Demo::Clear()               { m_imp->Clear();      }
 void Demo::Update(f64 time)      { m_imp->Update(time); }
 void Demo::Render(f64 time)      { m_imp->Render(time); }
 void Demo::SetMatrix(const s8* name, const Math::matrix4x4& mat){ m_imp->SetMatrix(name,mat); }
-    
+void Demo::Resize(s32 w, s32 h)  { m_imp->Resize(w, h); }
 } // MOE

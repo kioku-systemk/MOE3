@@ -20,7 +20,7 @@ namespace MOE {
         void Render(f64 time);
         
         void SetMatrix(const s8* name, const Math::matrix4x4& mat);
-        
+        void Resize(s32 w, s32 h);
     private:
         class Impl;
         Impl* m_imp;

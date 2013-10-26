@@ -54,6 +54,7 @@ public:
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Load error: demo.lua");
+            m_demo->Resize(width,height);
         }
         
         // TEST
@@ -286,6 +287,7 @@ public:
         m_openbtn->SetPos(5, h - 100);
         m_reloadbtn->SetPos(5, h -  80);
         m_rebufbtn->SetPos(5, h -  60);
+        m_demo->Resize(w,h);
         Draw();
 	}
     
