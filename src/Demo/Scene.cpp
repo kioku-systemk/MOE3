@@ -42,7 +42,7 @@ namespace MOE {
             m_cameranode = 0;
             const size_t p = m_path.rfind(".MRZ");
             if (p == m_path.size()-4) {
-                MOELogD("Loading MRZ:[%s]\n", m_path.c_str());
+                MOELogD("Loading MRZ:[%s]", m_path.c_str());
                 
                 m_render->SetResourcePath(getResourcePath(path).c_str());
 
@@ -50,7 +50,10 @@ namespace MOE {
                 MrzLoader loader;
                 Stream st(m_path.c_str(), Stream::MODE_INPUT_BINARY_ONMEMORY);
                 if (!st.IsOpened())
-                    return;
+				{
+					MOELogE("nofile MRZ. [%s]", m_path.c_str());
+					return;
+				}
                 m_root = loader.Load(&st);
 
                 if (!m_root)
