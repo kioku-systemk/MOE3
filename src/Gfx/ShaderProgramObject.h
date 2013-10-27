@@ -16,10 +16,10 @@ public:
 	enum SHADERTYPE
 	{
 		FRAGMENT_SHADER = 0x8B30, // GL_FRAGMENT_SHADER
-		VERTEX_SHADER   = 0x8B31  // GL_VERTEX_SHADER
+		VERTEX_SHADER   = 0x8B31,  // GL_VERTEX_SHADER
+        GEOMETRY_SHADER = 0x8DD9
 	};
-
-	ShaderObject(Graphics* mg, bool float_highprofile = false);
+	ShaderObject(Graphics* mg);
 	~ShaderObject();
 
 	bool LoadFromFile(const std::string& filename, SHADERTYPE shaderType);
@@ -35,9 +35,6 @@ private:
 	unsigned int m_shader;
 	std::string	m_source;
 	Graphics* g;
-	
-	bool m_highprofile;
-	
 };
 
 class ProgramObject
@@ -46,6 +43,8 @@ public:
 	ProgramObject(Graphics* mg);
 	ProgramObject(Graphics* mg, const ShaderObject& vertexShader, const ShaderObject& fragmentShader);
 
+    bool LoadFromMemory(const std::string& fxSource);
+    
     bool Attach(const ShaderObject& vertexShader, const ShaderObject& fragmentShader);
 	bool Link(const ShaderObject& vertexShader, const ShaderObject& fragmentShader);
 	void Bind();

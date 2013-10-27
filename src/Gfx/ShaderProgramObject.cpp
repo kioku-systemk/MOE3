@@ -10,23 +10,12 @@
 #include "Graphics.h"
 #include "../Core/Log.h"
 
+#include "../Core/LuaUtil.h"
 
 #define SHADER_STR(STR)      (std::string(shaderMacro)+(STR))
 #define SHADER_HIGH_STR(STR) (std::string(shaderMacro_high)+(STR))
 
 #define GLHEADER "#version 120\n"
-
-static const s8* shaderMacro = GLHEADER "\
-#ifdef GL_ES\n\
-precision mediump float;\n\
-#define LOWP lowp\n\
-#define MEDIUMP mediump\n\
-#define HIGHP highp\n\
-#else\n\
-#define LOWP\n\
-#define MEDIUMP\n\
-#define HIGHP\n\
-#endif\n";
 
 static const s8* shaderMacro_high = GLHEADER "\
 #ifdef GL_ES\n\
@@ -101,11 +90,10 @@ void printProgramInfoLog(MOE::Graphics* g, GLuint program)
 
 namespace MOE {
 	
-ShaderObject::ShaderObject(Graphics* mg, bool float_highprofile)
+ShaderObject::ShaderObject(Graphics* mg)
 {
 	g = mg;
 	m_shader = 0;
-	m_highprofile = float_highprofile;
 }
 
 ShaderObject::~ShaderObject()
@@ -133,10 +121,7 @@ bool ShaderObject::LoadFromFile(const std::string& filename, SHADERTYPE shaderTy
 bool ShaderObject::LoadFromMemory(const std::string& programSource, SHADERTYPE shaderType)
 {
 	std::string prgSource;
-	if (m_highprofile)
-		prgSource = SHADER_HIGH_STR(programSource);
-	else
-		prgSource = SHADER_STR(programSource);
+	prgSource = SHADER_HIGH_STR(programSource);
 	
 	m_source = prgSource;
 
@@ -225,6 +210,28 @@ bool ProgramObject::Link(const ShaderObject& vertexShader, const ShaderObject& f
 		return false;
 	}
 	return true;
+}
+    
+bool ProgramObject::LoadFromMemory(const std::string &fxSource)
+{
+    lua_State* L = createLua();
+    if (!doLua(L, fxSource.c_str())){
+        closeLua(L);
+        return false;
+    }
+    
+    std::string vtxShader = eval<std::string>(L, "return VertexShader");
+    std::string frgShader = eval<std::string>(L, "return FragmentShader");
+    std::string geoShader = eval<std::string>(L, "return GeometryShader");
+    closeLua(L);
+    
+    ShaderObject vertexShader(g);
+	ShaderObject fragmentShader(g);
+	vertexShader.LoadFromMemory(vtxShader.c_str(), ShaderObject::VERTEX_SHADER);
+	fragmentShader.LoadFromMemory(frgShader.c_str(), ShaderObject::FRAGMENT_SHADER);
+	b8 r = Link(vertexShader,fragmentShader);
+
+    return r;
 }
 
 void ProgramObject::Bind()

@@ -8,12 +8,8 @@
 #include <map>
 #include <math.h>
 #include "../Gfx/SceneGraphRender.h"
-
-extern "C" {
-    #include <lua/lua.h>
-    #include <lua/lualib.h>
-    #include <lua/lauxlib.h>
-}
+#include "../Gfx/ShaderProgramObject.h"
+#include "../Core/LuaUtil.h"
 
 namespace {
     template<typename T>
@@ -31,50 +27,6 @@ namespace {
         for (auto it = buffers.begin(); it != eit; ++it)
             delete (*it);
         buffers.clear();
-    }
-
-    template<typename T> T luaX_Cast(lua_State* L, int i) { return lua_tonumber(L, i); }
-    template<> std::string luaX_Cast<std::string>(lua_State* L, int i) { return std::string(lua_tostring(L, i)); }
-    template<typename T>
-    T eval(lua_State* L, const char* str, ...)
-    {
-        char buf[128] = {};
-        
-        va_list args;
-        va_start(args, str);
-        vsprintf(buf, str, args);
-        va_end(args);
-        
-        luaL_dostring(L, buf);
-        T val = luaX_Cast<T>(L, -1);
-        lua_pop(L, 1);
-        return val;
-    }
-    
-    void dumpStack(lua_State* L)
-    {
-        const int stackSize = lua_gettop(L);
-        for(int i = stackSize; i >= 1; i-- ) {
-            int type = lua_type(L, i);
-            printf("Stack[%2d-%10s] : ", i, lua_typename(L,type) );
-            switch( type ) {
-                case LUA_TNUMBER:  printf("%f", lua_tonumber(L, i) ); break;
-                case LUA_TBOOLEAN: printf("%s", lua_toboolean(L, i) ? "true" : "false"); break;
-                case LUA_TSTRING:  printf("%s", lua_tostring(L, i) ); break;
-                case LUA_TNIL:     break;
-                default:           printf("%s", lua_typename(L, type)); break;
-            }
-            printf("\n");
-        }
-        printf("\n");
-    }
-    int getTableNum(lua_State* L, const char* tablename)
-    {
-        std::string buf = std::string("local n = 0; for i,v in pairs(")+std::string(tablename)+std::string(") do n=n+1 end return n;");
-        luaL_dostring(L,buf.c_str());
-        int n = lua_tonumber(L, -1);
-        lua_pop(L, 1);
-        return n;
     }
     
     std::string getResourcePath(const s8* path)
@@ -167,7 +119,25 @@ private:
             }
         }
     }
-    
+    void createOverridePrograms(Graphics* g)
+    {
+        auto eit = m_renderEffects.end();
+        for (auto it = m_renderEffects.begin(); it != eit; ++it)
+        {
+            const std::string sdr = (*it)->overrideShader;
+            if (sdr != "default" && !m_ovprgs[sdr])
+            {
+                ProgramObject* prg = mnew ProgramObject(g);
+                std::string fpath = m_respath + sdr + ".fx";
+                Stream fxdata(fpath.c_str(), Stream::MODE_INPUT_BINARY_ONMEMORY);
+                if (fxdata.IsOpened()) {
+                    MOELogD("Loadfx:[%s]",fpath.c_str());
+                    prg->LoadFromMemory(static_cast<const s8*>(fxdata.GetData()));
+                    m_ovprgs[sdr] = prg;
+                }
+            }
+        }
+    }
     void setparams(lua_State* L)
     {
         // set param
@@ -183,6 +153,7 @@ private:
         createScenes(g, L);
         createProcesses(L);
         createRenderEffects(L);
+        createOverridePrograms(g);
     }
     b8 loadLua(const s8* luafile)
     {
@@ -193,19 +164,12 @@ private:
         
         m_respath = getResourcePath(luafile);
         
-        lua_State *L = luaL_newstate();
-        luaL_openlibs(L);
-        
+        lua_State* L = createLua();
         setparams(L);
-        int r = luaL_dostring(L, static_cast<const s8*>(st.GetData()));
-        if (r){
-            const char *err = lua_tostring(L, -1);
-            printf("ERROR: %s\n", err);
-            return false;
-        }
+        doLua(L, static_cast<const s8*>(st.GetData()));
         createFromParams(L);
         
-        lua_close(L);
+        closeLua(L);
         return true;
     }
 
@@ -229,6 +193,7 @@ public:
         clearmap(m_scenes);
         clearvector(m_processes);
         clearvector(m_renderEffects);
+        clearmap(m_ovprgs);
     }
     void Update(f64 time)
     {
@@ -259,7 +224,11 @@ public:
                 Scene* sc = re->scene;
                 if (!sc)
                     continue;
-                sc->Render(time);
+                if (re->effectBuffer)
+                    re->effectBuffer->RenderBegin();
+                sc->Render(time, m_ovprgs[re->overrideShader]);
+                if (re->effectBuffer)
+                    re->effectBuffer->RenderEnd();
             }
         }
     }
@@ -334,6 +303,7 @@ private:
     std::vector<RenderEffectInfo*> m_renderEffects;
     SceneGraphRender* m_render;
     std::string m_respath;
+    std::map<std::string, ProgramObject*> m_ovprgs;
 };
 
 // -----------------------------------------------------------------------------

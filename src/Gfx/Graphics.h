@@ -385,14 +385,20 @@ public:
 #define VG_FLOAT                          0x1406
 #define VG_FIXED                          0x140C
 
+
 /* PixelFormat */
 #define VG_DEPTH_COMPONENT                0x1902
+#define VG_RED                            0x1903
 #define VG_ALPHA                          0x1906
 #define VG_RGB                            0x1907
 #define VG_BGRA                           0x80E1 // will support extension!
 #define VG_RGBA                           0x1908
 #define VG_LUMINANCE                      0x1909
 #define VG_LUMINANCE_ALPHA                0x190A
+#define VG_RGBA32F_ARB                    0x8814
+#define VG_RGB32F_ARB                     0x8815
+#define VG_LUMINANCE32F_ARB               0x8818
+
 
 /* PixelType */
 /*      VG_UNSIGNED_BYTE */
@@ -410,6 +416,21 @@ public:
 #define VG_MAX_VERTEX_TEXTURE_IMAGE_UNITS 0x8B4C
 #define VG_MAX_TEXTURE_IMAGE_UNITS        0x8872
 #define VG_MAX_FRAGMENT_UNIFORM_VECTORS   0x8DFD
+#define VG_LINES_ADJACENCY                0x000A
+#define VG_LINE_STRIP_ADJACENCY           0x000B
+#define VG_TRIANGLES_ADJACENCY            0x000C
+#define VG_TRIANGLE_STRIP_ADJACENCY       0x000D
+#define VG_GEOMETRY_SHADER                0x8DD9
+#define VG_GEOMETRY_VERTICES_OUT          0x8916
+#define VG_GEOMETRY_INPUT_TYPE            0x8917
+#define VG_GEOMETRY_OUTPUT_TYPE           0x8918
+#define VG_MAX_GEOMETRY_UNIFORM_COMPONENTS 0x8DDF
+#define VG_MAX_GEOMETRY_OUTPUT_VERTICES   0x8DE0
+#define VG_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS 0x8DE1
+#define VG_MAX_VERTEX_OUTPUT_COMPONENTS   0x9122
+#define VG_MAX_GEOMETRY_INPUT_COMPONENTS  0x9123
+#define VG_MAX_GEOMETRY_OUTPUT_COMPONENTS 0x9124
+#define VG_MAX_FRAGMENT_INPUT_COMPONENTS  0x9125
 #define VG_SHADER_TYPE                    0x8B4F
 #define VG_DELETE_STATUS                  0x8B80
 #define VG_LINK_STATUS                    0x8B82
@@ -573,9 +594,12 @@ public:
 #define VG_RENDERBUFFER                                     0x8D41
 
 #define VG_RGBA4                                            0x8056
+#define VG_RGBA8                                            0x8058
 #define VG_RGB5_A1                                          0x8057
 #define VG_RGB565                                           0x8D62
 #define VG_DEPTH_COMPONENT16                                0x81A5
+#define VG_DEPTH_COMPONENT24                                0x81A6
+#define VG_DEPTH_COMPONENT32                                0x81A7
 #define VG_STENCIL_INDEX                                    0x1901
 #define VG_STENCIL_INDEX8                                   0x8D48
 

@@ -35,6 +35,9 @@
 		770FFFEC181C32A90074F472 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 		770FFFED181C33F50074F472 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77B04A6D168DF7FA0068FCE6 /* CoreMIDI.framework */; };
 		770FFFEE181C34300074F472 /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
+		770FFFF1181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
+		770FFFF2181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
+		770FFFF3181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
 		772676A9181433B6004C0113 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
@@ -123,6 +126,9 @@
 		770FFFB7181C318E0074F472 /* demoview-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "demoview-Prefix.pch"; sourceTree = "<group>"; };
 		770FFFC8181C318E0074F472 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		770FFFEA181C32580074F472 /* demoview.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demoview.cpp; path = ../../src/demoview.cpp; sourceTree = "<group>"; };
+		770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameBufferObject.cpp; sourceTree = "<group>"; };
+		770FFFF0181C92A60074F472 /* FrameBufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameBufferObject.h; sourceTree = "<group>"; };
+		770FFFF4181D48660074F472 /* LuaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LuaUtil.h; sourceTree = "<group>"; };
 		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
 		7750233317F0853D005F5112 /* EffectBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectBuffer.cpp; sourceTree = "<group>"; };
 		7750233417F0853D005F5112 /* EffectBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectBuffer.h; sourceTree = "<group>"; };
@@ -207,6 +213,7 @@
 				770A517D16DE6FCF00872F21 /* Log.cpp */,
 				770A517E16DE6FCF00872F21 /* Log.h */,
 				770A517F16DE6FCF00872F21 /* Math.h */,
+				770FFFF4181D48660074F472 /* LuaUtil.h */,
 				770A518016DE6FCF00872F21 /* MatrixStack.h */,
 				770A518116DE6FCF00872F21 /* Memory.cpp */,
 				770A518216DE6FCF00872F21 /* Memory.h */,
@@ -262,6 +269,8 @@
 				779C2E8A176C9D8D00DE219C /* TextureObject.h */,
 				779C2E8F176C9E7E00DE219C /* BufferObject.cpp */,
 				779C2E90176C9E7E00DE219C /* BufferObject.h */,
+				770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */,
+				770FFFF0181C92A60074F472 /* FrameBufferObject.h */,
 			);
 			path = Gfx;
 			sourceTree = "<group>";
@@ -541,6 +550,7 @@
 				770FFFDB181C32460074F472 /* EffectBuffer.cpp in Sources */,
 				770FFFDC181C32460074F472 /* Demo.cpp in Sources */,
 				770FFFDD181C32460074F472 /* Scene.cpp in Sources */,
+				770FFFF3181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
 				770FFFDE181C32460074F472 /* AnimLoader.cpp in Sources */,
 				770FFFDF181C32460074F472 /* MrzLoader.cpp in Sources */,
 				770FFFE0181C32460074F472 /* CoreWindow_mac.mm in Sources */,
@@ -572,6 +582,7 @@
 				77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */,
 				77C04C981718959700C9269B /* AnimLoader.cpp in Sources */,
 				779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */,
+				770FFFF1181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
 				779C2E8C176C9D8D00DE219C /* RenderDevice.cpp in Sources */,
 				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
 				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
@@ -590,6 +601,7 @@
 				772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */,
 				772676AB181433BE004C0113 /* Scene.cpp in Sources */,
 				77FD454A17B3EE2F001B3F22 /* CoreWindow_mac.mm in Sources */,
+				770FFFF2181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
 				77FD454B17B3EE2F001B3F22 /* Log.cpp in Sources */,
 				77FD454C17B3EE2F001B3F22 /* Memory.cpp in Sources */,
 				77FD454D17B3EE2F001B3F22 /* Stream.cpp in Sources */,

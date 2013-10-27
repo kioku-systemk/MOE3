@@ -111,13 +111,14 @@ namespace MOE {
             }
             m_render->SetProjMatrix(proj);
             m_render->SetViewMatrix(view);
-            m_anim->Animate(m_root, scenetime);
+            if (m_anim)
+                m_anim->Animate(m_root, scenetime);
             m_render->UpdateBuffers(m_root);
         }
         
-        void Render(f64 demotime)
+        void Render(f64 demotime, ProgramObject* prg)
         {
-            m_render->Draw(m_root);
+            m_render->Draw(m_root, prg);
         }
         
         void Resize(int w, int h)
@@ -146,7 +147,7 @@ namespace MOE {
     Scene::Scene(Graphics* mg, const s8* name, const s8* path) : m_imp(mnew Impl(mg,name,path)) {}
     Scene::~Scene() { delete m_imp; }
     void Scene::Update(f64 demotime, f64 scenetime) { m_imp->Update(demotime,scenetime); }
-    void Scene::Render(f64 demotime) { m_imp->Render(demotime); }
+    void Scene::Render(f64 demotime, ProgramObject* prg) { m_imp->Render(demotime, prg); }
     void Scene::Resize(s32 w, s32 h) { m_imp->Resize(w, h); };
     const s8* Scene::GetName() const { return m_imp->GetName(); };
 } // MOE
