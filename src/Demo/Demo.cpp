@@ -113,8 +113,19 @@ private:
             shader = eval<std::string>(L, "return Render[%d].shader",i+1);
             const int dt_start = eval<int>(L, "return Render[%d].demotime[1]",i+1);
             const int dt_end   = eval<int>(L, "return Render[%d].demotime[2]",i+1);
+            char paramstr[128] = {};
+            sprintf(paramstr, "Render[%d].param", i+1);
+            const int pnum = getTableNum(L, paramstr);
+            std::vector<ShaderParam> sparams;
+            for (int p = 0; p < pnum; ++p)
+            {
+                const std::string pname = eval<std::string>(L, "return Render[%d].param[%d][1]",i+1,p+1);
+                const std::string pval  = eval<std::string>(L, "return Render[%d].param[%d][2]",i+1,p+1);
+                EffectBuffer* eb = m_buffers[pval];
+                sparams.push_back(ShaderParam(pname, eb));
+            }
             if (src != "" && target != "") {
-                RenderEffectInfo* re = mnew RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader);
+                RenderEffectInfo* re = mnew RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader, sparams);
                 m_renderEffects.push_back(re);
             }
         }
@@ -226,7 +237,18 @@ public:
                     continue;
                 if (re->effectBuffer)
                     re->effectBuffer->RenderBegin();
-                sc->Render(time, m_ovprgs[re->overrideShader]);
+                ProgramObject* pg = m_ovprgs[re->overrideShader];
+                if (pg) {
+                    for (int p = 0; p < re->shaderparam.size(); ++p){
+                        EffectBuffer* eb = re->shaderparam[p].m_eb;
+                        if (eb)
+                            eb->BindTexture(1); // temporary binding
+                        pg->Bind();
+                        pg->SetUniform(re->shaderparam[p].m_name.c_str(), p+1);
+                        pg->Unbind();
+                    }
+                }
+                sc->Render(time, pg);
                 if (re->effectBuffer)
                     re->effectBuffer->RenderEnd();
             }
@@ -253,8 +275,20 @@ private:
     class ShaderParam
     {
     public:
-        std::string name;
-        f64 val;
+        ShaderParam(const std::string& name, f64 val){
+            m_name = name;
+            m_val = val;
+            m_eb = 0;
+        };
+        ShaderParam(const std::string& name, EffectBuffer* eb){
+            m_name = name;
+            m_val = 0;
+            m_eb = eb;
+        };
+
+        std::string m_name;
+        f64 m_val;
+        EffectBuffer* m_eb;
     };
     
     class ProcessInfo
@@ -279,13 +313,15 @@ private:
     class RenderEffectInfo
     {
     public:
-        RenderEffectInfo(f64 demo_st, f64 demo_et, Scene* sc, EffectBuffer* eb, const std::string& ovShader)
+        RenderEffectInfo(f64 demo_st, f64 demo_et, Scene* sc, EffectBuffer* eb,
+                         const std::string& ovShader, const std::vector<ShaderParam>& sparams)
         {
             demo_startTime = demo_st;
             demo_endTime   = demo_et;
             scene = sc;
             effectBuffer = eb;
             overrideShader = ovShader;
+            shaderparam = sparams;
         }
         ~RenderEffectInfo(){}
         f64 demo_startTime;

@@ -45,11 +45,20 @@ namespace MOE {
         void RenderBegin()
         {
             m_fbo->Begin();
+            g->ClearColor(1, 1, 0, 0);//CHECK
             g->Clear(VG_COLOR_BUFFER_BIT|VG_DEPTH_BUFFER_BIT);
         }
         void RenderEnd()
         {
             m_fbo->End();
+        }
+        
+        // temporary.
+        void BindTexture(int n)
+        {
+            g->ActiveTexture(VG_TEXTURE0 + n);
+            m_fbo->BindTexture();
+            g->ActiveTexture(VG_TEXTURE0);
         }
         
         s32 GetTextureID() const
@@ -84,6 +93,7 @@ namespace MOE {
     EffectBuffer::~EffectBuffer() { delete m_imp; }
     void EffectBuffer::RenderBegin()       { m_imp->RenderBegin();  }
     void EffectBuffer::RenderEnd()         { m_imp->RenderEnd();    }
+    void EffectBuffer::BindTexture(int n)  { m_imp->BindTexture(n); }
     s32 EffectBuffer::GetTextureID() const { return m_imp->GetTextureID(); }
     s32 EffectBuffer::GetWidth() const     { return m_imp->GetWidth();     }
     s32 EffectBuffer::GetHeight() const    { return m_imp->GetHeight();    }
