@@ -20,8 +20,21 @@ inline T luaX_Cast(lua_State* L, int i) {
 template<>
 inline std::string luaX_Cast<std::string>(lua_State* L, int i)
 {
-    return std::string(lua_tostring(L, i));
+	const char* s = lua_tostring(L, i);
+	if (!s)
+		return std::string();
+    return std::string(s);
 }
+
+template<typename T>
+inline bool isLuaType(lua_State* L,int idx) {
+	assert(0); // Unkown type
+	return false;
+}
+template<> inline bool isLuaType<int>(lua_State* L, int idx)        { return lua_isnumber(L, idx); }
+template<> inline bool isLuaType<std::string>(lua_State* L, int idx){ return lua_isstring(L, idx); }
+template<> inline bool isLuaType<float>(lua_State* L, int idx)      { return lua_isnumber(L, idx); }
+template<> inline bool isLuaType<double>(lua_State* L, int idx)     { return lua_isnumber(L, idx); }
 
 template<typename T>
 inline T eval(lua_State* L, const char* str, ...)
@@ -37,6 +50,26 @@ inline T eval(lua_State* L, const char* str, ...)
     T val = luaX_Cast<T>(L, -1);
     lua_pop(L, 1);
     return val;
+}
+
+template<typename T>
+inline bool eval(lua_State* L, T& val, const char* str, ...)
+{
+    char buf[128] = {};
+    
+    va_list args;
+    va_start(args, str);
+    vsprintf(buf, str, args);
+    va_end(args);
+    
+    luaL_dostring(L, buf);
+	if (isLuaType<T>(L,-1)) {
+		val = luaX_Cast<T>(L, -1);
+		lua_pop(L, 1);
+		return true;
+	}
+    lua_pop(L, 1);
+    return false;
 }
 
 inline void dumpStack(lua_State* L)
@@ -58,11 +91,31 @@ inline void dumpStack(lua_State* L)
 }
 inline int getTableNum(lua_State* L, const char* tablename)
 {
-    std::string buf = std::string("local n = 0; for i,v in pairs(")+std::string(tablename)+std::string(") do n=n+1 end return n;");
-    luaL_dostring(L,buf.c_str());
-    int n = lua_tonumber(L, -1);
-    lua_pop(L, 1);
-    return n;
+	lua_getglobal(L, tablename);
+	if (!lua_istable(L, -1))
+		return 0;
+	lua_pushnil(L);
+	int n = 0;
+	while(lua_next(L, -2) != 0){
+		++n;
+		lua_pop(L, 1);
+	}
+	return n;
+}
+
+inline int getTableValues(lua_State* L, const char* tablename, std::map<std::string,std::string>& vals)
+{
+	lua_getglobal(L, tablename);
+	lua_pushnil(L);
+	while(lua_next(L, -2) != 0){
+		if(lua_isstring(L, -1)){
+			std::string fld = static_cast<std::string>(lua_tostring(L, -2));
+			std::string str = static_cast<std::string>(lua_tostring(L, -1));
+			vals[std::string(fld)] = str;
+		}
+		lua_pop(L, 1);
+	}
+	return static_cast<int>(vals.size());
 }
 
 inline lua_State* createLua()
@@ -72,7 +125,7 @@ inline lua_State* createLua()
     return L;
 }
 
-inline b8 doLua(lua_State* L, const s8* lua)
+inline bool doLua(lua_State* L, const char* lua)
 {
     int r = luaL_dostring(L, lua);
     if (r){
