@@ -26,6 +26,8 @@
 
 #include "Core/Time.h"
 
+#include "Demo/Demo.h"
+
 namespace {
 	std::string g_mrzfile;
 }

@@ -39,7 +39,7 @@ namespace MOE
 		void UpdateBuffers(const SceneGraph::Node* node);
 		void RemoveBuffers(const SceneGraph::Node* node);
 		
-		void Draw(const SceneGraph::Node* node);
+		void Draw(const SceneGraph::Node* node, ProgramObject* ovprg = 0);
 		void Clear();
 		void ClearPrograms();
 
@@ -47,7 +47,7 @@ namespace MOE
 		void SetResourcePath(const s8* path);
 
 	private:
-		void recDraw(const SceneGraph::Node* node,const Math::matrix& world);
+		void recDraw(const SceneGraph::Node* node,const Math::matrix& world, ProgramObject* ovprg);
 		
 		class RenderBuffer;
         std::map<const SceneGraph::Node*, std::vector<RenderBuffer*> > m_buffers;

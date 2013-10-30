@@ -30,7 +30,8 @@ namespace  {
 namespace MOE {
 	
 Stream::Stream(const u8* ptr, u32 size){
-	m_ptr = mnew u8[size];
+	m_ptr = mnew u8[size+1];
+    m_ptr[size] = 0;
     m_filePtr = NULL;
 	m_size = size;
 	m_mode = MODE_INPUT_BINARY_ONMEMORY;
@@ -77,7 +78,8 @@ Stream::Stream(const s8* filename, Mode mode){
 			fseek(fp, 0, SEEK_END);
 			m_size = static_cast<u32>(ftell(fp));
 			fseek(fp, 0, SEEK_SET);
-			m_ptr = mnew u8[m_size];
+			m_ptr = mnew u8[m_size+1];
+            m_ptr[m_size] = 0;
 			fread(m_ptr, m_size, 1, fp);
 			fclose(fp);
 		}

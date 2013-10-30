@@ -78,7 +78,7 @@ SceneGraphRender::SceneGraphRender(Graphics* mg)
 	g = mg;
     
 	// ---- Shader ----
-	MOE::ShaderObject vs(g,true), fs(g,true);
+	MOE::ShaderObject vs(g), fs(g);
 	vs.LoadFromMemory(vsShader, MOE::ShaderObject::VERTEX_SHADER);
 	fs.LoadFromMemory(fsShader, MOE::ShaderObject::FRAGMENT_SHADER);
 	m_defprg = mnew MOE::ProgramObject(g);
@@ -315,6 +315,23 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 			// TODO: fx
             std::map<std::string, ProgramObject*>::const_iterator pit = m_prgcache.find(fname);
 			if (pit == m_prgcache.end()) {
+                
+#if 1
+                const std::string fxname = fname + ".fx";
+                MOE::Stream fxfile((m_respath + fxname).c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+                if (fxfile.IsOpened())
+                {
+                    ProgramObject* prg = mnew MOE::ProgramObject(g);
+                    if (!prg->LoadFromMemory(std::string(static_cast<const s8*>(fxfile.GetData()))))
+                    {
+                        MOELogE("error link shader > %s.fx", fname.c_str());
+                        delete prg;
+                        prg = m_defprg;
+                    }
+                    MOELogI("Material = %s - Loaded Shader: %s.fx",mname.c_str(), fname.c_str());
+                    m_prgcache[fname] = prg;
+                }
+#else
 				const std::string vsname = fname + ".vs";
 				const std::string fsname = fname + ".fs";
                 MOE::Stream vshader_file((m_respath + vsname).c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
@@ -324,7 +341,7 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
                 memcpy(vshader_src, vshader_file.GetData(), vshader_file.GetSize()); vshader_src[vshader_file.GetSize()] = 0;
                 memcpy(fshader_src, fshader_file.GetData(), fshader_file.GetSize()); fshader_src[fshader_file.GetSize()] = 0;
                 
-                MOE::ShaderObject vs(g,true), fs(g,true);
+                MOE::ShaderObject vs(g), fs(g);
                 b8 vsr = vs.LoadFromMemory(vshader_src, MOE::ShaderObject::VERTEX_SHADER);
                 b8 fsr = fs.LoadFromMemory(fshader_src, MOE::ShaderObject::FRAGMENT_SHADER);
                 if (vsr && fsr) {
@@ -340,6 +357,7 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
                 }
                 delete [] vshader_src;
                 delete [] fshader_src;
+#endif
 			}
 		}
 	}
@@ -350,16 +368,16 @@ void SceneGraphRender::SetResourcePath(const s8* fpath)
 	m_respath = std::string(fpath);
 }
 
-void SceneGraphRender::Draw(const MOE::SceneGraph::Node* node)
+void SceneGraphRender::Draw(const MOE::SceneGraph::Node* node, ProgramObject* prg)
 {
 	MOE::Math::matrix world = MOE::Math::Identity();
 	
-	recDraw(node, world);
+	recDraw(node, world, prg);
 	m_rc->BindProgram(0); // unbind program
 	m_rc->CommandExecute();
 }
 
-void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Math::matrix& world) {
+void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Math::matrix& world, ProgramObject* ovprg) {
 	if (!node)
 		return;
 	
@@ -369,7 +387,7 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 		const Group* g = static_cast<const Group*>(node);
 		const s32 n = g->GetChildCount();
 		for (s32 i = 0; i < n; ++i)
-			recDraw(g->GetChild(i), world);
+			recDraw(g->GetChild(i), world, ovprg);
 	}
 	else if (type == NODETYPE_TRANSFORM||type == NODETYPE_JOINT) {
 		const Transform* g = static_cast<const Transform*>(node);
@@ -377,7 +395,7 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 		const MOE::Math::matrix m = g->GetMatrix();
 		const MOE::Math::matrix lworld = world * m;
 		for (s32 i = 0; i < n; ++i)
-			recDraw(g->GetChild(i), lworld);
+			recDraw(g->GetChild(i), lworld, ovprg);
 	}
 	else if (type == NODETYPE_GEOMETRY) {
 		const Geometry* gg = static_cast<const Geometry*>(node);
@@ -386,7 +404,10 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 		if (it == m_buffers.end())
 			return;
 		
-		m_rc->BindProgram(it->second[0]->pg);
+        if (ovprg)
+            m_rc->BindProgram(ovprg);
+        else
+            m_rc->BindProgram(it->second[0]->pg);
         
         std::map<std::string,Math::vec4>::iterator vit,veit = m_vec4s.end();
         for (vit = m_vec4s.begin(); vit != veit; ++vit)
