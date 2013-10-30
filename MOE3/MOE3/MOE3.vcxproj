@@ -173,6 +173,7 @@
     <ClCompile Include="..\..\src\main.cpp" />
     <ClCompile Include="..\..\src\SceneGraph\AnimLoader.cpp" />
     <ClCompile Include="..\..\src\SceneGraph\MrzLoader.cpp" />
+    <ClCompile Include="..\..\src\Utility\SceneScriptLoader.cpp" />
     <ClCompile Include="..\..\src\Utility\ScriptManager.cpp" />
     <ClCompile Include="..\..\src\Utility\ScriptManager_FuncCall.cpp" />
   </ItemGroup>
@@ -220,11 +221,13 @@
     <ClInclude Include="..\..\src\SceneGraph\SceneGraph.h" />
     <ClInclude Include="..\..\src\SceneGraph\Transform.h" />
     <ClInclude Include="..\..\src\SceneGraph\Util.h" />
+    <ClInclude Include="..\..\src\Utility\BaseScriptLoader.h" />
     <ClInclude Include="..\..\src\Utility\Bpm.h" />
     <ClInclude Include="..\..\src\Utility\Event.h" />
     <ClInclude Include="..\..\src\Utility\Parameters.h" />
     <ClInclude Include="..\..\src\Utility\Parser.h" />
     <ClInclude Include="..\..\src\Utility\Range.h" />
+    <ClInclude Include="..\..\src\Utility\SceneScriptLoader.h" />
     <ClInclude Include="..\..\src\Utility\StringUtils.h" />
     <ClInclude Include="..\..\src\Utility\Trigger.h" />
   </ItemGroup>
