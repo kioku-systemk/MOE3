@@ -442,7 +442,7 @@ namespace MOE {
 
 		return ret;
 	}
-
+	
 	string CScriptManager::GetTableValueString( string luaname, string tablename, string itemname )
 	{
 		string ret;
@@ -481,6 +481,126 @@ namespace MOE {
 		return ret;
 	}
 
+	void* CScriptManager::getTableValue( lua_State *pLuaState, s32 sch_index, s32 &now_index )
+	{
+		s32 index = now_index;
+		void *param = NULL;
+		
+		if( ! pLuaState ){
+			return NULL;
+		}
+		
+		// 最初のキーはnil登録
+		lua_pushnil(pLuaState);
+		
+		// その項目の取得が終了するまで
+		while(lua_next(pLuaState, -2) != 0){
+			// 該当する値か
+			if( sch_index == index ){
+				// 値取得
+				if(lua_isstring(pLuaState, -1)){
+					std::string string = static_cast<std::string>(lua_tostring(pLuaState, -1));
+					param = (void*)(string.c_str());
+				}else if(lua_isnumber(pLuaState, -1)){
+					f32 fparam = static_cast<f32>(lua_tonumber(pLuaState, -1));
+					param = static_cast<void*>(&fparam);
+				}else if(lua_isboolean(pLuaState, -1)){
+					int bparam = lua_toboolean(pLuaState, -1);
+					param = static_cast<void*>(&bparam);
+				}
+				lua_pop(pLuaState, 1);
+				break;
+			}
+			
+			// 項目はテーブルか？
+			if(lua_istable(pLuaState, -1)){
+				// テーブル解析
+				param = getTableValue(pLuaState,sch_index,index);
+				if( param != NULL ){
+					// パラメータを取得していたら終了
+					lua_pop(pLuaState, 1);
+					break;
+				}
+			}
+			index++;
+
+			lua_pop(pLuaState, 1);
+		}
+		
+		// 現在のインデックス値を反映
+		now_index = index;
+		
+		return param;
+	}
+	
+	void* CScriptManager::GetTableValue( string luaname, string tablename, s32 sch_index, s32 &now_index )
+	{
+		s32 index = now_index;
+		void *param = NULL;
+		
+		// luaステート取得
+		lua_State *pLuaState = getLuaState( luaname );
+		if( ! pLuaState ){
+			// エラーだったら内容を出力し終了
+			MOELogE( "GetTableValueF32:luaL_newstate==NULL" );
+			return false;
+		}
+
+		// テーブル内を検索し、指定されたインデックスの値を取得
+		param = getTableValue( pLuaState, sch_index, index );
+
+		return param;
+	}
+	
+	s32 CScriptManager::getTableValueNum( lua_State *pLuaState )
+	{
+		s32 num = 0;
+		
+		if( ! pLuaState ){
+			return NULL;
+		}
+		
+		// 最初のキーはnil登録
+		lua_pushnil(pLuaState);
+		
+		// その項目の取得が終了するまで
+		while(lua_next(pLuaState, -2) != 0){
+			// 項目はテーブルか？
+			if(lua_istable(pLuaState, -1)){
+				// テーブル解析し、テーブル内の総数を加算
+				num += getTableValueNum(pLuaState);
+			// それ以外
+			}else{
+				// 値だったら加算
+				if(lua_isstring(pLuaState, -1)){
+					num++;
+				}else if(lua_isnumber(pLuaState, -1)){
+					num++;
+				}else if(lua_isboolean(pLuaState, -1)){
+					num++;
+				}
+			}
+
+			lua_pop(pLuaState, 1);
+		}
+		
+		return num;
+	}
+	
+	s32 CScriptManager::GetTableValueNum( string luaname, string tablename )
+	{
+		// luaステート取得
+		lua_State *pLuaState = getLuaState( luaname );
+		if( ! pLuaState ){
+			// エラーだったら内容を出力し終了
+			MOELogE( "GetTableValueF32:luaL_newstate==NULL" );
+			return false;
+		}
+
+		// テーブル内を検索し、項目数(テーブルを抜かす)を取得
+		return getTableValueNum( pLuaState );
+	}
+	
 	CScriptManager* CScriptManager::GetInstance()
 	{
 		return &m_inst;

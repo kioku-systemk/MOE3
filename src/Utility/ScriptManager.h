@@ -28,6 +28,9 @@ namespace MOE {
 
 		void userLibSetup( lua_State *pLuaState );
 		lua_State* getLuaState( string name );
+		
+		void* getTableValue( lua_State *pLuaState, s32 sch_index, s32 &now_index );
+		s32 getTableValueNum( lua_State *pLuaState );
 
 		CScriptManager();
 
@@ -60,18 +63,22 @@ namespace MOE {
 		string GetExecFuncResultString( string luaname, s32 retidx = 1 );
 
 		//	lua global value
-		//		GetGlobalValueXXX
 		f32 GetGlobalValueF32( string luaname, string gvalname );
 		s32 GetGlobalValueS32( string luaname, string gvalname );
 		b8 GetGlobalValueBool( string luaname, string gvalname );
 		string GetGlobalValueString( string luaname, string gvalname );
 
 		//	lua table
-		//		GetTableValueXXX
+		//		単一の項目取得用(※ネストのあるテーブルには非対応)
 		f32 GetTableValueF32( string luaname, string tablename, string itemname );
 		s32 GetTableValueS32( string luaname, string tablename, string itemname );
 		b8 GetTableValueBool( string luaname, string tablename, string itemname );
 		string GetTableValueString( string luaname, string tablename, string itemname );
+
+		//	lua table
+		//		汎用型用(※ネストのあるテーブルにも対応)
+		void* GetTableValue( string luaname, string tablename, s32 sch_index, s32 &now_index );
+		s32 GetTableValueNum( string luaname, string tablename );
 
 		// for debug
 		void DebugStackPrint( string entryname );
