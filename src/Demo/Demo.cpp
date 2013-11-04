@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include "../Gfx/Graphics.h"
 #include "../Gfx/SceneGraphRender.h"
 #include "../Gfx/ShaderProgramObject.h"
 #include "../Core/LuaUtil.h"
@@ -205,9 +206,9 @@ private:
     void setparams(lua_State* L)
     {
         // set param
-        lua_pushnumber(L, 1920);
+        lua_pushnumber(L, m_width);
         lua_setglobal(L, "screen_width");
-        lua_pushnumber(L, 1080);
+        lua_pushnumber(L, m_height);
         lua_setglobal(L, "screen_height");
     }
     
@@ -240,6 +241,8 @@ private:
 public:
     Impl(Graphics* mg) : g(mg)
     {
+        m_width  = 1920;
+        m_height = 1080;
     }
     ~Impl()
     {
@@ -291,30 +294,44 @@ public:
             &&  re->demo_endTime   >  time) {
                 //const f64 demospantime  = (*it)->demo_endTime - (*it)->demo_startTime;
                 const f32 effecttime  = static_cast<f32>(time - (*it)->demo_startTime);
-                Scene* sc = re->scene;
-                if (!sc)
-                    continue;
                 if (re->effectBuffer)
                     re->effectBuffer->RenderBegin();
-                ProgramObject* pg = m_ovprgs[re->overrideShader];
-                if (pg) {
-                    pg->Bind();
-                    int acttex = 1;
+                else // backbuffer
+                    g->Viewport(0, 0, m_width, m_height);
+                
+                Scene* sc = re->scene;
+                if (!sc) { // clear
                     for (int p = 0; p < re->shaderparam.size(); ++p){
-                        EffectBuffer* eb = re->shaderparam[p].m_eb;
-                        if (eb) {
-                            eb->BindTexture(acttex); // temporary binding
-                            pg->SetUniform(re->shaderparam[p].m_name.c_str(), acttex);
-                            ++acttex;
-                        } else {
-                            const Math::vec4& v = re->shaderparam[p].m_val;
-                            pg->SetUniform(re->shaderparam[p].m_name.c_str(), v.x, v.y, v.z, v.w);
-                        }
-                        pg->SetUniform("time", effecttime);
+                        if (re->shaderparam[p].m_name == "color")
+                            g->ClearColor(re->shaderparam[p].m_val.x,
+                                          re->shaderparam[p].m_val.y,
+                                          re->shaderparam[p].m_val.z,
+                                          re->shaderparam[p].m_val.w);
+                        if (re->shaderparam[p].m_name == "flag")
+                            g->Clear(static_cast<int>(re->shaderparam[p].m_val.x) * GL_COLOR_BUFFER_BIT
+                                    |static_cast<int>(re->shaderparam[p].m_val.y) * GL_DEPTH_BUFFER_BIT);
                     }
-                    pg->Unbind();
+                } else {
+                    ProgramObject* pg = m_ovprgs[re->overrideShader];
+                    if (pg) {
+                        pg->Bind();
+                        int acttex = 1;
+                        for (int p = 0; p < re->shaderparam.size(); ++p){
+                            EffectBuffer* eb = re->shaderparam[p].m_eb;
+                            if (eb) {
+                                eb->BindTexture(acttex); // temporary binding
+                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), acttex);
+                                ++acttex;
+                            } else {
+                                const Math::vec4& v = re->shaderparam[p].m_val;
+                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), v.x, v.y, v.z, v.w);
+                            }
+                            pg->SetUniform("time", effecttime);
+                        }
+                        pg->Unbind();
+                    }
+                    sc->Render(time, pg);
                 }
-                sc->Render(time, pg);
                 if (re->effectBuffer)
                     re->effectBuffer->RenderEnd();
             }
@@ -328,6 +345,8 @@ public:
     
     void Resize(s32 w, s32 h)
     {
+        m_width  = w;
+        m_height = h;
         const auto eit = m_scenes.end();
         for (auto it = m_scenes.begin(); it != eit; ++it)
         {
@@ -400,6 +419,7 @@ private:
     };
   
     Graphics* g;
+    s32 m_width, m_height;
     std::map<std::string, EffectBuffer*> m_buffers;
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;

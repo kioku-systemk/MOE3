@@ -51,6 +51,7 @@ public:
         // load lua
         if (g_demoluafile != "") {
             m_demo = new MOE::Demo(g);
+            m_demo->Resize(width,height);
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Load error: demo.lua");
@@ -255,8 +256,6 @@ public:
     
         if (m_demo)
         {
-            //m_demo->SetMatrix("proj",proj);
-            //m_demo->SetMatrix("view",view);
             // Update,Render
             m_demo->Update(animtime);
             m_demo->Render(animtime);
