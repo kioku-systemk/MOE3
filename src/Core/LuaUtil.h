@@ -11,6 +11,7 @@ extern "C" {
 #include <lua/lualib.h>
 #include <lua/lauxlib.h>
 }
+#include <assert.h>
 
 
 template<typename T>
