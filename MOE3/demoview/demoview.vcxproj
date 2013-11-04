@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\src\Demo\Scene.cpp" />
     <ClCompile Include="..\..\src\EasyMIDIController\EasyMIDIController.cpp" />
     <ClCompile Include="..\..\src\Gfx\BufferObject.cpp" />
+    <ClCompile Include="..\..\src\Gfx\FrameBufferObject.cpp" />
     <ClCompile Include="..\..\src\Gfx\Graphics\WGLExtention.cpp" />
     <ClCompile Include="..\..\src\Gfx\RenderCommand.cpp" />
     <ClCompile Include="..\..\src\Gfx\RenderDevice.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="..\..\src\Demo\Scene.h" />
     <ClInclude Include="..\..\src\EasyMIDIController\EasyMIDIController.h" />
     <ClInclude Include="..\..\src\Gfx\BufferObject.h" />
+    <ClInclude Include="..\..\src\Gfx\FrameBufferObject.h" />
     <ClInclude Include="..\..\src\Gfx\Graphics.h" />
     <ClInclude Include="..\..\src\Gfx\Graphics\glext.h" />
     <ClInclude Include="..\..\src\Gfx\Graphics\GraphicsProfiler.h" />

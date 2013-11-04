@@ -10,7 +10,7 @@
 //==============================================================
 #include <map>
 #include <string>
-#include <lua.hpp>
+#include <lua/lua.hpp>
 
 #include "../Core/MOE.h"
 #include "ScriptManager.h"
