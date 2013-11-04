@@ -115,14 +115,14 @@ private:
             const int dt_end   = eval<int>(L, "return Render[%d].demotime[2]",i+1);
             char paramstr[128] = {};
             sprintf(paramstr, "Render[%d].param", i+1);
-            const int pnum = getTableNum(L, paramstr);
+            std::map<std::string,std::string> vals;
+			getTableValues(L, paramstr, vals);
             std::vector<ShaderParam> sparams;
-            for (int p = 0; p < pnum; ++p)
-            {
-                const std::string pname = eval<std::string>(L, "return Render[%d].param[%d][1]",i+1,p+1);
-                const std::string pval  = eval<std::string>(L, "return Render[%d].param[%d][2]",i+1,p+1);
-                EffectBuffer* eb = m_buffers[pval];
-                sparams.push_back(ShaderParam(pname, eb));
+			auto eit = vals.end();
+			for (auto it = vals.begin(); it != eit; ++it)
+			{
+                EffectBuffer* eb = m_buffers[it->second];
+                sparams.push_back(ShaderParam(it->first, eb));
             }
             if (src != "" && target != "") {
                 RenderEffectInfo* re = mnew RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader, sparams);

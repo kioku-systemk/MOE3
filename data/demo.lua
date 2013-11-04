@@ -32,9 +32,9 @@ Process = {
 
 Render = {
 	{demotime={0   ,3.000}  , src="scene1", target={"buf1"}, shader="default"},
-    {demotime={0   ,3.000}  , src="plane", target={"backbuffer"},  shader="scene/screen",param={{"srcBuf","buf1"}}},
+    {demotime={0   ,3.000}  , src="plane", target={"backbuffer"},  shader="scene/screen",param={srcBuf="buf1"}},
 
---	{demotime={0   ,5.000}  , src="plane",  target={"backbuffer"}, shader="copyShader", param={{"srcBuf","buf1"}}},
+--	{demotime={0   ,5.000}  , src="plane",  target={"backbuffer"}, shader="copyShader", param={srcBuf="buf1"}},
 	{demotime={2.000,5.000} , src="scene2", target={"backbuffer"}, shader="default"},
 --	{demotime={10.000,15.000}, src="scene3", target={"backbuffer"}, shader="default"}
 };
