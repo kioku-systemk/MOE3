@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include "../Gfx/Graphics.h"
 #include "../Gfx/SceneGraphRender.h"
 #include "../Gfx/ShaderProgramObject.h"
 #include "../Core/LuaUtil.h"
@@ -15,7 +16,7 @@ namespace {
     template<typename T>
     void clearmap(T& buffers)
     {
-        auto eit = buffers.end();
+        const auto eit = buffers.end();
         for (auto it = buffers.begin(); it != eit; ++it)
             delete it->second;
         buffers.clear();
@@ -23,7 +24,7 @@ namespace {
     template<typename T>
     void clearvector(T& buffers)
     {
-        auto eit = buffers.end();
+        const auto eit = buffers.end();
         for (auto it = buffers.begin(); it != eit; ++it)
             delete (*it);
         buffers.clear();
@@ -46,6 +47,25 @@ namespace {
 		return dirpath;
 	}
 
+    std::vector<std::string> split(const std::string& astr, const std::string& delim)
+    {
+        std::vector<std::string> result;
+        std::string str(astr);
+        size_t cutAt;
+        while( (cutAt = str.find_first_of(delim)) != str.npos )
+        {
+            if(cutAt > 0)
+            {
+                result.push_back(str.substr(0, cutAt));
+            }
+            str = str.substr(cutAt + 1);
+        }
+        if(str.length() > 0)
+        {
+            result.push_back(str);
+        }
+        return result;
+    }
 }
 
 namespace MOE {
@@ -95,8 +115,25 @@ private:
             const int sc_end   = eval<int>(L, "return Process[%d].scenetime[2]",i+1);
             const int dt_start = eval<int>(L, "return Process[%d].demotime[1]",i+1);
             const int dt_end   = eval<int>(L, "return Process[%d].demotime[2]",i+1);
+            char paramstr[128] = {};
+            std::map<std::string,std::string> vals;
+            sprintf(paramstr, "Process[%d].vec4", i+1);
+			getTableValues(L, paramstr, vals);
+            std::vector<ShaderParam> params;
+			const auto eit = vals.end();
+			for (auto it = vals.begin(); it != eit; ++it)
+			{
+                const std::vector<std::string> sp = split(it->second, ",");
+                Math::vec4 v(0,0,0,0);
+                v.x = atoi(sp[0].c_str());
+                v.y = atoi(sp[1].c_str());
+                v.z = atoi(sp[2].c_str());
+                v.w = atoi(sp[3].c_str());
+                params.push_back(ShaderParam(it->first, v));
+            }
+
             if (scene != "") {
-                ProcessInfo* pi = mnew ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene]);
+                ProcessInfo* pi = mnew ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene],params);
                 m_processes.push_back(pi);
             }
         }
@@ -104,6 +141,7 @@ private:
     
     void createRenderEffects(lua_State* L)
     {
+        std::map<std::string,std::string> vals;
         const int rendernum = getTableNum(L, "Render");
         for (int i = 0; i < rendernum; ++i)
         {
@@ -114,16 +152,32 @@ private:
             const int dt_start = eval<int>(L, "return Render[%d].demotime[1]",i+1);
             const int dt_end   = eval<int>(L, "return Render[%d].demotime[2]",i+1);
             char paramstr[128] = {};
-            sprintf(paramstr, "Render[%d].param", i+1);
-            const int pnum = getTableNum(L, paramstr);
+            vals.clear();
+            sprintf(paramstr, "Render[%d].tex", i+1);
+			getTableValues(L, paramstr, vals);
             std::vector<ShaderParam> sparams;
-            for (int p = 0; p < pnum; ++p)
-            {
-                const std::string pname = eval<std::string>(L, "return Render[%d].param[%d][1]",i+1,p+1);
-                const std::string pval  = eval<std::string>(L, "return Render[%d].param[%d][2]",i+1,p+1);
-                EffectBuffer* eb = m_buffers[pval];
-                sparams.push_back(ShaderParam(pname, eb));
+			auto eit = vals.end();
+			for (auto it = vals.begin(); it != eit; ++it)
+			{
+                EffectBuffer* eb = m_buffers[it->second];
+                sparams.push_back(ShaderParam(it->first, eb));
             }
+            vals.clear();
+            sprintf(paramstr, "Render[%d].vec4", i+1);
+			getTableValues(L, paramstr, vals);
+            std::vector<ShaderParam> params;
+			eit = vals.end();
+			for (auto it = vals.begin(); it != eit; ++it)
+			{
+                const std::vector<std::string> sp = split(it->second, ",");
+                Math::vec4 v(0,0,0,0);
+                v.x = atoi(sp[0].c_str());
+                v.y = atoi(sp[1].c_str());
+                v.z = atoi(sp[2].c_str());
+                v.w = atoi(sp[3].c_str());
+                sparams.push_back(ShaderParam(it->first, v));
+            }
+
             if (src != "" && target != "") {
                 RenderEffectInfo* re = mnew RenderEffectInfo(dt_start, dt_end, m_scenes[src], m_buffers[target], shader, sparams);
                 m_renderEffects.push_back(re);
@@ -132,7 +186,7 @@ private:
     }
     void createOverridePrograms(Graphics* g)
     {
-        auto eit = m_renderEffects.end();
+        const auto eit = m_renderEffects.end();
         for (auto it = m_renderEffects.begin(); it != eit; ++it)
         {
             const std::string sdr = (*it)->overrideShader;
@@ -152,9 +206,9 @@ private:
     void setparams(lua_State* L)
     {
         // set param
-        lua_pushnumber(L, 1920);
+        lua_pushnumber(L, m_width);
         lua_setglobal(L, "screen_width");
-        lua_pushnumber(L, 1080);
+        lua_pushnumber(L, m_height);
         lua_setglobal(L, "screen_height");
     }
     
@@ -187,6 +241,8 @@ private:
 public:
     Impl(Graphics* mg) : g(mg)
     {
+        m_width  = 1920;
+        m_height = 1080;
     }
     ~Impl()
     {
@@ -208,7 +264,8 @@ public:
     }
     void Update(f64 time)
     {
-        auto eit = m_processes.end();
+        std::map<std::string, Math::vec4> vec4s;
+        const auto eit = m_processes.end();
         for (auto it = m_processes.begin(); it != eit; ++it)
         {
             ProcessInfo* pi = (*it);
@@ -219,36 +276,62 @@ public:
                 const f64 scenespantime = fabs(pi->scene_endTime - (*it)->scene_startTime);
                 const f64 scenedir      = scenedirtime >= 0.0 ? 1.0 : -1.0;
                 const f64 ltime = (time - pi->demo_startTime) * scenedir * scenespantime / demospantime + pi->scene_startTime;
-                pi->scene->Update(time, ltime);
+                vec4s.clear();
+                const auto peit = pi->shaderparam.end();
+                for (auto pit = pi->shaderparam.begin(); peit != pit; ++pit)
+                    vec4s[(*pit).m_name] = (*pit).m_val;
+                pi->scene->Update(time, ltime, vec4s);
             }
         }
     }
     void Render(f64 time)
     {
-        auto eit = m_renderEffects.end();
+        const auto eit = m_renderEffects.end();
         for (auto it = m_renderEffects.begin(); it != eit; ++it)
         {
             RenderEffectInfo* re = (*it);
             if (re->demo_startTime <= time
             &&  re->demo_endTime   >  time) {
                 //const f64 demospantime  = (*it)->demo_endTime - (*it)->demo_startTime;
-                Scene* sc = re->scene;
-                if (!sc)
-                    continue;
+                const f32 effecttime  = static_cast<f32>(time - (*it)->demo_startTime);
                 if (re->effectBuffer)
                     re->effectBuffer->RenderBegin();
-                ProgramObject* pg = m_ovprgs[re->overrideShader];
-                if (pg) {
+                else // backbuffer
+                    g->Viewport(0, 0, m_width, m_height);
+                
+                Scene* sc = re->scene;
+                if (!sc) { // clear
                     for (int p = 0; p < re->shaderparam.size(); ++p){
-                        EffectBuffer* eb = re->shaderparam[p].m_eb;
-                        if (eb)
-                            eb->BindTexture(1); // temporary binding
+                        if (re->shaderparam[p].m_name == "color")
+                            g->ClearColor(re->shaderparam[p].m_val.x,
+                                          re->shaderparam[p].m_val.y,
+                                          re->shaderparam[p].m_val.z,
+                                          re->shaderparam[p].m_val.w);
+                        if (re->shaderparam[p].m_name == "flag")
+                            g->Clear(static_cast<int>(re->shaderparam[p].m_val.x) * GL_COLOR_BUFFER_BIT
+                                    |static_cast<int>(re->shaderparam[p].m_val.y) * GL_DEPTH_BUFFER_BIT);
+                    }
+                } else {
+                    ProgramObject* pg = m_ovprgs[re->overrideShader];
+                    if (pg) {
                         pg->Bind();
-                        pg->SetUniform(re->shaderparam[p].m_name.c_str(), p+1);
+                        int acttex = 1;
+                        for (int p = 0; p < re->shaderparam.size(); ++p){
+                            EffectBuffer* eb = re->shaderparam[p].m_eb;
+                            if (eb) {
+                                eb->BindTexture(acttex); // temporary binding
+                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), acttex);
+                                ++acttex;
+                            } else {
+                                const Math::vec4& v = re->shaderparam[p].m_val;
+                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), v.x, v.y, v.z, v.w);
+                            }
+                            pg->SetUniform("time", effecttime);
+                        }
                         pg->Unbind();
                     }
+                    sc->Render(time, pg);
                 }
-                sc->Render(time, pg);
                 if (re->effectBuffer)
                     re->effectBuffer->RenderEnd();
             }
@@ -262,7 +345,9 @@ public:
     
     void Resize(s32 w, s32 h)
     {
-        auto eit = m_scenes.end();
+        m_width  = w;
+        m_height = h;
+        const auto eit = m_scenes.end();
         for (auto it = m_scenes.begin(); it != eit; ++it)
         {
             if (it->second)
@@ -275,32 +360,33 @@ private:
     class ShaderParam
     {
     public:
-        ShaderParam(const std::string& name, f64 val){
+        ShaderParam(const std::string& name, const Math::vec4& val){
             m_name = name;
             m_val = val;
             m_eb = 0;
         };
         ShaderParam(const std::string& name, EffectBuffer* eb){
             m_name = name;
-            m_val = 0;
+            m_val = Math::vec4(0,0,0,0);
             m_eb = eb;
         };
 
         std::string m_name;
-        f64 m_val;
+        Math::vec4 m_val;
         EffectBuffer* m_eb;
     };
     
     class ProcessInfo
     {
     public:
-        ProcessInfo(f64 demo_st, f64 demo_et, f64 scene_st, f64 scene_et, Scene* sc)
+        ProcessInfo(f64 demo_st, f64 demo_et, f64 scene_st, f64 scene_et, Scene* sc, std::vector<ShaderParam>& sp)
         {
             demo_startTime  = demo_st;
             demo_endTime    = demo_et;
             scene_startTime = scene_st;
             scene_endTime   = scene_et;
             scene = sc;
+            shaderparam = sp;
         }
         ~ProcessInfo(){}
         f64 demo_startTime;
@@ -333,6 +419,7 @@ private:
     };
   
     Graphics* g;
+    s32 m_width, m_height;
     std::map<std::string, EffectBuffer*> m_buffers;
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;

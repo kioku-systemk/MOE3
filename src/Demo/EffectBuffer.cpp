@@ -45,8 +45,7 @@ namespace MOE {
         void RenderBegin()
         {
             m_fbo->Begin();
-            g->ClearColor(1, 1, 0, 0);//CHECK
-            g->Clear(VG_COLOR_BUFFER_BIT|VG_DEPTH_BUFFER_BIT);
+            g->Viewport(0, 0, m_fbo->Width(), m_fbo->Height());
         }
         void RenderEnd()
         {

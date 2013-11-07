@@ -11,6 +11,7 @@ extern "C" {
 #include <lua/lualib.h>
 #include <lua/lauxlib.h>
 }
+#include <assert.h>
 
 
 template<typename T>
@@ -91,6 +92,13 @@ inline void dumpStack(lua_State* L)
 }
 inline int getTableNum(lua_State* L, const char* tablename)
 {
+#if 1
+	std::string buf = std::string("local n = 0; for i,v in pairs(") + std::string(tablename) + std::string(") do n=n+1 end return n;");
+	luaL_dostring(L, buf.c_str());
+	int n = lua_tonumber(L, -1);
+	lua_pop(L, 1);
+	return n;
+#else
 	lua_getglobal(L, tablename);
 	if (!lua_istable(L, -1))
 		return 0;
@@ -101,11 +109,15 @@ inline int getTableNum(lua_State* L, const char* tablename)
 		lua_pop(L, 1);
 	}
 	return n;
+#endif
 }
 
 inline int getTableValues(lua_State* L, const char* tablename, std::map<std::string,std::string>& vals)
 {
-	lua_getglobal(L, tablename);
+	//lua_getglobal(L, tablename);
+	int r = luaL_dostring(L, (std::string("return ") + tablename).c_str());
+	if (!lua_istable(L, -1))
+		return 0;
 	lua_pushnil(L);
 	while(lua_next(L, -2) != 0){
 		if(lua_isstring(L, -1)){

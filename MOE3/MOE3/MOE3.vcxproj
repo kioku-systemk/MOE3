@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\lib\include\lua;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\lib\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\lib\win_x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -83,7 +83,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\lib\include\lua;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\lib\include;$(IncludePath)</IncludePath>
     <LibraryPath>$(ProjectDir)..\..\lib\win_x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
