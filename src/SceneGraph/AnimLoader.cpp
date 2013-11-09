@@ -25,7 +25,7 @@ namespace  {
 		MOE::Math::vec3 rot;
 		MOE::Math::vec3 scale;*/
 		MOE::Math::matrix mat;
-		//f32 visible;
+		f32 visible;
 		/*
 		u32 time;
 		f32 value;
@@ -287,6 +287,7 @@ Animation* AnimLoader::Load(const Stream* st)
 		MOELogE("Invalid header");
 		return 0;
 	}
+	const u8 ver = data[3];
 	data += 4;
 	
 	/*const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]);*/ data += sizeof(s32);
@@ -305,34 +306,30 @@ Animation* AnimLoader::Load(const Stream* st)
 		MOE::Math::vec3 av;
 		ad.m_key.reserve(keynum);
 		MOELogDX(" Keynum = %d", keynum);
-		for (s32 j = 0; j < keynum; ++j) {
-			using namespace MOE::Math;
-			KeyFrame ke;
-//			MOELogD("KeyFrame = %ld - add:0x%X", sizeof(KeyFrame), &ke);
-			memcpy(&ke, &data[0], sizeof(KeyFrame));
-			data += sizeof(KeyFrame);
-//			ke.rot = ke.rot * 180.0f / 3.141592f;
-//			ke.trans.x = -ke.trans.x;
-			//a = *reinterpret_cast<const float*>(&data[0]);
-			//data += 4;
-			//data += sizeof(vec3);
-//			ke.rot     = *reinterpret_cast<const vec3*>(&data[0]); data += sizeof(vec3);
-//			ke.rot = ke.rot * 180.0f / 3.141592f;
-//			ke.scale   = *reinterpret_cast<const vec3*>(&data[0]); data += sizeof(vec3);
-//			ke.visible = *reinterpret_cast<const f32*>(&data[0]);  data += sizeof(f32);
-			/*ke.time    = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
-			ke.value   = *reinterpret_cast<const f32*>(&data[0]); data += sizeof(f32);
-			ke.inType  = *reinterpret_cast<const u8*> (&data[0]); data += sizeof(u8);
-			ke.outType = *reinterpret_cast<const u8*> (&data[0]); data += sizeof(u8);*/
-			
-			//MOELogD("  time = %u  val = %f", ke.time, ke.value);
-			//MOELogD("trans = %f, %f, %f", ke.trans.x,ke.trans.y,ke.trans.z);
-			//MOELogD("rot   = %f, %f, %f", ke.rot.x,ke.rot.y,ke.rot.z);
-			//MOELogD("scale = %f, %f, %f", ke.scale.x,ke.scale.y,ke.scale.z);
-			ad.m_key.push_back(ke);
+		if (ver >= 1) {
+			for (s32 j = 0; j < keynum; ++j) {
+				using namespace MOE::Math;
+				KeyFrame ke;
+				memcpy(&ke.mat, &data[0], sizeof(MOE::Math::matrix));
+				data += sizeof(MOE::Math::matrix);
+				memcpy(&ke.visible, &data[0], sizeof(float));
+				data += sizeof(float);
+				ad.m_key.push_back(ke);
+			}
+		} else { // ver==0
+			for (s32 j = 0; j < keynum; ++j) {
+				using namespace MOE::Math;
+				KeyFrame ke;
+				memcpy(&ke.mat, &data[0], sizeof(MOE::Math::matrix));
+				ke.visible = 1.0f;
+				data += sizeof(MOE::Math::matrix);
+				ad.m_key.push_back(ke);
+			}
 		}
 		internalAnim->SetAnimData(i, ad);
 	}
+	
+
 	
 	return anim;
 }
