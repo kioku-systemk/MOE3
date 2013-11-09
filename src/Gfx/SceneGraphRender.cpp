@@ -380,7 +380,9 @@ void SceneGraphRender::Draw(const MOE::SceneGraph::Node* node, ProgramObject* pr
 void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Math::matrix& world, ProgramObject* ovprg) {
 	if (!node)
 		return;
-	
+	if (!node->GetVisible())
+        return;
+    
 	using namespace MOE::SceneGraph;
 	const NODETYPE type = node->GetType();
 	if (type == NODETYPE_GROUP) {

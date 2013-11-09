@@ -95,7 +95,7 @@ public:
 		k.scale = (b.scale - a.scale) * f + a.scale;*/
 		for (int i = 0; i < 16; ++i)
 			k.mat.f[i] = static_cast<float>(static_cast<double>(b.mat.f[i] - a.mat.f[i]) * f + static_cast<double>(a.mat.f[i]));
-		//k.visible = (b.visible - a.visible) * f + a.visible;
+		k.visible = (b.visible - a.visible) * f + a.visible;
 		return k;
 	}
 	MOE::Math::matrix getParentMatrix(const MOE::SceneGraph::Node* node)
@@ -137,17 +137,6 @@ public:
 			const vec4& onrm = vec4(ov[i].normal, 0.0f);
 			vec4 tpos(0,0,0,0);
 			vec4 normal(0,0,0,0);
-#if MOE_PLATFORM_IOS_ARM && defined(__ARM_NEON__)
-			for (s32 w = 0; w < 8; ++w){
-				const f32 wei = vw[i].weight[w];
-				if (wei < 0.001)
-					break;
-				
-				const vec4 vwei = vec4(wei,wei,wei,wei);
-				NEON_Matrix4Vector4MulScale(&mat[vw[i].wid[w]].f[0], &opos[0], &vwei[0], &tpos[0]);
-				NEON_Matrix4Vector4MulScale(&mat[vw[i].wid[w]].f[0], &onrm[0], &vwei[0], &normal[0]);
-			}
-#else
 			for (s32 w = 0; w < 8; ++w){
 				const f32 wei = vw[i].weight[w];
 				if (wei < 0.001)
@@ -155,7 +144,6 @@ public:
 				tpos   += wei * (mat[vw[i].wid[w]] * opos).xyz();
 				normal += wei * (mat[vw[i].wid[w]] * onrm).xyz();
 			}
-#endif
 			
 			tv[i] = ov[i];
 			tv[i].pos = tpos.xyz();
