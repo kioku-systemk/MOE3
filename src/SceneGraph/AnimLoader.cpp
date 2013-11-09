@@ -237,6 +237,7 @@ public:
 			if (ntype == NODETYPE_TRANSFORM || ntype == NODETYPE_JOINT) {
 				Transform* Tr = static_cast<Transform*>(node);
 				Tr->SetMatrix(kf.mat);
+                Tr->SetVisible(kf.visible > .5);
 			}
 		}
 	
