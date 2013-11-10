@@ -19,6 +19,7 @@ Scene = {
 	{name="scene1", path="scene/spherebreak.MRZ"},
 	{name="scene2", path="scene/test.MRZ"},
    	{name="boxscat", path="scene/boxscat.MRZ"},
+   	{name="fovanim", path="scene/fovanim.MRZ"},
 --	{name="scene3", path="script/scene1.lua"}
 }
 
@@ -29,6 +30,7 @@ Process = {
 	{demotime={0   ,5.000}  , scenetime={0,5.000}, scene="plane"},
     {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="boxscat"},
 	{demotime={2.000,5.000} , scenetime={0,5.000}, scene="scene2"},
+	{demotime={5.000,7.000} , scenetime={0,2.000}, scene="fovanim"},
 --	{demotime={1.0000,15.000}, scenetime={0,5.000}, scene="scene3"}
 };
 
@@ -43,5 +45,6 @@ Render = {
 
 --	{demotime={0   ,5.000}  , src="plane",  target={"backbuffer"}, shader="copyShader"},
 	{demotime={3.000,5.000} , src="scene2", target={"backbuffer"}, shader="default"},
+	{demotime={5   ,7.000}  , src="fovanim", target={"backbuffer"}, shader="default"},
 --	{demotime={10.000,15.000}, src="scene3", target={"backbuffer"}, shader="default"}
 };
