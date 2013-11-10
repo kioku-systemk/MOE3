@@ -26,7 +26,8 @@ namespace MOE
 			NODETYPE_JOINT,
 			NODETYPE_GEOMETRYCACHE,
 			NODETYPE_WAVESOUND,
-            NODETYPE_INSTANCE
+            NODETYPE_INSTANCE,
+            NODETYPE_CAMERA
 		};
 		
 	} // namespace SceneGraph

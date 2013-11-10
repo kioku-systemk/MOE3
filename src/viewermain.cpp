@@ -321,8 +321,9 @@ public:
         }
         
 		// View
+        using namespace MOE::SceneGraph;
         using namespace MOE::Math;
-        matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
+        f32 fov = 60.0f;
 		matrix view = LookAt(vec3(m_trans.x,m_trans.y,m_zoom), vec3(m_trans.x,m_trans.y,0), vec3(0,1,0));
 		view = view * m_view;
 		if (m_cameracheck->GetState() && m_cameranode)
@@ -332,7 +333,23 @@ public:
 			const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
 			const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
 			view = LookAt(cpos, ctar, cup);
+            if (m_cameranode->GetType() == NODETYPE_TRANSFORM)
+            {
+                const Transform* tr = static_cast<const Transform*>(m_cameranode);
+                s32 n = tr->GetChildCount();
+                for (s32 i = 0; i < n; ++i){
+                    const Node* nd = tr->GetChild(i);
+                    if (nd->GetType() == NODETYPE_CAMERA){
+                        const Camera* camnode = static_cast<const Camera*>(nd);
+                        const f64 asp = static_cast<f64>(m_height) / static_cast<f64>(m_width);
+                        fov = camnode->GetFov() * asp;
+                        break;
+                    }
+                }
+            }
 		}
+        matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), m_zoom*0.1, 10.0*m_zoom);
+
 		m_srender->SetProjMatrix(proj);
 		m_srender->SetViewMatrix(view);
         

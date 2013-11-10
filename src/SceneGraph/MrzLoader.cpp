@@ -66,6 +66,14 @@ namespace {
 		else
 			return false;
 	}
+    b8 isCamera(const s8*& data)
+	{
+		if (data[0] == 'C' && data[1] == 'A' && data[2] == 'M')
+			return true;
+		else
+			return false;
+	}
+
 	int getLevel(const s8*& data)
 	{
 		return static_cast<int>(*reinterpret_cast<const u8*>(&data[0]));
@@ -311,6 +319,19 @@ namespace {
 
 		return m;
 	}
+    
+    MOE::SceneGraph::Node* readCamera(const s8*& data)
+	{
+		MOE::SceneGraph::Camera* t = mnew MOE::SceneGraph::Camera();
+		const std::string name = data;
+		data += (name.size() + 1);
+		t->SetName(name);
+        float holfov;
+        memcpy(&holfov, data, sizeof(float));
+        t->SetFov(holfov);
+        data += sizeof(float);
+		return t;
+	}
 	
 	MOE::SceneGraph::Node* readGroup(const s8*& data)
 	{
@@ -418,7 +439,10 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 			level = getLevel(data); data++;
 			node = readMaterial(data);
 			mattable[node->GetName()] = static_cast<MOE::SceneGraph::Material*>(node);
-		}
+        } else if (isCamera(data)) { data += 3;
+			level = getLevel(data); data++;
+			node = readCamera(data);
+        }
 
 		if (!node)
 			continue;

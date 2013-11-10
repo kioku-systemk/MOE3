@@ -201,7 +201,7 @@ public:
 			for (s32 c = 0; c < cn; ++c) {
 				recAnimate(g->GetChild(c), time);
 			}
-		} else {
+		} else if (ntype != NODETYPE_CAMERA){
 			if (ntype == NODETYPE_GEOMETRYCACHE) {
 				// skin animation
 				skinAnimate(static_cast<MOE::SceneGraph::GeometryCache*>(node));
@@ -226,7 +226,10 @@ public:
 				Transform* Tr = static_cast<Transform*>(node);
 				Tr->SetMatrix(kf.mat);
                 Tr->SetVisible(kf.visible > .5);
-			}
+			} else if (ntype == NODETYPE_CAMERA) {
+                Camera* ca = static_cast<Camera*>(node);
+                ca->SetFov(kf.visible);
+            }
 		}
 	
 	}
