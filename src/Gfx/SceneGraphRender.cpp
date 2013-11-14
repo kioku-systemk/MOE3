@@ -171,7 +171,7 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 		for (s32 i = 0; i < n; ++i)
 			UpdateBuffers(g->GetChild(i));
 	}
-	else if (type == NODETYPE_GEOMETRY) {
+    else if (type == NODETYPE_GEOMETRY){
 		const Geometry* geo = static_cast<const Geometry*>(node);
 		if (!geo->GetNeedUpdate())
 			return;
@@ -380,7 +380,9 @@ void SceneGraphRender::Draw(const MOE::SceneGraph::Node* node, ProgramObject* pr
 void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Math::matrix& world, ProgramObject* ovprg) {
 	if (!node)
 		return;
-	
+	if (!node->GetVisible())
+        return;
+    
 	using namespace MOE::SceneGraph;
 	const NODETYPE type = node->GetType();
 	if (type == NODETYPE_GROUP) {
@@ -396,6 +398,17 @@ void SceneGraphRender::recDraw(const MOE::SceneGraph::Node* node, const MOE::Mat
 		const MOE::Math::matrix lworld = world * m;
 		for (s32 i = 0; i < n; ++i)
 			recDraw(g->GetChild(i), lworld, ovprg);
+	}
+    else if (type == NODETYPE_INSTANCE) {
+        const Instance* i = static_cast<const Instance*>(node);
+        const Node* node = i->GetInstanceNode();
+        if (node){
+            //recDraw(node, world, ovprg);
+            const Group* g = static_cast<const Group*>(node);
+            const s32 n = g->GetChildCount();
+            for (s32 i = 0; i < n; ++i)
+                recDraw(g->GetChild(i), world, ovprg);
+        }
 	}
 	else if (type == NODETYPE_GEOMETRY) {
 		const Geometry* gg = static_cast<const Geometry*>(node);

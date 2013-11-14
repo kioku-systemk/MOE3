@@ -25,7 +25,7 @@ namespace  {
 		MOE::Math::vec3 rot;
 		MOE::Math::vec3 scale;*/
 		MOE::Math::matrix mat;
-		//f32 visible;
+		f32 visible;
 		/*
 		u32 time;
 		f32 value;
@@ -95,7 +95,7 @@ public:
 		k.scale = (b.scale - a.scale) * f + a.scale;*/
 		for (int i = 0; i < 16; ++i)
 			k.mat.f[i] = static_cast<float>(static_cast<double>(b.mat.f[i] - a.mat.f[i]) * f + static_cast<double>(a.mat.f[i]));
-		//k.visible = (b.visible - a.visible) * f + a.visible;
+		k.visible = (b.visible - a.visible) * f + a.visible;
 		return k;
 	}
 	MOE::Math::matrix getParentMatrix(const MOE::SceneGraph::Node* node)
@@ -137,17 +137,6 @@ public:
 			const vec4& onrm = vec4(ov[i].normal, 0.0f);
 			vec4 tpos(0,0,0,0);
 			vec4 normal(0,0,0,0);
-#if MOE_PLATFORM_IOS_ARM && defined(__ARM_NEON__)
-			for (s32 w = 0; w < 8; ++w){
-				const f32 wei = vw[i].weight[w];
-				if (wei < 0.001)
-					break;
-				
-				const vec4 vwei = vec4(wei,wei,wei,wei);
-				NEON_Matrix4Vector4MulScale(&mat[vw[i].wid[w]].f[0], &opos[0], &vwei[0], &tpos[0]);
-				NEON_Matrix4Vector4MulScale(&mat[vw[i].wid[w]].f[0], &onrm[0], &vwei[0], &normal[0]);
-			}
-#else
 			for (s32 w = 0; w < 8; ++w){
 				const f32 wei = vw[i].weight[w];
 				if (wei < 0.001)
@@ -155,7 +144,6 @@ public:
 				tpos   += wei * (mat[vw[i].wid[w]] * opos).xyz();
 				normal += wei * (mat[vw[i].wid[w]] * onrm).xyz();
 			}
-#endif
 			
 			tv[i] = ov[i];
 			tv[i].pos = tpos.xyz();
@@ -213,7 +201,7 @@ public:
 			for (s32 c = 0; c < cn; ++c) {
 				recAnimate(g->GetChild(c), time);
 			}
-		} else {
+		} else if (ntype != NODETYPE_CAMERA){
 			if (ntype == NODETYPE_GEOMETRYCACHE) {
 				// skin animation
 				skinAnimate(static_cast<MOE::SceneGraph::GeometryCache*>(node));
@@ -237,7 +225,11 @@ public:
 			if (ntype == NODETYPE_TRANSFORM || ntype == NODETYPE_JOINT) {
 				Transform* Tr = static_cast<Transform*>(node);
 				Tr->SetMatrix(kf.mat);
-			}
+                Tr->SetVisible(kf.visible > .5);
+			} else if (ntype == NODETYPE_CAMERA) {
+                Camera* ca = static_cast<Camera*>(node);
+                ca->SetFov(kf.visible);
+            }
 		}
 	
 	}
@@ -287,6 +279,7 @@ Animation* AnimLoader::Load(const Stream* st)
 		MOELogE("Invalid header");
 		return 0;
 	}
+	const u8 ver = data[3];
 	data += 4;
 	
 	/*const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]);*/ data += sizeof(s32);
@@ -305,34 +298,30 @@ Animation* AnimLoader::Load(const Stream* st)
 		MOE::Math::vec3 av;
 		ad.m_key.reserve(keynum);
 		MOELogDX(" Keynum = %d", keynum);
-		for (s32 j = 0; j < keynum; ++j) {
-			using namespace MOE::Math;
-			KeyFrame ke;
-//			MOELogD("KeyFrame = %ld - add:0x%X", sizeof(KeyFrame), &ke);
-			memcpy(&ke, &data[0], sizeof(KeyFrame));
-			data += sizeof(KeyFrame);
-//			ke.rot = ke.rot * 180.0f / 3.141592f;
-//			ke.trans.x = -ke.trans.x;
-			//a = *reinterpret_cast<const float*>(&data[0]);
-			//data += 4;
-			//data += sizeof(vec3);
-//			ke.rot     = *reinterpret_cast<const vec3*>(&data[0]); data += sizeof(vec3);
-//			ke.rot = ke.rot * 180.0f / 3.141592f;
-//			ke.scale   = *reinterpret_cast<const vec3*>(&data[0]); data += sizeof(vec3);
-//			ke.visible = *reinterpret_cast<const f32*>(&data[0]);  data += sizeof(f32);
-			/*ke.time    = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
-			ke.value   = *reinterpret_cast<const f32*>(&data[0]); data += sizeof(f32);
-			ke.inType  = *reinterpret_cast<const u8*> (&data[0]); data += sizeof(u8);
-			ke.outType = *reinterpret_cast<const u8*> (&data[0]); data += sizeof(u8);*/
-			
-			//MOELogD("  time = %u  val = %f", ke.time, ke.value);
-			//MOELogD("trans = %f, %f, %f", ke.trans.x,ke.trans.y,ke.trans.z);
-			//MOELogD("rot   = %f, %f, %f", ke.rot.x,ke.rot.y,ke.rot.z);
-			//MOELogD("scale = %f, %f, %f", ke.scale.x,ke.scale.y,ke.scale.z);
-			ad.m_key.push_back(ke);
+		if (ver >= 1) {
+			for (s32 j = 0; j < keynum; ++j) {
+				using namespace MOE::Math;
+				KeyFrame ke;
+				memcpy(&ke.mat, &data[0], sizeof(MOE::Math::matrix));
+				data += sizeof(MOE::Math::matrix);
+				memcpy(&ke.visible, &data[0], sizeof(float));
+				data += sizeof(float);
+				ad.m_key.push_back(ke);
+			}
+		} else { // ver==0
+			for (s32 j = 0; j < keynum; ++j) {
+				using namespace MOE::Math;
+				KeyFrame ke;
+				memcpy(&ke.mat, &data[0], sizeof(MOE::Math::matrix));
+				ke.visible = 1.0f;
+				data += sizeof(MOE::Math::matrix);
+				ad.m_key.push_back(ke);
+			}
 		}
 		internalAnim->SetAnimData(i, ad);
 	}
+	
+
 	
 	return anim;
 }

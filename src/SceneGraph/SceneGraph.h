@@ -15,6 +15,8 @@
 #include "GeometryCache.h"
 #include "Transform.h"
 #include "Material.h"
+#include "Instance.h"
+#include "Camera.h"
 #include "Util.h"
 
 

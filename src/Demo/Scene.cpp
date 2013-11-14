@@ -97,9 +97,14 @@ namespace MOE {
         
         void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps)
         {
+            // Animation
+            if (m_anim)
+                m_anim->Animate(m_root, scenetime);
+
             // View
+            using namespace MOE::SceneGraph;
             using namespace MOE::Math;
-            matrix proj = PerspectiveFov(60, m_width/static_cast<f32>(m_height), 0.1, 1000.0);
+            f32 fov = 60.0;
             matrix view = Identity();
             if (m_cameranode)
             {
@@ -108,14 +113,28 @@ namespace MOE {
                 const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
                 const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
                 view = LookAt(cpos, ctar, cup);
+                if (m_cameranode->GetType() == NODETYPE_TRANSFORM)
+                {
+                    const Transform* tr = static_cast<const Transform*>(m_cameranode);
+                    s32 n = tr->GetChildCount();
+                    for (s32 i = 0; i < n; ++i){
+                        const Node* nd = tr->GetChild(i);
+                        if (nd->GetType() == NODETYPE_CAMERA){
+                            const Camera* camnode = static_cast<const Camera*>(nd);
+                            const float asp = static_cast<f32>(m_height) / static_cast<f32>(m_width);
+                            fov = camnode->GetFov() * asp;
+                            break;
+                        }
+                    }
+                }
             }
+            const matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), 0.1, 1000.0);
+
             m_render->SetProjMatrix(proj);
             m_render->SetViewMatrix(view);
             const auto eit = sps.end();
             for (auto it = sps.begin(); it != eit; ++it)
                 m_render->SetUniform(it->first.c_str(), it->second);
-            if (m_anim)
-                m_anim->Animate(m_root, scenetime);
             m_render->UpdateBuffers(m_root);
         }
         

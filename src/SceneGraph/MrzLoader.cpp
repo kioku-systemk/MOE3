@@ -24,6 +24,13 @@ namespace {
 		else
 			return false;
 	}
+    b8 isInstance(const s8*& data)
+	{
+		if (data[0] == 'I' && data[1] == 'N' && data[2] == 'S')
+			return true;
+		else
+			return false;
+	}
 	b8 isCachedMesh(const s8*& data)
 	{
 		if (data[0] == 'M' && data[1] == 'S' && data[2] == 'C')
@@ -59,6 +66,14 @@ namespace {
 		else
 			return false;
 	}
+    b8 isCamera(const s8*& data)
+	{
+		if (data[0] == 'C' && data[1] == 'A' && data[2] == 'M')
+			return true;
+		else
+			return false;
+	}
+
 	int getLevel(const s8*& data)
 	{
 		return static_cast<int>(*reinterpret_cast<const u8*>(&data[0]));
@@ -136,6 +151,17 @@ namespace {
 		return findNode_rec(root, ntype, nodename);
 	}
 
+    MOE::SceneGraph::Node* readInstance(const s8*& data, MOE::SceneGraph::Node* root)
+	{
+        using namespace MOE::SceneGraph;
+		Instance* inst = mnew Instance();
+        // Instance target name
+		std::string name = &data[0];
+		data += (name.size() + 1);
+		inst->SetInstanceName(name);
+		return inst;
+    }
+    
 	MOE::SceneGraph::Node* readCachedMesh(const s8*& data, MOE::SceneGraph::Node* root)
 	{
 		using namespace MOE::SceneGraph;
@@ -293,6 +319,19 @@ namespace {
 
 		return m;
 	}
+    
+    MOE::SceneGraph::Node* readCamera(const s8*& data)
+	{
+		MOE::SceneGraph::Camera* t = mnew MOE::SceneGraph::Camera();
+		const std::string name = data;
+		data += (name.size() + 1);
+		t->SetName(name);
+        float holfov;
+        memcpy(&holfov, data, sizeof(float));
+        t->SetFov(holfov);
+        data += sizeof(float);
+		return t;
+	}
 	
 	MOE::SceneGraph::Node* readGroup(const s8*& data)
 	{
@@ -312,6 +351,32 @@ namespace {
 		else
 			return false;
 	}
+    
+    
+    void setIntances_rec(MOE::SceneGraph::Node* node, MOE::SceneGraph::Node* root)
+    {
+        using namespace MOE::SceneGraph;
+		const NODETYPE nodetype = node->GetType();
+		if (nodetype == NODETYPE_GROUP
+        ||  nodetype == NODETYPE_TRANSFORM
+        ||  nodetype == NODETYPE_JOINT) {
+			Group* g = static_cast<Group*>(node);
+			const int n = g->GetChildCount();
+			for (int i = 0; i < n; ++i)
+				setIntances_rec(g->GetChild(i), root);
+		}
+		if (node->GetType() == NODETYPE_INSTANCE) {
+            Instance* inst = static_cast<Instance*>(node);
+		    const std::string& instname = inst->GetInstanceName();
+            Node* node = findNode(root, NODETYPE_TRANSFORM, instname);
+            inst->SetInstanceNode(node);
+        }
+    }
+    void setIntances(MOE::SceneGraph::Node* root)
+    {
+        using namespace MOE::SceneGraph;
+        setIntances_rec(root, root);
+    }
 }
 
 namespace MOE {
@@ -355,6 +420,9 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 		if (isMesh(data)) { data += 3;
 			level = getLevel(data); data++;
 			node = readMesh(data, mattable);
+        } else if (isInstance(data)) { data += 3;
+			level = getLevel(data); data++;
+			node = readInstance(data, root);
 		} else if (isCachedMesh(data)) { data += 3;
 			level = getLevel(data); data++;
 			node = readCachedMesh(data, root);
@@ -371,7 +439,10 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 			level = getLevel(data); data++;
 			node = readMaterial(data);
 			mattable[node->GetName()] = static_cast<MOE::SceneGraph::Material*>(node);
-		}
+        } else if (isCamera(data)) { data += 3;
+			level = getLevel(data); data++;
+			node = readCamera(data);
+        }
 
 		if (!node)
 			continue;
@@ -412,10 +483,9 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 			delete root;
 			return 0;
 		}
-			
-
 	}
-	
+
+	setIntances(root);
 	return root;
 }
 
