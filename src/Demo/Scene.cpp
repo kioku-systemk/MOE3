@@ -10,6 +10,15 @@
 #include "../Gfx/SceneGraphRender.h"
 
 namespace {
+	void replace(std::string& src, const char* pszKey, const char* pszRepWord)
+	{
+		int nPos = 0;
+		while((nPos = src.find(pszKey, nPos)) != std::string::npos){
+			src.replace(nPos, sizeof(pszKey), pszRepWord);
+	}
+
+return;
+	}
     std::string getResourcePath(const s8* path)
 	{
 #if MOE_PLATFORM_WINDOWS
@@ -19,6 +28,9 @@ namespace {
 #endif
         std::string dirpath;
         std::string spath = std::string(path);
+#if MOE_PLATFORM_WINDOWS
+		replace(spath, "/", "\\");
+#endif
 		size_t np;
 		if ((np = spath.rfind(dirchar)) != std::string::npos)
 		{
