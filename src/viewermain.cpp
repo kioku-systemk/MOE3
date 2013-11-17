@@ -59,8 +59,11 @@ public:
 
 		m_timeslider = mnew SimpleGUI::Slider(m_gui, 200,10,width - 220,16);
 		m_animcheck = mnew SimpleGUI::Check(m_gui,"Realtime",110,5);
+        m_timeval = mnew SimpleGUI::Caption(m_gui, 200,8,"0.000", 16);
+        m_timeslider->SetChangedFunc(changeTimerslider_, this);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
+        m_frame1->AddChild(m_timeval);
         
 		const char* names[] = {"ClearColor","p1","p2","p3"};
 		for (int i = 0; i < 4; ++i)
@@ -68,17 +71,14 @@ public:
 			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, names[i], 16);
 			m_frame2->AddChild(name);
 
-			m_bar[i][0] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 120 * i, 80, 16);
-			m_bar[i][1] = mnew SimpleGUI::Slider(m_gui, 10, 40 + 120 * i, 80, 16);
-			m_bar[i][2] = mnew SimpleGUI::Slider(m_gui, 10, 60 + 120 * i, 80, 16);
-			m_bar[i][3] = mnew SimpleGUI::Slider(m_gui, 10, 80 + 120 * i, 80, 16);
-			m_frame2->AddChild(m_bar[i][0]);
-			m_frame2->AddChild(m_bar[i][1]);
-			m_frame2->AddChild(m_bar[i][2]);
-			m_frame2->AddChild(m_bar[i][3]);
-			SimpleGUI::Caption* pname = mnew SimpleGUI::Caption(m_gui, 12, 18+120 * i, "0.000", 16);
-			m_frame2->AddChild(pname);
-
+            for (int j = 0; j < 4; ++j) {
+                m_bar[i][j] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 20 * j + 120 * i, 80, 16);
+                m_frame2->AddChild(m_bar[i][j]);
+                m_barval[i][j] = mnew SimpleGUI::Caption(m_gui, 12, 18 + 20* j + 120 * i, "0.000", 16);
+                m_frame2->AddChild(m_barval[i][j]);
+                m_bar[i][j]->SetUserData(m_barval[i][j]);
+                m_bar[i][j]->SetChangedFunc(changebarParam_, m_bar[i][j]);
+            }
 		}
 
 		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,600);
@@ -118,7 +118,27 @@ public:
 	~MOEWindow()
     {
     }
-	
+    
+    static void changebarParam_(float val,void* thisptr){
+        SimpleGUI::Caption* cap = static_cast<SimpleGUI::Caption*>(static_cast<SimpleGUI::Slider*>(thisptr)->GetUserData());
+        char buf[64];
+        sprintf(buf, "%.3f", val);
+        cap->SetText(buf);
+    }
+    static void changeTimerslider_(float val,void* thisptr){
+        static_cast<MOEWindow*>(thisptr)->changeTimerslider(val);
+    }
+    void changeTimerslider(float val){
+        char buf[64];
+        double animtime = 0.0;
+        if (m_anim)
+            animtime = m_anim->GetMaxAnimTime();
+        sprintf(buf, "%.3lf", static_cast<double>(val) * animtime);
+        m_timeval->SetText(buf);
+        
+    }
+    
+    
 	void ReloadModels()
 	{
         delete m_root;
@@ -405,7 +425,9 @@ private:
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[4][4];
+    SimpleGUI::Caption* m_barval[4][4];
 	SimpleGUI::Slider* m_timeslider;
+    SimpleGUI::Caption* m_timeval;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_cameracheck;
     SimpleGUI::Button* m_openbtn;

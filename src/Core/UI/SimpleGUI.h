@@ -683,6 +683,8 @@ public:
         m_func = func;
         m_thisptr = thisptr;
     }
+    void SetUserData(void* data) { m_data = data; }
+    void* GetUserData() const { return m_data; }
 protected:
     BaseWindow* ownHit(int x, int y){
         if (x >= 0 && x < m_width
@@ -770,6 +772,7 @@ protected:
     
     void (*m_func)(float, void*);
     void* m_thisptr;
+    void* m_data;
 };
 
 class Check : public skGUI::BaseWindow
