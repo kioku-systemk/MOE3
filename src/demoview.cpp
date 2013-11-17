@@ -20,6 +20,7 @@
 #include "Gfx/SceneGraphRender.h"
 
 #include "Core/Math.h"
+#include "Core/Thread.h"
 
 #include "Core/UI/SimpleGUI.h"
 #include "SceneGraph/SceneGraph.h"
@@ -108,6 +109,7 @@ public:
 #if MOE_PLATFORM_WINDOWS
 		m_inited = true;
 #endif
+        Draw();
 	}
 	~MOEWindow()
     {
@@ -148,31 +150,37 @@ public:
         my = y;
         if (!m_gui->MouseDown(0, x,y))
 			press |= 1;
+        Draw();
     }
 	void MouseLeftUp(int x, int y)
     {
         press = (press & (~1));
         m_gui->MouseUp(0, x,y);
+        Draw();
     }
     void MouseRightDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 2;
+        Draw();
     }
     void MouseRightUp(int x, int y)
     {
         press = (press & (~2));
+        Draw();
     }
     void MouseMiddleDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 4;
+        Draw();
     }
     void MouseMiddleUp(int x, int y)
     {
         press = (press & (~4));
+        Draw();
     }
 
 	void MouseMove(int x, int y)
@@ -196,6 +204,7 @@ public:
         mx = x;
         my = y;
         m_gui->MouseMove(x, y);
+        Draw();
     }
 	void Wheel(float dx, float dy, float dz) {}
 	void KeyDown(int key){
@@ -207,12 +216,13 @@ public:
     {
 		if (key == 'r' || key == 'R')
 			ReloadModels();
-        if (key == 'b' || key == 'B')
+        if (key == 's' || key == 'S')
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
             OpenDemo();
         
 		m_gui->KeyUp(key);
+        Draw();
     }
 	
     void updateGUI()
@@ -271,7 +281,11 @@ public:
      
 	void Idle(void)
 	{
-        Draw();
+        // call draw in Animation mode
+        if (m_animcheck->GetState())
+            Draw();
+        else
+            MOE::Sleep(1);
 	}
 	
 	void Resize(int w, int h)

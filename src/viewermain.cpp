@@ -25,6 +25,7 @@
 #include "SceneGraph/SceneGraph.h"
 
 #include "Core/Time.h"
+#include "Core/Thread.h"
 
 #include "Demo/Demo.h"
 
@@ -32,7 +33,7 @@ namespace {
 	std::string g_mrzfile;
     
     const s8* vname[] = {"ClearColor", "p1","p2","p3","p4"};
-    const int paramnum = 5;
+    const int paramnum = sizeof(vname)/sizeof(const s8*);
 }
 
 class MOEWindow : public CoreWindow
@@ -72,7 +73,7 @@ public:
 		{
 			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, vname[i], 16);
 			m_frame2->AddChild(name);
-            for (int j = 0; j < 5; ++j) {
+            for (int j = 0; j < 4; ++j) {
                 m_bar[i][j] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 20 * j + 120 * i, 80, 16);
                 SimpleGUI::Caption* barval = mnew SimpleGUI::Caption(m_gui, 12, 18 + 20* j + 120 * i, "0.000", 16);
                 m_frame2->AddChild(barval);
@@ -115,6 +116,7 @@ public:
 #if MOE_PLATFORM_WINDOWS
 		m_inited = true;
 #endif
+        Draw();
 	}
 	~MOEWindow()
     {
@@ -189,6 +191,7 @@ public:
 		m_srender->Clear();
 		forceupdate needupdatefunc;
 		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
+        Draw();
 	}
 
 	void setupResourcePath()
@@ -236,31 +239,37 @@ public:
         my = y;
         if (!m_gui->MouseDown(0, x,y))
 			press |= 1;
+        Draw();
     }
 	void MouseLeftUp(int x, int y)
     {
         press = (press & (~1));
         m_gui->MouseUp(0, x,y);
+        Draw();
     }
     void MouseRightDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 2;
+        Draw();
     }
     void MouseRightUp(int x, int y)
     {
         press = (press & (~2));
+        Draw();
     }
     void MouseMiddleDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 4;
+        Draw();
     }
     void MouseMiddleUp(int x, int y)
     {
         press = (press & (~4));
+        Draw();
     }
 
 	void MouseMove(int x, int y)
@@ -284,6 +293,7 @@ public:
         mx = x;
         my = y;
         m_gui->MouseMove(x, y);
+        Draw();
     }
 	void Wheel(float dx, float dy, float dz) {}
 	void KeyDown(int key){
@@ -295,12 +305,15 @@ public:
     {
 		if (key == 'r' || key == 'R')
 			ReloadModels();
-        if (key == 'b' || key == 'B')
+        if (key == 's' || key == 'S')
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
             OpenModel();
+        if (key == 'f' || key == 'F')
+            Fit();
         
 		m_gui->KeyUp(key);
+        Draw();
     }
 	
     void updateGUI()
@@ -392,14 +405,17 @@ public:
         g->Disable(VG_CULL_FACE);
         
         m_gui->Draw();
-        // own graphics code.
         
         SwapBuffer();
     }
      
 	void Idle(void)
 	{
-        Draw();
+        // call draw in Animation mode
+        if (m_animcheck->GetState())
+            Draw();
+        else
+            MOE::Sleep(1);
 	}
 	
 	void Resize(int w, int h)
