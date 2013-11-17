@@ -10,15 +10,17 @@
 #include "../Gfx/SceneGraphRender.h"
 
 namespace {
+#if MOE_PLATFORM_WINDOWS
 	void replace(std::string& src, const char* pszKey, const char* pszRepWord)
 	{
-		int nPos = 0;
+		size_t nPos = 0;
 		while((nPos = src.find(pszKey, nPos)) != std::string::npos){
 			src.replace(nPos, sizeof(pszKey), pszRepWord);
+        }
+        return;
 	}
-
-return;
-	}
+#endif
+    
     std::string getResourcePath(const s8* path)
 	{
 #if MOE_PLATFORM_WINDOWS
