@@ -132,6 +132,7 @@ namespace MOE {
 
             m_render->SetProjMatrix(proj);
             m_render->SetViewMatrix(view);
+            m_render->SetUniform("time", vec4(scenetime,scenetime,scenetime,scenetime));
             const auto eit = sps.end();
             for (auto it = sps.begin(); it != eit; ++it)
                 m_render->SetUniform(it->first.c_str(), it->second);
