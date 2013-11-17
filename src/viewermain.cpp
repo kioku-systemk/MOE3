@@ -30,6 +30,9 @@
 
 namespace {
 	std::string g_mrzfile;
+    
+    const s8* vname[] = {"ClearColor", "p1","p2","p3","p4"};
+    const int paramnum = 5;
 }
 
 class MOEWindow : public CoreWindow
@@ -65,24 +68,21 @@ public:
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
 
-        
-		const char* names[] = {"ClearColor","p1","p2","p3"};
-		for (int i = 0; i < 4; ++i)
+        for (int i = 0; i < paramnum; ++i)
 		{
-			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, names[i], 16);
+			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, vname[i], 16);
 			m_frame2->AddChild(name);
-
-            for (int j = 0; j < 4; ++j) {
+            for (int j = 0; j < 5; ++j) {
                 m_bar[i][j] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 20 * j + 120 * i, 80, 16);
-                m_barval[i][j] = mnew SimpleGUI::Caption(m_gui, 12, 18 + 20* j + 120 * i, "0.000", 16);
-                m_frame2->AddChild(m_barval[i][j]);
-                m_bar[i][j]->SetUserData(m_barval[i][j]);
+                SimpleGUI::Caption* barval = mnew SimpleGUI::Caption(m_gui, 12, 18 + 20* j + 120 * i, "0.000", 16);
+                m_frame2->AddChild(barval);
+                m_bar[i][j]->SetUserData(barval);
                 m_bar[i][j]->SetChangedFunc(changebarParam_, m_bar[i][j]);
                 m_frame2->AddChild(m_bar[i][j]);
             }
 		}
 
-		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,600);
+		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,620);
     	m_frame2->AddChild(m_cameracheck);
 
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenModel",5,height - 100, 90, 16);
@@ -380,9 +380,8 @@ public:
 		m_srender->SetProjMatrix(proj);
 		m_srender->SetViewMatrix(view);
         
-        const s8* vname[] = {0, "p1","p2","p3"};
-        for (int i = 1; i < 4; ++i) {
-            vec4 vec4val(m_bar[i][0]->GetValue(),m_bar[i][1]->GetValue(),m_bar[i][2]->GetValue(),m_bar[i][3]->GetValue());
+        for (int i = 1; i < paramnum; ++i) { // skip clearcolor
+            const vec4 vec4val(m_bar[i][0]->GetValue(),m_bar[i][1]->GetValue(),m_bar[i][2]->GetValue(),m_bar[i][3]->GetValue());
             m_srender->SetUniform(vname[i], vec4val);
         }
 		// Update,Render
@@ -430,8 +429,7 @@ private:
     EasyMIDIController* m_midi;
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
-    SimpleGUI::Slider* m_bar[4][4];
-    SimpleGUI::Caption* m_barval[4][4];
+    SimpleGUI::Slider* m_bar[paramnum][4];
 	SimpleGUI::Slider* m_timeslider;
     SimpleGUI::Caption* m_timeval;
 	SimpleGUI::Check* m_animcheck;
