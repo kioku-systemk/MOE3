@@ -26,7 +26,7 @@ Scene = {
 -- dependent flow is not support yet
 -- ex. animation, physics, update partiles
 Process = {
-	{demotime={0   ,3.000}  , scenetime={0,5.000}, scene="scene1",vec4={scolor="1,0,0,1"}},
+	{demotime={0   ,3.000}  , scenetime={0,5.000}, scene="scene1",vec4={p1="1,0,0,1"}},
 	{demotime={0   ,5.000}  , scenetime={0,5.000}, scene="plane"},
     {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="boxscat"},
 	{demotime={2.000,5.000} , scenetime={0,5.000}, scene="scene2"},
