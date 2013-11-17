@@ -115,7 +115,9 @@ inline int getTableNum(lua_State* L, const char* tablename)
 inline int getTableValues(lua_State* L, const char* tablename, std::map<std::string,std::string>& vals)
 {
 	//lua_getglobal(L, tablename);
-	int r = luaL_dostring(L, (std::string("return ") + tablename).c_str());
+	const int r = luaL_dostring(L, (std::string("return ") + tablename).c_str());
+    if (r)
+        return 0;
 	if (!lua_istable(L, -1))
 		return 0;
 	lua_pushnil(L);
