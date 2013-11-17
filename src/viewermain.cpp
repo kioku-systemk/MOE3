@@ -62,17 +62,26 @@ public:
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
         
-		SimpleGUI::Caption* clcl = mnew SimpleGUI::Caption(m_gui, 10, 0, "ClearColor", 16);
-        m_frame2->AddChild(clcl);
+		const char* names[] = {"ClearColor","p1","p2","p3"};
+		for (int i = 0; i < 4; ++i)
+		{
+			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, names[i], 16);
+			m_frame2->AddChild(name);
 
-        m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,20,80,16);
-        m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,40,80,16);
-        m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,60,80,16);
-		m_frame2->AddChild(m_bar[0]);
-        m_frame2->AddChild(m_bar[1]);
-        m_frame2->AddChild(m_bar[2]);
+			m_bar[i][0] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 120 * i, 80, 16);
+			m_bar[i][1] = mnew SimpleGUI::Slider(m_gui, 10, 40 + 120 * i, 80, 16);
+			m_bar[i][2] = mnew SimpleGUI::Slider(m_gui, 10, 60 + 120 * i, 80, 16);
+			m_bar[i][3] = mnew SimpleGUI::Slider(m_gui, 10, 80 + 120 * i, 80, 16);
+			m_frame2->AddChild(m_bar[i][0]);
+			m_frame2->AddChild(m_bar[i][1]);
+			m_frame2->AddChild(m_bar[i][2]);
+			m_frame2->AddChild(m_bar[i][3]);
+			SimpleGUI::Caption* pname = mnew SimpleGUI::Caption(m_gui, 12, 18+120 * i, "0.000", 16);
+			m_frame2->AddChild(pname);
 
-		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,100);
+		}
+
+		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,600);
     	m_frame2->AddChild(m_cameracheck);
 
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenModel",5,height - 100, 90, 16);
@@ -89,7 +98,7 @@ public:
         m_root = 0;
 		m_anim = 0;
         m_srender = new MOE::SceneGraphRender(g);	
-
+		
 		setupResourcePath();
 		ReloadModels();
  
@@ -275,33 +284,30 @@ public:
 	
     void updateGUI()
     {
-        static f32 m0 = m_midi->GetControlParam(0);
-        if (m0 != m_midi->GetControlParam(0)){
-            m0 = m_midi->GetControlParam(0);
-            m_bar[0]->SetValue(m0);
-        }
-        static f32 m1 = m_midi->GetControlParam(1);
-        if (m1 != m_midi->GetControlParam(1)){
-            m1 = m_midi->GetControlParam(1);
-            m_bar[1]->SetValue(m1);
-        }
-        static f32 m2 = m_midi->GetControlParam(2);
-        if (m2 != m_midi->GetControlParam(2)){
-            m2 = m_midi->GetControlParam(2);
-            m_bar[2]->SetValue(m2);
-        }
-	}
+
+		const int maxmidinum = 8;
+		static f32 bval[maxmidinum] = {};
+		for (int midictrl = 0; midictrl < maxmidinum; ++midictrl)
+		{
+			const f32 cv = m_midi->GetControlParam(0);
+			if (bval[midictrl] != cv){
+				bval[midictrl] = cv;
+				m_bar[midictrl / 4 + 1][midictrl % 4]->SetValue(cv);
+			}
+		}
+    }
     
     void Draw()
     {
         updateGUI();
-        const float mr = m_bar[0]->GetValue();
-        const float mg = m_bar[1]->GetValue();
-        const float mb = m_bar[2]->GetValue();
-        
+        const float mr = m_bar[0][0]->GetValue();
+		const float mg = m_bar[0][1]->GetValue();
+		const float mb = m_bar[0][2]->GetValue();
+		const float ma = m_bar[0][3]->GetValue();
+
         g->Enable(VG_CULL_FACE);
         g->Enable(VG_DEPTH_TEST);
-        g->ClearColor(mr,mg,mb,0);
+        g->ClearColor(mr,mg,mb,ma);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
@@ -398,7 +404,7 @@ private:
     EasyMIDIController* m_midi;
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
-    SimpleGUI::Slider* m_bar[3];
+    SimpleGUI::Slider* m_bar[4][4];
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_cameracheck;
