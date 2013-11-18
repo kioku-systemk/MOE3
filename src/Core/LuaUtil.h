@@ -19,6 +19,12 @@ inline T luaX_Cast(lua_State* L, int i) {
     return lua_tonumber(L, i);
 }
 template<>
+inline b8 luaX_Cast<b8>(lua_State* L, int i)
+{
+    int r = lua_toboolean(L, i);
+    return r!=0;
+}
+template<>
 inline std::string luaX_Cast<std::string>(lua_State* L, int i)
 {
 	const char* s = lua_tostring(L, i);
@@ -32,6 +38,7 @@ inline bool isLuaType(lua_State* L,int idx) {
 	assert(0); // Unkown type
 	return false;
 }
+template<> inline bool isLuaType<b8>(lua_State* L, int idx)         { return lua_isboolean(L, idx); }
 template<> inline bool isLuaType<int>(lua_State* L, int idx)        { return lua_isnumber(L, idx); }
 template<> inline bool isLuaType<std::string>(lua_State* L, int idx){ return lua_isstring(L, idx); }
 template<> inline bool isLuaType<float>(lua_State* L, int idx)      { return lua_isnumber(L, idx); }
