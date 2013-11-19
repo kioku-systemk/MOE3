@@ -47,6 +47,8 @@ public:
     
     bool Attach(const ShaderObject& vertexShader, const ShaderObject& fragmentShader);
 	bool Link(const ShaderObject& vertexShader, const ShaderObject& fragmentShader);
+    bool Attach(const ShaderObject& vertexShader, const ShaderObject& fragmentShader, const ShaderObject& geometryShader);
+	bool Link(const ShaderObject& vertexShader, const ShaderObject& fragmentShader, const ShaderObject& geometryShader);
 	void Bind();
 	void Unbind();
 
@@ -83,6 +85,16 @@ private:
 	unsigned int m_prio;
 	Graphics* g;
 	
+    // Effect
+    b8  m_depthtest;
+    b8  m_blend;
+    u32 m_blendfunc_src;
+    u32 m_blendfunc_dst;
+    b8  m_cullface;
+    u32 m_cullmode;
+    b8  m_depthmask;
+    u32 m_frontface;
+    
 };
 	
 } // namespace MOE

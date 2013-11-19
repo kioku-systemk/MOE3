@@ -85,6 +85,63 @@ void printProgramInfoLog(MOE::Graphics* g, GLuint program)
 	}
 }
 
+    
+    
+    struct StrVal {
+        const s8* str;
+        u32 val;
+    };
+    const StrVal blendFunc_tables [] = {
+        {"ZERO", 0},       {"ONE",  1},
+        {"SRC_COLOR"          , VG_SRC_COLOR},
+        {"ONE_MINUS_SRC_COLOR", VG_ONE_MINUS_SRC_COLOR},
+        {"SRC_ALPHA"          , VG_SRC_ALPHA},
+        {"ONE_MINUS_SRC_ALPHA", VG_ONE_MINUS_SRC_ALPHA},
+        {"DST_ALPHA"          , VG_DST_ALPHA},
+        {"ONE_MINUS_DST_ALPHA", VG_ONE_MINUS_DST_ALPHA},
+        {"DST_COLOR"          , VG_DST_COLOR},
+        {"ONE_MINUS_DST_COLOR", VG_ONE_MINUS_DST_COLOR},
+        {"SRC_ALPHA_SATURATE" , VG_SRC_ALPHA_SATURATE},
+        {"CONSTANT_COLOR"          , VG_CONSTANT_COLOR},
+        {"ONE_MINUS_CONSTANT_COLOR", VG_ONE_MINUS_CONSTANT_COLOR},
+        {"CONSTANT_ALPHA"          , VG_CONSTANT_ALPHA},
+        {"ONE_MINUS_CONSTANT_ALPHA", VG_ONE_MINUS_CONSTANT_ALPHA},
+        {0,0}
+    };
+    
+    const StrVal cullMode_tables [] = {
+        {"ALL",   VG_FRONT_AND_BACK},
+        {"BACK",  VG_BACK},
+        {"FRONT", VG_FRONT},
+        {0,0}
+    };
+    
+    const StrVal faceMode_tables [] = {
+        {"CW",  VG_CW},
+        {"CCW", VG_CCW},
+        {0,0}
+    };
+    b8 getLuaEnumValue(lua_State* L, const char* varname, u32& val, const StrVal* tables)
+    {
+        b8 ret = true;
+        lua_getglobal(L, varname);
+        if ( lua_isstring(L, -1) ){
+            std::string sv(lua_tostring(L, -1));
+            s32 i = 0;
+            while (tables[i].str){
+                if (std::string(tables[i].str) == sv){
+                    val = tables[i].val;
+                    break;
+                }
+                ++i;
+            }
+        } else {
+            ret = false;
+        }
+        lua_pop(L, 1);
+        return ret;
+    }
+    
 };// namespace
 
 
@@ -185,9 +242,17 @@ bool ProgramObject::Attach(const ShaderObject& vertexShader, const ShaderObject&
 	g->AttachShader(program, vertexShader.GetShader());
 	g->AttachShader(program, fragmentShader.GetShader());
     m_program = program;
-    
     return true;
+}
     
+bool ProgramObject::Attach(const ShaderObject& vertexShader, const ShaderObject& fragmentShader, const ShaderObject& geometryShader)
+{
+    u32 program = g->CreateProgram();
+    g->AttachShader(program, vertexShader.GetShader());
+    g->AttachShader(program, fragmentShader.GetShader());
+    g->AttachShader(program, geometryShader.GetShader());
+    m_program = program;
+    return true;
 }
 
 bool ProgramObject::Link(const ShaderObject& vertexShader, const ShaderObject& fragmentShader)
@@ -211,6 +276,28 @@ bool ProgramObject::Link(const ShaderObject& vertexShader, const ShaderObject& f
 	}
 	return true;
 }
+
+bool ProgramObject::Link(const ShaderObject& vertexShader, const ShaderObject& fragmentShader, const ShaderObject& geometryShader)
+{
+    // program existence
+    if (!m_program)
+    {
+        Attach(vertexShader, fragmentShader, geometryShader);
+    }
+    
+    /* シェーダプログラムのリンク */
+    g->LinkProgram(m_program);
+    GLint linked;
+    g->GetProgramiv(m_program, VG_LINK_STATUS, &linked);
+    printProgramInfoLog(g, m_program);
+    if (linked == VG_FALSE)
+    {
+        //cout << "Link error." << endl;
+        MOELogE("Link error.");
+        return false;
+    }
+    return true;
+}
     
 bool ProgramObject::LoadFromMemory(const std::string &fxSource)
 {
@@ -223,14 +310,63 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
     std::string vtxShader = eval<std::string>(L, "return VertexShader");
     std::string frgShader = eval<std::string>(L, "return FragmentShader");
     std::string geoShader = eval<std::string>(L, "return GeometryShader");
+    
+    int pri = 0;
+    eval<int>(L, pri, "return Priority");
+ 	m_prio = pri;
+    
+    b8 depthtest = false;
+    eval<b8>(L, depthtest, "return DepthTest");
+    m_depthtest = depthtest;
+
+    b8 blend = false;
+    eval<b8>(L, blend, "return Blend");
+    m_blend = blend;
+
+    b8 cullface = true;
+    eval<b8>(L, cullface, "return CullFace");
+    m_cullface = cullface;
+
+    b8 depthmask = false;
+    eval<b8>(L, depthmask, "return DepthMask");
+    m_depthmask = depthmask;
+
+    m_blendfunc_src = VG_ONE;
+	m_blendfunc_dst = VG_ZERO;
+	u32 blendfunc_src = VG_SRC_ALPHA;
+	u32 blendfunc_dst = VG_ONE_MINUS_SRC_ALPHA;
+	if (getLuaEnumValue(L, "BlendSrc", blendfunc_src, blendFunc_tables))
+		m_blendfunc_src = blendfunc_src;
+	if (getLuaEnumValue(L, "BlendDst", blendfunc_dst, blendFunc_tables))
+		m_blendfunc_dst = blendfunc_dst;
+
+    m_cullmode = VG_BACK;
+	u32 cullmode = VG_BACK;
+	if (getLuaEnumValue(L, "CullMode", cullmode, cullMode_tables))
+		m_cullmode = cullmode;
+
+    m_frontface = VG_CCW;
+	VGenum frontface = VG_CCW;
+	if (getLuaEnumValue(L, "FrontFace", frontface, faceMode_tables))
+		m_frontface = frontface;
+    
     closeLua(L);
     
     ShaderObject vertexShader(g);
 	ShaderObject fragmentShader(g);
+    ShaderObject geometryShader(g);
 	vertexShader.LoadFromMemory(vtxShader.c_str(), ShaderObject::VERTEX_SHADER);
 	fragmentShader.LoadFromMemory(frgShader.c_str(), ShaderObject::FRAGMENT_SHADER);
-	b8 r = Link(vertexShader,fragmentShader);
-
+    b8 r;
+    if (geoShader != "")
+    {
+        geometryShader.LoadFromMemory(geoShader.c_str(), ShaderObject::GEOMETRY_SHADER);
+        r = Link(vertexShader,fragmentShader, geometryShader);
+    }
+    else
+    {
+        r = Link(vertexShader,fragmentShader);
+    }
     return r;
 }
 
@@ -239,6 +375,28 @@ void ProgramObject::Bind()
 	g->GetIntegerv(VG_CURRENT_PROGRAM, &m_oldProgram); 	
 	g->UseProgram(m_program);
 	m_binding = true;
+    
+    if (m_depthtest) g->Enable(VG_DEPTH_TEST);
+	else             g->Disable(VG_DEPTH_TEST);
+    
+	if (m_blend) {
+		g->Enable(VG_BLEND);
+		g->BlendFunc(m_blendfunc_src, m_blendfunc_dst);
+	} else {
+		g->Disable(VG_BLEND);
+	}
+    
+    if (m_cullface) {
+		g->Enable(VG_CULL_FACE);
+		g->CullFace(m_cullmode);
+	} else {
+		g->Disable(VG_CULL_FACE);
+	}
+	
+	if (m_depthmask) g->DepthMask(VG_TRUE);
+	else             g->DepthMask(VG_FALSE);
+    
+	g->FrontFace(m_frontface);
 }
 
 void ProgramObject::Unbind()

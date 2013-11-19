@@ -146,6 +146,7 @@
 		779C2E8F176C9E7E00DE219C /* BufferObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = BufferObject.cpp; sourceTree = "<group>"; };
 		779C2E90176C9E7E00DE219C /* BufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BufferObject.h; sourceTree = "<group>"; };
 		779C2E92176C9FC000DE219C /* RenderCommand.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderCommand.h; sourceTree = "<group>"; };
+		77A39EE118396E2900BA1418 /* Thread.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Thread.h; sourceTree = "<group>"; };
 		77B04A44168DE9700068FCE6 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		77B04A46168DEA590068FCE6 /* MOE3-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MOE3-Info.plist"; sourceTree = SOURCE_ROOT; };
 		77B04A48168DEA6D0068FCE6 /* MOE3-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MOE3-Prefix.pch"; sourceTree = SOURCE_ROOT; };
@@ -155,6 +156,7 @@
 		77C04C8E1714731400C9269B /* MrzLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MrzLoader.h; sourceTree = "<group>"; };
 		77C04C961718959700C9269B /* AnimLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimLoader.cpp; sourceTree = "<group>"; };
 		77C04C971718959700C9269B /* AnimLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimLoader.h; sourceTree = "<group>"; };
+		77DE4012182EF67F0050E49A /* Instance.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Instance.h; sourceTree = "<group>"; };
 		77E5212E15DF2A87000595F8 /* MOE3.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MOE3.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77E5213215DF2A87000595F8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		77E5213515DF2A87000595F8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -221,6 +223,7 @@
 				770A518416DE6FCF00872F21 /* Stream.cpp */,
 				770A518516DE6FCF00872F21 /* Stream.h */,
 				770A518616DE6FCF00872F21 /* Time.h */,
+				77A39EE118396E2900BA1418 /* Thread.h */,
 				770A518716DE6FCF00872F21 /* Type.h */,
 				770A518816DE6FCF00872F21 /* UI */,
 			);
@@ -303,6 +306,7 @@
 				770A51B216E23CE200872F21 /* Node.h */,
 				770A51B316E23CE200872F21 /* NodeType.h */,
 				770A51B416E23CE200872F21 /* SceneGraph.h */,
+				77DE4012182EF67F0050E49A /* Instance.h */,
 				770A51B516E23CE200872F21 /* Transform.h */,
 				770A51B616E23CE200872F21 /* Util.h */,
 			);
@@ -869,6 +873,7 @@
 				770FFFD6181C318E0074F472 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		77E5212815DF2A87000595F8 /* Build configuration list for PBXProject "MOE3" */ = {
 			isa = XCConfigurationList;

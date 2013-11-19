@@ -10,6 +10,17 @@
 #include "../Gfx/SceneGraphRender.h"
 
 namespace {
+#if MOE_PLATFORM_WINDOWS
+	void replace(std::string& src, const char* pszKey, const char* pszRepWord)
+	{
+		size_t nPos = 0;
+		while((nPos = src.find(pszKey, nPos)) != std::string::npos){
+			src.replace(nPos, sizeof(pszKey), pszRepWord);
+        }
+        return;
+	}
+#endif
+    
     std::string getResourcePath(const s8* path)
 	{
 #if MOE_PLATFORM_WINDOWS
@@ -19,6 +30,9 @@ namespace {
 #endif
         std::string dirpath;
         std::string spath = std::string(path);
+#if MOE_PLATFORM_WINDOWS
+		replace(spath, "/", "\\");
+#endif
 		size_t np;
 		if ((np = spath.rfind(dirchar)) != std::string::npos)
 		{
@@ -132,6 +146,7 @@ namespace MOE {
 
             m_render->SetProjMatrix(proj);
             m_render->SetViewMatrix(view);
+            m_render->SetUniform("time", vec4(scenetime,scenetime,scenetime,scenetime));
             const auto eit = sps.end();
             for (auto it = sps.begin(); it != eit; ++it)
                 m_render->SetUniform(it->first.c_str(), it->second);

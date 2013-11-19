@@ -25,11 +25,15 @@
 #include "SceneGraph/SceneGraph.h"
 
 #include "Core/Time.h"
+#include "Core/Thread.h"
 
 #include "Demo/Demo.h"
 
 namespace {
 	std::string g_mrzfile;
+    
+    const s8* vname[] = {"ClearColor", "p1","p2","p3","p4"};
+    const int paramnum = sizeof(vname)/sizeof(const s8*);
 }
 
 class MOEWindow : public CoreWindow
@@ -59,20 +63,27 @@ public:
 
 		m_timeslider = mnew SimpleGUI::Slider(m_gui, 200,10,width - 220,16);
 		m_animcheck = mnew SimpleGUI::Check(m_gui,"Realtime",110,5);
+        m_timeval = mnew SimpleGUI::Caption(m_gui, 200,8,"0.000", 16);
+        m_timeslider->SetChangedFunc(changeTimerslider_, this);
+        m_frame1->AddChild(m_timeval);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
-        
-		SimpleGUI::Caption* clcl = mnew SimpleGUI::Caption(m_gui, 10, 0, "ClearColor", 16);
-        m_frame2->AddChild(clcl);
 
-        m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,20,80,16);
-        m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,40,80,16);
-        m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,60,80,16);
-		m_frame2->AddChild(m_bar[0]);
-        m_frame2->AddChild(m_bar[1]);
-        m_frame2->AddChild(m_bar[2]);
+        for (int i = 0; i < paramnum; ++i)
+		{
+			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, vname[i], 16);
+			m_frame2->AddChild(name);
+            for (int j = 0; j < 4; ++j) {
+                m_bar[i][j] = mnew SimpleGUI::Slider(m_gui, 10, 20 + 20 * j + 120 * i, 80, 16);
+                SimpleGUI::Caption* barval = mnew SimpleGUI::Caption(m_gui, 12, 18 + 20* j + 120 * i, "0.000", 16);
+                m_frame2->AddChild(barval);
+                m_bar[i][j]->SetUserData(barval);
+                m_bar[i][j]->SetChangedFunc(changebarParam_, m_bar[i][j]);
+                m_frame2->AddChild(m_bar[i][j]);
+            }
+		}
 
-		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,100);
+		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,620);
     	m_frame2->AddChild(m_cameracheck);
 
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenModel",5,height - 100, 90, 16);
@@ -89,7 +100,7 @@ public:
         m_root = 0;
 		m_anim = 0;
         m_srender = new MOE::SceneGraphRender(g);	
-
+		
 		setupResourcePath();
 		ReloadModels();
  
@@ -105,11 +116,32 @@ public:
 #if MOE_PLATFORM_WINDOWS
 		m_inited = true;
 #endif
+        Draw();
 	}
 	~MOEWindow()
     {
     }
-	
+    
+    static void changebarParam_(float val,void* thisptr){
+        SimpleGUI::Caption* cap = static_cast<SimpleGUI::Caption*>(static_cast<SimpleGUI::Slider*>(thisptr)->GetUserData());
+        char buf[64];
+        sprintf(buf, "%.3f", val);
+        cap->SetText(buf);
+    }
+    static void changeTimerslider_(float val,void* thisptr){
+        static_cast<MOEWindow*>(thisptr)->changeTimerslider(val);
+    }
+    void changeTimerslider(float val){
+        char buf[64];
+        double animtime = 0.0;
+        if (m_anim)
+            animtime = m_anim->GetMaxAnimTime();
+        sprintf(buf, "%.3lf", static_cast<double>(val) * animtime);
+        m_timeval->SetText(buf);
+        
+    }
+    
+    
 	void ReloadModels()
 	{
         delete m_root;
@@ -159,6 +191,7 @@ public:
 		m_srender->Clear();
 		forceupdate needupdatefunc;
 		MOE::SceneGraph::VisitAllGeometry(m_root,needupdatefunc);
+        Draw();
 	}
 
 	void setupResourcePath()
@@ -206,31 +239,37 @@ public:
         my = y;
         if (!m_gui->MouseDown(0, x,y))
 			press |= 1;
+        Draw();
     }
 	void MouseLeftUp(int x, int y)
     {
         press = (press & (~1));
         m_gui->MouseUp(0, x,y);
+        Draw();
     }
     void MouseRightDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 2;
+        Draw();
     }
     void MouseRightUp(int x, int y)
     {
         press = (press & (~2));
+        Draw();
     }
     void MouseMiddleDown(int x, int y)
     {
         mx = x;
         my = y;
         press |= 4;
+        Draw();
     }
     void MouseMiddleUp(int x, int y)
     {
         press = (press & (~4));
+        Draw();
     }
 
 	void MouseMove(int x, int y)
@@ -254,6 +293,7 @@ public:
         mx = x;
         my = y;
         m_gui->MouseMove(x, y);
+        Draw();
     }
 	void Wheel(float dx, float dy, float dz) {}
 	void KeyDown(int key){
@@ -265,43 +305,43 @@ public:
     {
 		if (key == 'r' || key == 'R')
 			ReloadModels();
-        if (key == 'b' || key == 'B')
+        if (key == 's' || key == 'S')
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
             OpenModel();
+        if (key == 'f' || key == 'F')
+            Fit();
         
 		m_gui->KeyUp(key);
+        Draw();
     }
 	
     void updateGUI()
     {
-        static f32 m0 = m_midi->GetControlParam(0);
-        if (m0 != m_midi->GetControlParam(0)){
-            m0 = m_midi->GetControlParam(0);
-            m_bar[0]->SetValue(m0);
-        }
-        static f32 m1 = m_midi->GetControlParam(1);
-        if (m1 != m_midi->GetControlParam(1)){
-            m1 = m_midi->GetControlParam(1);
-            m_bar[1]->SetValue(m1);
-        }
-        static f32 m2 = m_midi->GetControlParam(2);
-        if (m2 != m_midi->GetControlParam(2)){
-            m2 = m_midi->GetControlParam(2);
-            m_bar[2]->SetValue(m2);
-        }
-	}
+
+		const int maxmidinum = 8;
+		static f32 bval[maxmidinum] = {};
+		for (int midictrl = 0; midictrl < maxmidinum; ++midictrl)
+		{
+			const f32 cv = m_midi->GetControlParam(0);
+			if (bval[midictrl] != cv){
+				bval[midictrl] = cv;
+				m_bar[midictrl / 4 + 1][midictrl % 4]->SetValue(cv);
+			}
+		}
+    }
     
     void Draw()
     {
         updateGUI();
-        const float mr = m_bar[0]->GetValue();
-        const float mg = m_bar[1]->GetValue();
-        const float mb = m_bar[2]->GetValue();
-        
+        const float mr = m_bar[0][0]->GetValue();
+		const float mg = m_bar[0][1]->GetValue();
+		const float mb = m_bar[0][2]->GetValue();
+		const float ma = m_bar[0][3]->GetValue();
+
         g->Enable(VG_CULL_FACE);
         g->Enable(VG_DEPTH_TEST);
-        g->ClearColor(mr,mg,mb,0);
+        g->ClearColor(mr,mg,mb,ma);
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
@@ -353,6 +393,10 @@ public:
 		m_srender->SetProjMatrix(proj);
 		m_srender->SetViewMatrix(view);
         
+        for (int i = 1; i < paramnum; ++i) { // skip clearcolor
+            const vec4 vec4val(m_bar[i][0]->GetValue(),m_bar[i][1]->GetValue(),m_bar[i][2]->GetValue(),m_bar[i][3]->GetValue());
+            m_srender->SetUniform(vname[i], vec4val);
+        }
 		// Update,Render
 		m_srender->UpdateBuffers(m_root);
 		m_srender->Draw(m_root);
@@ -361,14 +405,17 @@ public:
         g->Disable(VG_CULL_FACE);
         
         m_gui->Draw();
-        // own graphics code.
         
         SwapBuffer();
     }
      
 	void Idle(void)
 	{
-        Draw();
+        // call draw in Animation mode
+        if (m_animcheck->GetState())
+            Draw();
+        else
+            MOE::Sleep(1);
 	}
 	
 	void Resize(int w, int h)
@@ -398,8 +445,9 @@ private:
     EasyMIDIController* m_midi;
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
-    SimpleGUI::Slider* m_bar[3];
+    SimpleGUI::Slider* m_bar[paramnum][4];
 	SimpleGUI::Slider* m_timeslider;
+    SimpleGUI::Caption* m_timeval;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_cameracheck;
     SimpleGUI::Button* m_openbtn;
