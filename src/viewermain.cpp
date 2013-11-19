@@ -136,7 +136,7 @@ public:
         double animtime = 0.0;
         if (m_anim)
             animtime = m_anim->GetMaxAnimTime();
-        sprintf(buf, "%.3lf", static_cast<double>(val) * animtime);
+        sprintf(buf, "%4.3lf", static_cast<double>(val) * animtime);
         m_timeval->SetText(buf);
         
     }
@@ -345,20 +345,22 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
+        double maxanimtime = m_anim->GetMaxAnimTime();
+        if (maxanimtime == 0.0)
+            maxanimtime = 10.0;
+        f32 animtime = m_timeslider->GetValue() * maxanimtime;
 		if (m_anim && m_anim->GetMaxAnimTime() != 0) {
-			double maxanimtime = m_anim->GetMaxAnimTime();
 			if (m_animcheck->GetState()) {
 				f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
 				m_timeslider->SetValue(tm/maxanimtime);
 			}
-            const f32 animtime = m_timeslider->GetValue()*maxanimtime;
 			m_anim->Animate(m_root, animtime);
             
-            m_srender->SetUniform("time", MOE::Math::vec4(animtime,animtime,animtime,animtime));
 		} else {
-            f32 tm = fmod(MOE::GetTimeCount(), 10.0);
-            m_srender->SetUniform("time", MOE::Math::vec4(tm,tm,tm,tm));
+            if (m_animcheck->GetState())
+                animtime = fmod(MOE::GetTimeCount(), 10.0);
         }
+        m_srender->SetUniform("time", MOE::Math::vec4(animtime,animtime,animtime,animtime));
         
 		// View
         using namespace MOE::SceneGraph;

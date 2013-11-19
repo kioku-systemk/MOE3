@@ -225,6 +225,11 @@ ProgramObject::ProgramObject(Graphics* mg)
 	m_program = 0;
 	m_prio = 0;
 	m_binding = false;
+    
+    m_depthtest = true;
+    m_blend = false;
+    m_cullface = false;
+    m_depthmask = false;
 }
 
 ProgramObject::ProgramObject(Graphics* mg, const ShaderObject& vertexShader, const ShaderObject& fragmentShader)
@@ -233,6 +238,12 @@ ProgramObject::ProgramObject(Graphics* mg, const ShaderObject& vertexShader, con
 	m_oldProgram = 0;
 	m_program = 0;
 	m_binding = false;
+    
+    m_depthtest = true;
+    m_blend = false;
+    m_cullface = false;
+    m_depthmask = false;
+
 	Link(vertexShader, fragmentShader);
 }
 
@@ -314,8 +325,8 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
     int pri = 0;
     eval<int>(L, pri, "return Priority");
  	m_prio = pri;
-    
-    b8 depthtest = false;
+
+    b8 depthtest = true;
     eval<b8>(L, depthtest, "return DepthTest");
     m_depthtest = depthtest;
 
@@ -349,7 +360,7 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
 	VGenum frontface = VG_CCW;
 	if (getLuaEnumValue(L, "FrontFace", frontface, faceMode_tables))
 		m_frontface = frontface;
-    
+  
     closeLua(L);
     
     ShaderObject vertexShader(g);
@@ -375,9 +386,9 @@ void ProgramObject::Bind()
 	g->GetIntegerv(VG_CURRENT_PROGRAM, &m_oldProgram); 	
 	g->UseProgram(m_program);
 	m_binding = true;
-    
+
     if (m_depthtest) g->Enable(VG_DEPTH_TEST);
-	else             g->Disable(VG_DEPTH_TEST);
+	else g->Enable(VG_DEPTH_TEST);
     
 	if (m_blend) {
 		g->Enable(VG_BLEND);
@@ -393,9 +404,9 @@ void ProgramObject::Bind()
 		g->Disable(VG_CULL_FACE);
 	}
 	
-	if (m_depthmask) g->DepthMask(VG_TRUE);
-	else             g->DepthMask(VG_FALSE);
-    
+	if (m_depthmask) g->DepthMask(VG_FALSE);
+	else             g->DepthMask(VG_TRUE);
+
 	g->FrontFace(m_frontface);
 }
 
