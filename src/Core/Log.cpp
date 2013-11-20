@@ -38,7 +38,7 @@ void MOELog( enum LOG_LEVEL level, const std::string& msg )
 
 void MOELogE (const char *format, ...)
 {
-	char buf[256];
+	char buf[4096];
 	va_list arg;
 	va_start(arg, format);
 	vsprintf(buf, format, arg);
@@ -49,7 +49,7 @@ void MOELogE (const char *format, ...)
 
 void MOELogW (const char *format, ...)
 {
-	char buf[256];
+	char buf[4096];
 	va_list arg;
 	va_start(arg, format);
 	vsprintf(buf, format, arg);
@@ -60,7 +60,7 @@ void MOELogW (const char *format, ...)
 
 void MOELogI (const char *format, ...)
 {
-	char buf[256];
+	char buf[4096];
 	va_list arg;
 	va_start(arg, format);
 	vsprintf(buf, format, arg);
@@ -72,7 +72,7 @@ void MOELogI (const char *format, ...)
 void MOELogD (const char *format, ...)
 {
 #ifdef _DEBUG
-	char buf[256];
+	char buf[4096];
 	va_list arg;
 	va_start(arg, format);
 	vsprintf(buf, format, arg);

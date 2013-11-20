@@ -177,6 +177,11 @@ bool ShaderObject::LoadFromFile(const std::string& filename, SHADERTYPE shaderTy
 
 bool ShaderObject::LoadFromMemory(const std::string& programSource, SHADERTYPE shaderType)
 {
+    // pre error check
+    if ( g->GetError() != VG_NO_ERROR ) {
+		MOELogE("something occuered GL error.");
+    }
+    
 	std::string prgSource;
 	prgSource = SHADER_HIGH_STR(programSource);
 	
@@ -360,7 +365,6 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
 	VGenum frontface = VG_CCW;
 	if (getLuaEnumValue(L, "FrontFace", frontface, faceMode_tables))
 		m_frontface = frontface;
-  
     closeLua(L);
     
     ShaderObject vertexShader(g);
@@ -378,6 +382,7 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
     {
         r = Link(vertexShader,fragmentShader);
     }
+    
     return r;
 }
 
@@ -400,6 +405,7 @@ void ProgramObject::Bind()
     if (m_cullface) {
 		g->Enable(VG_CULL_FACE);
 		g->CullFace(m_cullmode);
+        g->FrontFace(m_frontface);
 	} else {
 		g->Disable(VG_CULL_FACE);
 	}
@@ -407,7 +413,6 @@ void ProgramObject::Bind()
 	if (m_depthmask) g->DepthMask(VG_FALSE);
 	else             g->DepthMask(VG_TRUE);
 
-	g->FrontFace(m_frontface);
 }
 
 void ProgramObject::Unbind()

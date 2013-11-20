@@ -68,7 +68,10 @@ public:
         m_frame1->AddChild(m_timeval);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
-
+        
+        m_dispcap = mnew SimpleGUI::Caption(m_gui, 120,30,"", 16);
+        m_frame1->AddChild(m_dispcap);
+        
         for (int i = 0; i < paramnum; ++i)
 		{
 			SimpleGUI::Caption* name = mnew SimpleGUI::Caption(m_gui, 10, 120 * i, vname[i], 16);
@@ -147,7 +150,9 @@ public:
         delete m_root;
         delete m_anim;
         
-		printf("Load model:%s\n", g_mrzfile.c_str());
+        if (g_mrzfile == "")
+            return;
+        
 		MOE::Stream mst(g_mrzfile.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
         MOE::MrzLoader loader;
         MOE::SceneGraph::Node* node = loader.Load(&mst);
@@ -167,9 +172,11 @@ public:
 			MOE::AnimLoader aloader;
 			MOE::Animation* anim = aloader.Load(&ast);
 			m_anim = anim;
-			if (anim)
-				printf("Loaded Animation.\n");
 		}
+        char txt[1024];
+		sprintf(txt,"Load model:%s %s", g_mrzfile.c_str(), (m_anim ? "- Loaded Animation." : ""));
+        SetStatus(txt);
+
 	}
     void Fit()
     {
@@ -345,7 +352,9 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
-        double maxanimtime = m_anim->GetMaxAnimTime();
+        double maxanimtime = 0.0;
+        if (m_anim)
+            maxanimtime = m_anim->GetMaxAnimTime();
         if (maxanimtime == 0.0)
             maxanimtime = 10.0;
         f32 animtime = m_timeslider->GetValue() * maxanimtime;
@@ -435,6 +444,11 @@ public:
         Draw();
 	}
     
+    void SetStatus(const char* text)
+    {
+        m_dispcap->SetText(text);
+    }
+    
 private:
     MOE::Graphics* g;
     MOE::SceneGraphRender* m_srender;
@@ -455,6 +469,7 @@ private:
     SimpleGUI::Button* m_openbtn;
     SimpleGUI::Button* m_reloadbtn;
     SimpleGUI::Button* m_rebufbtn;
+    SimpleGUI::Caption* m_dispcap;
     
 	const MOE::SceneGraph::Node* m_cameranode;
 };
@@ -471,7 +486,7 @@ int main(int argc, char *argv[])
 #endif
 {
 	printf("KScene3 - System K(c)\n");
-	if (argc >= 2)
+	if (argc >= 2 && std::string(argv[1])!="-NSDocumentRevisionsDebugMode")
 		g_mrzfile = std::string(argv[1]);
     MOEWindow win(32, 32, 1024, 800);
     CoreWindow::MainLoop();
