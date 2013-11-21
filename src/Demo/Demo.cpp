@@ -125,10 +125,10 @@ private:
 			{
                 const std::vector<std::string> sp = split(it->second, ",");
                 Math::vec4 v(0,0,0,0);
-                v.x = atoi(sp[0].c_str());
-                v.y = atoi(sp[1].c_str());
-                v.z = atoi(sp[2].c_str());
-                v.w = atoi(sp[3].c_str());
+                v.x = atof(sp[0].c_str());
+                v.y = atof(sp[1].c_str());
+                v.z = atof(sp[2].c_str());
+                v.w = atof(sp[3].c_str());
                 params.push_back(ShaderParam(it->first, v));
             }
 
@@ -171,10 +171,10 @@ private:
 			{
                 const std::vector<std::string> sp = split(it->second, ",");
                 Math::vec4 v(0,0,0,0);
-                v.x = atoi(sp[0].c_str());
-                v.y = atoi(sp[1].c_str());
-                v.z = atoi(sp[2].c_str());
-                v.w = atoi(sp[3].c_str());
+                v.x = atof(sp[0].c_str());
+                v.y = atof(sp[1].c_str());
+                v.z = atof(sp[2].c_str());
+                v.w = atof(sp[3].c_str());
                 sparams.push_back(ShaderParam(it->first, v));
             }
 
