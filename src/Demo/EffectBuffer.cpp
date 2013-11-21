@@ -57,6 +57,14 @@ namespace MOE {
         {
             g->ActiveTexture(VG_TEXTURE0 + n);
             m_fbo->BindTexture();
+        }
+        void BindDepthTexture(int n)
+        {
+            g->ActiveTexture(VG_TEXTURE0 + n);
+            m_fbo->BindDepthTexture();
+        }
+        void BindEnd()
+        {
             g->ActiveTexture(VG_TEXTURE0);
         }
         
@@ -93,6 +101,8 @@ namespace MOE {
     void EffectBuffer::RenderBegin()       { m_imp->RenderBegin();  }
     void EffectBuffer::RenderEnd()         { m_imp->RenderEnd();    }
     void EffectBuffer::BindTexture(int n)  { m_imp->BindTexture(n); }
+    void EffectBuffer::BindDepthTexture(int n)  { m_imp->BindDepthTexture(n); }
+    void EffectBuffer::BindEnd()           { m_imp->BindEnd(); }
     s32 EffectBuffer::GetTextureID() const { return m_imp->GetTextureID(); }
     s32 EffectBuffer::GetWidth() const     { return m_imp->GetWidth();     }
     s32 EffectBuffer::GetHeight() const    { return m_imp->GetHeight();    }

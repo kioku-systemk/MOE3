@@ -13,7 +13,11 @@ namespace MOE {
         void RenderBegin();
         void RenderEnd();
         
+        // temp
         void BindTexture(int n);
+        void BindDepthTexture(int n);
+        void BindEnd();
+                
         s32 GetTextureID() const;
         s32 GetWidth() const;
         s32 GetHeight() const;

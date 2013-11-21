@@ -319,8 +319,14 @@ public:
                         for (int p = 0; p < re->shaderparam.size(); ++p){
                             EffectBuffer* eb = re->shaderparam[p].m_eb;
                             if (eb) {
-                                eb->BindTexture(acttex); // temporary binding
-                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), acttex);
+                                 // temporary binding
+                                const int colortex = 2*acttex;
+                                const int depthtex = 2*acttex+1;
+                                eb->BindTexture(colortex);
+                                eb->BindDepthTexture(depthtex);
+                                eb->BindEnd();// dasai :(
+                                pg->SetUniform(re->shaderparam[p].m_name.c_str(), colortex);
+                                pg->SetUniform((re->shaderparam[p].m_name+"_depth").c_str(), depthtex);
                                 ++acttex;
                             } else {
                                 const Math::vec4& v = re->shaderparam[p].m_val;

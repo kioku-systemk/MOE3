@@ -244,6 +244,11 @@ void FrameBufferObject::BindTexture()
 	g->BindTexture(VG_TEXTURE_2D, m_texname);
 }
 
+void FrameBufferObject::BindDepthTexture()
+{
+    g->BindTexture(VG_TEXTURE_2D, m_depthname);
+}
+
 void FrameBufferObject::release()
 {
 	if (m_fboname)

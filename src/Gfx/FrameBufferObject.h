@@ -22,6 +22,7 @@ public:
 
 	void End();
     void BindTexture();
+    void BindDepthTexture();
     s32 Width() const;
 	s32 Height() const;
 	
