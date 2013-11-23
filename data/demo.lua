@@ -5,13 +5,15 @@
 -- screen_width = 1920;
 -- screen_heith = 1080;
 
-print(screen_width);
+local hw = screen_width/2;
+local hh = screen_height/2;
 
 -- first, basic buffer is supported
 Buffer = {
 	--{name="backbuffer"} -- default buffer
 	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
-	{name="buf2", color="RGBA8", depth="D24", width=screen_width/8, height=screen_height/8}
+	{name="buf2", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
+   	{name="buf3", color="RGBA8", depth="D24", width=screen_width, height=screen_height}
 };
 
 Scene = {
@@ -20,31 +22,56 @@ Scene = {
 	{name="scene2", path="scene/test.MRZ"},
    	{name="boxscat", path="scene/boxscat.MRZ"},
    	{name="fovanim", path="scene/fovanim.MRZ"},
+    {name="grptest", path="scene/grptest.MRZ"},
 --	{name="scene3", path="script/scene1.lua"}
 }
 
 -- dependent flow is not support yet
 -- ex. animation, physics, update partiles
 Process = {
-	{demotime={0   ,3.000}  , scenetime={0,5.000}, scene="scene1",vec4={p1="1,0,0,1"}},
+	{demotime={0   ,3.000}  , scenetime={0,5.000}, scene="scene1",vec4={p1="1,1,1,1"}},
 	{demotime={0   ,5.000}  , scenetime={0,5.000}, scene="plane"},
-    {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="boxscat"},
-	{demotime={2.000,5.000} , scenetime={0,5.000}, scene="scene2"},
+    {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="grptest"},
+	{demotime={5.000,7.000} , scenetime={0,5.000}, scene="scene2"},
 	{demotime={5.000,7.000} , scenetime={0,2.000}, scene="fovanim"},
+  	{demotime={7.000,10.000} , scenetime={0,2.000}, scene="grptest"},
 --	{demotime={1.0000,15.000}, scenetime={0,5.000}, scene="scene3"}
 };
 
+function clear(stime,etime,name)
+    return {demotime={stime,etime}, src="clear", target={name}, vec4={color="0,0,0,1", flag="1,1,0,0"}}
+end
+function render(stime,etime,bufname, scenename)
+    return {demotime={stime,etime}, src=scenename, target={bufname}, shader="default" }
+end
+function effectbokeh(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf}}
+end
+function showdepth(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/depthshow", tex={srcBuf=srcbuf}}
+end
+
+local gbsize = "0.8,0.8,0,0"
+function effectGaussH(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/gaussblurh", tex={srcBuf=srcbuf}, vec4={scale=gbsize}}
+end
+function effectGaussV(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/gaussblurv", tex={srcBuf=srcbuf}, vec4={scale=gbsize}}
+end
+
 Render = {
-    {demotime={0   ,5.000}  , src="clear", target={"buf2"}, vec4={color="1,1,1,1", flag="1,1,0,0"}},
-   	{demotime={0   ,5.000}  , src="boxscat", target={"buf2"}, shader="default"},
-    {demotime={0   ,5.000}  , src="plane", target={"backbuffer"},  shader="scene/boxblur",tex={srcBuf="buf2"},
-        vec4={size=(screen_width/8)..","..(screen_height/8)..",0,0"}},
-    {demotime={0   ,5.000}  , src="depthclear", target={"backbuffer"}, vec4={flag="0,1,0,0"}},
-
-	{demotime={0   ,3.000}  , src="scene1", target={"backbuffer"}, shader="default"},
-
+    clear (0,10, "buf2"),
+    clear (0,10, "buf3"),
+   	render(0,5 , "buf2","grptest"),
+--    showdepth(0,5 ,"backbuffer", "buf2"),
+    effectbokeh(0,5 ,"backbuffer", "buf2"),
+--    effectGaussH(0,5 ,"buf3", "buf2"),
+--    effectGaussV(0,5 ,"backbuffer", "buf3"),
+--    {demotime={0   ,5.000}  , src="depthclear", target={"backbuffer"}, vec4={flag="0,1,0,0"}},
+--	{demotime={0   ,3.000}  , src="scene1", target={"backbuffer"}, shader="default"},
 --	{demotime={0   ,5.000}  , src="plane",  target={"backbuffer"}, shader="copyShader"},
-	{demotime={3.000,5.000} , src="scene2", target={"backbuffer"}, shader="default"},
-	{demotime={5   ,7.000}  , src="fovanim", target={"backbuffer"}, shader="default"},
---	{demotime={10.000,15.000}, src="scene3", target={"backbuffer"}, shader="default"}
+	render(5,7 ,"backbuffer", "scene2"),
+    render(7,10,"backbuffer", "grptest")
 };
+
+print(screen_width);

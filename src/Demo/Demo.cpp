@@ -332,7 +332,13 @@ public:
                                 const Math::vec4& v = re->shaderparam[p].m_val;
                                 pg->SetUniform(re->shaderparam[p].m_name.c_str(), v.x, v.y, v.z, v.w);
                             }
-                            pg->SetUniform("time", effecttime);
+                        }
+                        pg->SetUniform("time", effecttime);
+                        auto eit = m_vec4s.end();
+                        for (auto it = m_vec4s.begin(); it != eit; ++it)
+                        {
+                            const MOE::Math::vec4& v4 = it->second;
+                            pg->SetUniform(it->first.c_str(), v4.x,v4.y,v4.z,v4.w);
                         }
                         pg->Unbind();
                     }
@@ -346,7 +352,11 @@ public:
     
     void SetMatrix(const s8* name, const Math::matrix4x4& mat)
     {
-        m_render->SetUniform(name, mat);
+        assert(0);// TODO:
+    }
+    void SetVec4(const s8* name, const Math::vec4& vec)
+    {
+        m_vec4s[name] = vec;
     }
     
     void Resize(s32 w, s32 h)
@@ -430,9 +440,9 @@ private:
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;
     std::vector<RenderEffectInfo*> m_renderEffects;
-    SceneGraphRender* m_render;
     std::string m_respath;
     std::map<std::string, ProgramObject*> m_ovprgs;
+    std::map<std::string, MOE::Math::vec4> m_vec4s;
 };
 
 // -----------------------------------------------------------------------------
@@ -444,5 +454,6 @@ void Demo::Clear()               { m_imp->Clear();      }
 void Demo::Update(f64 time)      { m_imp->Update(time); }
 void Demo::Render(f64 time)      { m_imp->Render(time); }
 void Demo::SetMatrix(const s8* name, const Math::matrix4x4& mat){ m_imp->SetMatrix(name,mat); }
+void Demo::SetVec4(const s8* name, const Math::vec4& vec){ m_imp->SetVec4(name,vec); }
 void Demo::Resize(s32 w, s32 h)  { m_imp->Resize(w, h); }
 } // MOE

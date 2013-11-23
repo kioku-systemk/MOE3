@@ -84,8 +84,10 @@ public:
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
 
-		m_cameracheck = mnew SimpleGUI::Check(m_gui,"Camera View",5,100);
-    	m_frame2->AddChild(m_cameracheck);
+		m_idlecheck = mnew SimpleGUI::Check(m_gui,"Idle Draw",5,100);
+        m_idlecheck->SetState
+        (true);
+    	m_frame2->AddChild(m_idlecheck);
 
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 100, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
@@ -269,6 +271,12 @@ public:
             // Update,Render
             m_demo->Update(animtime);
             m_demo->Render(animtime);
+            
+            const float m4 = m_midi->GetControlParam(4);
+            const float m5 = m_midi->GetControlParam(5);
+            const float m6 = m_midi->GetControlParam(6);
+            const float m7 = m_midi->GetControlParam(7);
+            m_demo->SetVec4("param",MOE::Math::vec4(m4,m5,m6,m7));
         }
         g->Disable(VG_DEPTH_TEST);
         g->Disable(VG_CULL_FACE);
@@ -282,7 +290,7 @@ public:
 	void Idle(void)
 	{
         // call draw in Animation mode
-        if (m_animcheck->GetState())
+        if (m_animcheck->GetState() || m_idlecheck->GetState())
             Draw();
         else
             MOE::Sleep(1);
@@ -317,7 +325,7 @@ private:
     SimpleGUI::Slider* m_bar[3];
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
-	SimpleGUI::Check* m_cameracheck;
+	SimpleGUI::Check* m_idlecheck;
     SimpleGUI::Button* m_openbtn;
     SimpleGUI::Button* m_reloadbtn;
     SimpleGUI::Button* m_rebufbtn;
