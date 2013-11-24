@@ -19,29 +19,29 @@ Buffer = {
 };
 
 Scene = {
-	{name="plane",  path="scene/plane.MRZ"},
-	{name="scene1", path="scene/breakbox.MRZ"},
-	{name="scene2", path="scene/test.MRZ"},
-   	{name="boxscat", path="scene/boxscat.MRZ"},
-   	{name="fovanim", path="scene/fovanim.MRZ"},
-    {name="grptest", path="scene/grptest.MRZ"},
---	{name="scene3", path="script/scene1.lua"}
+	{name="plane", path="scene/plane.MRZ"},
+	{name="tdfandline", path="scene/tdfandline.MRZ"},
+	{name="breakbox", path="scene/breakbox.MRZ"},
+	{name="spherebreak", path="scene/spherebreak.MRZ"},
+	{name="boxstageandline", path="scene/boxstageandline.MRZ"},
+	{name="sphereandlines", path="scene/sphereandlines.MRZ"},
 }
 
 -- dependent flow is not support yet
 -- ex. animation, physics, update partiles
 Process = {
-	{demotime={0   ,5.000}  , scenetime={0,2.000}, scene="scene1",vec4={p1="1,1,1,1"}},
-	{demotime={0   ,5.000}  , scenetime={0,5.000}, scene="plane"},
-    {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="grptest"},
-	{demotime={5.000,7.000} , scenetime={0,5.000}, scene="scene2"},
-	{demotime={5.000,7.000} , scenetime={0,2.000}, scene="fovanim"},
-  	{demotime={7.000,10.000} , scenetime={0,2.000}, scene="grptest"},
---	{demotime={1.0000,15.000}, scenetime={0,5.000}, scene="scene3"}
+	{demotime={0.000,100.000}, scenetime={0,5.000}, scene="plane"},
+	{demotime={0.000, 5.000}, scenetime={0,5.000}, scene="spherebreak",vec4={p1="1,1,1,1"}},
+	{demotime={5.000, 10.000}, scenetime={0,5.000}, scene="tdfandline"},
+	{demotime={10.000,15.000}, scenetime={0,5.000}, scene="boxstageandline"},
+	{demotime={15.000,20.000}, scenetime={0,5.000}, scene="sphereandlines"},
 };
 
 function clear(stime,etime,name)
     return {demotime={stime,etime}, src="clear", target={name}, vec4={color="0,0,0,1", flag="1,1,0,0"}}
+end
+function depthclear(stime,etime,bufname)
+	return {demotime={stime,etime}  , src="depthclear", target={bufname}, vec4={flag="0,1,0,0"}}
 end
 function render(stime,etime,bufname, scenename)
     return {demotime={stime,etime}, src=scenename, target={bufname}, shader="default" }
@@ -66,19 +66,13 @@ function effectGaussV(stime,etime,bufname,srcbuf)
 end
 
 Render = {
-    clear (0,10, "buf2"),
-    clear (0,10, "buf3"),
---    render(0,5 , "backbuffer","scene1"),
-   	render(0,5 , "buf2","scene1"),
---    showdepth(0,5 ,"backbuffer", "buf2"),
-    effectbokeh(0,5 ,"backbuffer", "buf2"),
---    effectGaussH(0,5 ,"buf3", "buf2"),
---    effectGaussV(0,5 ,"backbuffer", "buf3"),
---    {demotime={0   ,5.000}  , src="depthclear", target={"backbuffer"}, vec4={flag="0,1,0,0"}},
---	{demotime={0   ,3.000}  , src="scene1", target={"backbuffer"}, shader="default"},
---	{demotime={0   ,5.000}  , src="plane",  target={"backbuffer"}, shader="copyShader"},
-	render(5,7 ,"backbuffer", "scene2"),
-    render(7,10,"backbuffer", "grptest")
+    clear (0,20, "buf2"),
+	render(0,5 , "buf2","spherebreak"), effectbokeh(0,5 ,"backbuffer", "buf2"),
+	render(5,10 , "buf2","tdfandline"), effectbokeh(5,10 ,"backbuffer", "buf2"),
+	render(10,15 , "buf2","boxstageandline"), effectbokeh(10,15 ,"backbuffer", "buf2"),
+	render(15,20 , "buf2","sphereandlines"), effectbokeh(15,20 ,"backbuffer", "buf2"),
 };
+
+demotime = 20;
 
 print(screen_width);
