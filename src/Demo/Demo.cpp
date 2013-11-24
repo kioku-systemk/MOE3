@@ -111,10 +111,10 @@ private:
         for (int i = 0; i < processnum; ++i)
         {
             const std::string scene  = eval<std::string>(L, "return Process[%d].scene",i+1);
-            const int sc_start = eval<int>(L, "return Process[%d].scenetime[1]",i+1);
-            const int sc_end   = eval<int>(L, "return Process[%d].scenetime[2]",i+1);
-            const int dt_start = eval<int>(L, "return Process[%d].demotime[1]",i+1);
-            const int dt_end   = eval<int>(L, "return Process[%d].demotime[2]",i+1);
+            const f64 sc_start = eval<f64>(L, "return Process[%d].scenetime[1]",i+1);
+            const f64 sc_end   = eval<f64>(L, "return Process[%d].scenetime[2]",i+1);
+            const f64 dt_start = eval<f64>(L, "return Process[%d].demotime[1]",i+1);
+            const f64 dt_end   = eval<f64>(L, "return Process[%d].demotime[2]",i+1);
             char paramstr[128] = {};
             std::map<std::string,std::string> vals;
             sprintf(paramstr, "Process[%d].vec4", i+1);
@@ -139,8 +139,9 @@ private:
         }
     }
     
-    void createRenderEffects(lua_State* L)
+    double createRenderEffects(lua_State* L)
     {
+        double maxendtime = 0;
         std::map<std::string,std::string> vals;
         const int rendernum = getTableNum(L, "Render");
         for (int i = 0; i < rendernum; ++i)
@@ -149,8 +150,10 @@ private:
             const std::string target = eval<std::string>(L, "return Render[%d].target[1]",i+1);
             std::string shader = "default";
             shader = eval<std::string>(L, "return Render[%d].shader",i+1);
-            const int dt_start = eval<int>(L, "return Render[%d].demotime[1]",i+1);
-            const int dt_end   = eval<int>(L, "return Render[%d].demotime[2]",i+1);
+            const f64 dt_start = eval<f64>(L, "return Render[%d].demotime[1]",i+1);
+            const f64 dt_end   = eval<f64>(L, "return Render[%d].demotime[2]",i+1);
+            if (maxendtime < dt_end)
+                maxendtime = dt_end;
             char paramstr[128] = {};
             vals.clear();
             sprintf(paramstr, "Render[%d].tex", i+1);
@@ -183,6 +186,7 @@ private:
                 m_renderEffects.push_back(re);
             }
         }
+        return maxendtime;
     }
     void createOverridePrograms(Graphics* g)
     {
@@ -217,7 +221,7 @@ private:
         createBuffers(g, L);
         createScenes(g, L);
         createProcesses(L);
-        createRenderEffects(L);
+        m_demotime = createRenderEffects(L);
         createOverridePrograms(g);
     }
     b8 loadLua(const s8* luafile)
@@ -244,10 +248,16 @@ public:
     {
         m_width  = 1920;
         m_height = 1080;
+        m_demotime = 0;
     }
     ~Impl()
     {
         Clear();
+    }
+    
+    f64 GetDemoTime() const
+    {
+        return m_demotime;
     }
    
     b8 Export(const s8* packfile)
@@ -446,6 +456,7 @@ private:
   
     Graphics* g;
     s32 m_width, m_height;
+    f64 m_demotime;
     std::map<std::string, EffectBuffer*> m_buffers;
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;
@@ -467,4 +478,5 @@ void Demo::Render(f64 time)      { m_imp->Render(time); }
 void Demo::SetMatrix(const s8* name, const Math::matrix4x4& mat){ m_imp->SetMatrix(name,mat); }
 void Demo::SetVec4(const s8* name, const Math::vec4& vec){ m_imp->SetVec4(name,vec); }
 void Demo::Resize(s32 w, s32 h)  { m_imp->Resize(w, h); }
+f64 Demo::GetDemoTime() const    { return m_imp->GetDemoTime(); }
 } // MOE

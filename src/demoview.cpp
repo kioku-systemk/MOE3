@@ -275,7 +275,9 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
-        double maxanimtime = 10.0;
+        double maxanimtime = 0;
+        if (m_demo)
+            maxanimtime = m_demo->GetDemoTime();
         if (m_animcheck->GetState()) {
             f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
             m_timeslider->SetValue(tm/maxanimtime);
