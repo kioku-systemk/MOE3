@@ -395,6 +395,7 @@ public:
 #define VG_RGBA                           0x1908
 #define VG_LUMINANCE                      0x1909
 #define VG_LUMINANCE_ALPHA                0x190A
+#define VG_RGBA16F_ARB                    0x881A
 #define VG_RGBA32F_ARB                    0x8814
 #define VG_RGB32F_ARB                     0x8815
 #define VG_LUMINANCE32F_ARB               0x8818

@@ -30,7 +30,13 @@ namespace {
 			internalformat = VG_RGBA;
 			internalsize   = VG_FLOAT;
 		}
-		else
+		else if (color_bit == 64)
+        {
+            gltexformat    = VG_RGBA16F_ARB;
+            internalformat = VG_RGBA;
+            internalsize   = VG_FLOAT;
+        }
+        else
 #endif
         if (color_bit == 32)
 		{

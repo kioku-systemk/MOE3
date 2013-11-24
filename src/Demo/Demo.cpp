@@ -249,6 +249,15 @@ public:
         Clear();
     }
    
+    b8 Export(const s8* packfile)
+    {
+        // src base path -> m_respath
+        //
+        // TODO:export code.
+        //
+        return true;
+    }
+    
     b8 Load(const s8* demolua)
     {
         Clear();
@@ -449,7 +458,8 @@ private:
 Demo::Demo(Graphics* mg) : m_imp(new Impl(mg)) {}
 Demo::~Demo() { delete m_imp; }
     
-b8 Demo::Load(const s8* demolua) { return m_imp->Load(demolua); }
+b8 Demo::Load(const s8* demolua)    { return m_imp->Load(demolua); }
+b8 Demo::Export(const s8* packfile) { return m_imp->Export(packfile); }
 void Demo::Clear()               { m_imp->Clear();      }
 void Demo::Update(f64 time)      { m_imp->Update(time); }
 void Demo::Render(f64 time)      { m_imp->Render(time); }

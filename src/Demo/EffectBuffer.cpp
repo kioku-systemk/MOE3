@@ -23,6 +23,9 @@ namespace MOE {
             } else if (c == "RGBA32F") {
                 color_comp = 4;
                 color_bit = 128;
+            } else if (c == "RGBA16F") {
+                color_comp = 4;
+                color_bit = 64;
             } else if (c == "R32F") {
                 color_comp = 1;
                 color_bit = 32;

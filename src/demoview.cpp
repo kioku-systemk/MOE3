@@ -49,6 +49,7 @@ public:
         m_height = height;
         
         m_demo = 0;
+        
         // load lua
         if (g_demoluafile != "") {
             m_demo = new MOE::Demo(g);
@@ -56,7 +57,6 @@ public:
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Load error: demo.lua");
-            m_demo->Resize(width,height);
         }
         
         // TEST
@@ -89,16 +89,20 @@ public:
         (true);
     	m_frame2->AddChild(m_idlecheck);
 
-        m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 100, 90, 16);
+        m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 140, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
     	m_frame2->AddChild(m_openbtn);
-        m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadModel",5,height - 80, 90, 16);
+        m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadModel",5,height - 120, 90, 16);
         m_reloadbtn->SetClickedFunc(MOEWindow::reloadModelBtnFunc, this);
     	m_frame2->AddChild(m_reloadbtn);
-        m_rebufbtn = mnew SimpleGUI::Button(m_gui,"ReloadShader",5,height - 60, 90, 16);
+        m_rebufbtn = mnew SimpleGUI::Button(m_gui,"ReloadShader",5,height - 100, 90, 16);
         m_rebufbtn->SetClickedFunc(MOEWindow::reloadShaderFunc, this);
     	m_frame2->AddChild(m_rebufbtn);
 
+        m_exportbtn = mnew SimpleGUI::Button(m_gui,"ExportDemo",5,height - 60, 90, 16);
+        m_exportbtn->SetClickedFunc(MOEWindow::exportBtnFunc, this);
+    	m_frame2->AddChild(m_exportbtn);
+        
 		m_cameranode = 0;
  
         m_rot = m_view = MOE::Math::Identity();
@@ -119,6 +123,8 @@ public:
 	
 	void ReloadModels()
 	{
+        if (g_demoluafile != "")
+            m_demo->Load(g_demoluafile.c_str());
 	}
     void ReloadBuffers()
 	{
@@ -132,9 +138,19 @@ public:
             delete m_demo;
             g_demoluafile = std::string(fn);
             m_demo = new MOE::Demo(g);
+            m_demo->Resize(m_width,m_height);
             m_demo->Load(g_demoluafile.c_str());
         }
     }
+    
+    void ExportDemo()
+    {
+        const char* fn = FileSaveDialog("dpk");
+        if (m_demo)
+            m_demo->Export(fn);
+    }
+
+    static void exportBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ExportDemo(); }
     static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenDemo(); }
     static void reloadModelBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadModels(); }
     static void reloadShaderFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadBuffers(); }
@@ -305,10 +321,13 @@ public:
         m_frame1->SetSize(w, 30);
         m_frame2->SetSize(100, h-30);
 		m_timeslider->SetSize(w-220,16);
-        m_openbtn->SetPos(5, h - 100);
-        m_reloadbtn->SetPos(5, h -  80);
-        m_rebufbtn->SetPos(5, h -  60);
-        m_demo->Resize(w,h);
+        m_openbtn->SetPos(5, h - 140);
+        m_reloadbtn->SetPos(5, h - 120);
+        m_rebufbtn->SetPos(5, h -  100);
+        
+        m_exportbtn->SetPos(5, h - 60);
+        if (m_demo)
+            m_demo->Resize(w,h);
         Draw();
 	}
     
@@ -326,6 +345,7 @@ private:
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_idlecheck;
+    SimpleGUI::Button* m_exportbtn;
     SimpleGUI::Button* m_openbtn;
     SimpleGUI::Button* m_reloadbtn;
     SimpleGUI::Button* m_rebufbtn;
