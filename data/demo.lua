@@ -5,6 +5,8 @@
 -- screen_width = 1920;
 -- screen_heith = 1080;
 
+local w = screen_width;
+local h = screen_height;
 local hw = screen_width/2;
 local hh = screen_height/2;
 
@@ -12,13 +14,13 @@ local hh = screen_height/2;
 Buffer = {
 	--{name="backbuffer"} -- default buffer
 	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
-	{name="buf2", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
+	{name="buf2", color="RGBA16F", depth="D24", width=screen_width, height=screen_height},
    	{name="buf3", color="RGBA8", depth="D24", width=screen_width, height=screen_height}
 };
 
 Scene = {
 	{name="plane",  path="scene/plane.MRZ"},
-	{name="scene1", path="scene/spherebreak.MRZ"},
+	{name="scene1", path="scene/breakbox.MRZ"},
 	{name="scene2", path="scene/test.MRZ"},
    	{name="boxscat", path="scene/boxscat.MRZ"},
    	{name="fovanim", path="scene/fovanim.MRZ"},
@@ -29,7 +31,7 @@ Scene = {
 -- dependent flow is not support yet
 -- ex. animation, physics, update partiles
 Process = {
-	{demotime={0   ,3.000}  , scenetime={0,5.000}, scene="scene1",vec4={p1="1,1,1,1"}},
+	{demotime={0   ,5.000}  , scenetime={0,2.000}, scene="scene1",vec4={p1="1,1,1,1"}},
 	{demotime={0   ,5.000}  , scenetime={0,5.000}, scene="plane"},
     {demotime={0   ,5.000}  , scenetime={0,5.000}, scene="grptest"},
 	{demotime={5.000,7.000} , scenetime={0,5.000}, scene="scene2"},
@@ -47,6 +49,10 @@ end
 function effectbokeh(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf}}
 end
+function effectdof(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0"}}
+end
+
 function showdepth(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/depthshow", tex={srcBuf=srcbuf}}
 end
@@ -62,7 +68,8 @@ end
 Render = {
     clear (0,10, "buf2"),
     clear (0,10, "buf3"),
-   	render(0,5 , "buf2","grptest"),
+--    render(0,5 , "backbuffer","scene1"),
+   	render(0,5 , "buf2","scene1"),
 --    showdepth(0,5 ,"backbuffer", "buf2"),
     effectbokeh(0,5 ,"backbuffer", "buf2"),
 --    effectGaussH(0,5 ,"buf3", "buf2"),
