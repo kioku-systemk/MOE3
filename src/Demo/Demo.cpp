@@ -235,6 +235,7 @@ private:
         createFromParams(L);
         
         closeLua(L);
+        Update(0);
         return true;
     }
 
