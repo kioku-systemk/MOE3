@@ -379,6 +379,11 @@ public:
         m_vec4s[name] = vec;
     }
     
+    void ClearUniforms()
+    {
+        m_vec4s.clear();
+    }
+    
     void Resize(s32 w, s32 h)
     {
         m_width  = w;
@@ -477,6 +482,7 @@ void Demo::Update(f64 time)      { m_imp->Update(time); }
 void Demo::Render(f64 time)      { m_imp->Render(time); }
 void Demo::SetMatrix(const s8* name, const Math::matrix4x4& mat){ m_imp->SetMatrix(name,mat); }
 void Demo::SetVec4(const s8* name, const Math::vec4& vec){ m_imp->SetVec4(name,vec); }
+void Demo::ClearUniforms()       { m_imp->ClearUniforms(); }
 void Demo::Resize(s32 w, s32 h)  { m_imp->Resize(w, h); }
 f64 Demo::GetDemoTime() const    { return m_imp->GetDemoTime(); }
 } // MOE

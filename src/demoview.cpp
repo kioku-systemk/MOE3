@@ -80,15 +80,50 @@ public:
         m_bar[0] = mnew SimpleGUI::Slider(m_gui, 10,20,80,16);
         m_bar[1] = mnew SimpleGUI::Slider(m_gui, 10,40,80,16);
         m_bar[2] = mnew SimpleGUI::Slider(m_gui, 10,60,80,16);
+        SimpleGUI::Caption* label0 = mnew SimpleGUI::Caption(m_gui, 12,17, "0.000", 16);
+        SimpleGUI::Caption* label1 = mnew SimpleGUI::Caption(m_gui, 12,37, "0.000", 16);
+        SimpleGUI::Caption* label2 = mnew SimpleGUI::Caption(m_gui, 12,57, "0.000", 16);
+        m_bar[0]->SetUserData(label0); m_bar[0]->SetChangedFunc(changeSliderFunc, m_bar[0]);
+        m_bar[1]->SetUserData(label1); m_bar[1]->SetChangedFunc(changeSliderFunc, m_bar[1]);
+        m_bar[2]->SetUserData(label2); m_bar[2]->SetChangedFunc(changeSliderFunc, m_bar[2]);
+        m_frame2->AddChild(label0);
+        m_frame2->AddChild(label1);
+        m_frame2->AddChild(label2);
 		m_frame2->AddChild(m_bar[0]);
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
 
-		m_idlecheck = mnew SimpleGUI::Check(m_gui,"Idle Draw",5,100);
-        m_idlecheck->SetState
-        (true);
-    	m_frame2->AddChild(m_idlecheck);
 
+		m_idlecheck = mnew SimpleGUI::Check(m_gui,"Idle Draw",5,100);
+        m_idlecheck->SetState(true);
+    	m_frame2->AddChild(m_idlecheck);
+    
+        m_overridecheck = mnew SimpleGUI::Check(m_gui,"param",5,120);
+        m_overridecheck->SetState(false);
+    	m_frame2->AddChild(m_overridecheck);
+
+        m_pbar[0] = mnew SimpleGUI::Slider(m_gui, 10,140,80,16);
+        m_pbar[1] = mnew SimpleGUI::Slider(m_gui, 10,160,80,16);
+        m_pbar[2] = mnew SimpleGUI::Slider(m_gui, 10,180,80,16);
+        m_pbar[3] = mnew SimpleGUI::Slider(m_gui, 10,200,80,16);
+        SimpleGUI::Caption* plabel0 = mnew SimpleGUI::Caption(m_gui, 12,137, "0.000", 16);
+        SimpleGUI::Caption* plabel1 = mnew SimpleGUI::Caption(m_gui, 12,157, "0.000", 16);
+        SimpleGUI::Caption* plabel2 = mnew SimpleGUI::Caption(m_gui, 12,177, "0.000", 16);
+        SimpleGUI::Caption* plabel3 = mnew SimpleGUI::Caption(m_gui, 12,197, "0.000", 16);
+        m_pbar[0]->SetUserData(plabel0); m_pbar[0]->SetChangedFunc(changeSliderFunc, m_pbar[0]);
+        m_pbar[1]->SetUserData(plabel1); m_pbar[1]->SetChangedFunc(changeSliderFunc, m_pbar[1]);
+        m_pbar[2]->SetUserData(plabel2); m_pbar[2]->SetChangedFunc(changeSliderFunc, m_pbar[2]);
+        m_pbar[3]->SetUserData(plabel3); m_pbar[3]->SetChangedFunc(changeSliderFunc, m_pbar[3]);
+        m_frame2->AddChild(plabel0);
+        m_frame2->AddChild(plabel1);
+        m_frame2->AddChild(plabel2);
+        m_frame2->AddChild(plabel3);
+		m_frame2->AddChild(m_pbar[0]);
+        m_frame2->AddChild(m_pbar[1]);
+        m_frame2->AddChild(m_pbar[2]);
+        m_frame2->AddChild(m_pbar[3]);
+
+        
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 140, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
     	m_frame2->AddChild(m_openbtn);
@@ -154,7 +189,12 @@ public:
     static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenDemo(); }
     static void reloadModelBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadModels(); }
     static void reloadShaderFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadBuffers(); }
-    
+    static void changeSliderFunc(float v, void* thisptr) {
+        SimpleGUI::Caption* cap = static_cast<SimpleGUI::Caption*>(static_cast<SimpleGUI::Slider*>(thisptr)->GetUserData());
+        char buf[64];
+        sprintf(buf, "%4.3lf", static_cast<double>(v));
+        cap->SetText(buf);
+    }
     s32 mx;
     s32 my;
     s32 press;
@@ -260,6 +300,27 @@ public:
             m2 = m_midi->GetControlParam(2);
             m_bar[2]->SetValue(m2);
         }
+        
+        static float m4 = m_midi->GetControlParam(4);
+        if (m4 != m_midi->GetControlParam(4)){
+            m4 = m_midi->GetControlParam(4);
+            m_pbar[0]->SetValue(m4);
+        }
+        static float m5 = m_midi->GetControlParam(5);
+        if (m5 != m_midi->GetControlParam(5)){
+            m5 = m_midi->GetControlParam(5);
+            m_pbar[1]->SetValue(m5);
+        }
+        static float m6 = m_midi->GetControlParam(6);
+        if (m6 != m_midi->GetControlParam(6)){
+            m6 = m_midi->GetControlParam(6);
+            m_pbar[2]->SetValue(m6);
+        }
+        static float m7 = m_midi->GetControlParam(7);
+        if (m7 != m_midi->GetControlParam(7)){
+            m7 = m_midi->GetControlParam(7);
+            m_pbar[3]->SetValue(m7);
+        }
 	}
     
     void Draw()
@@ -283,18 +344,21 @@ public:
             m_timeslider->SetValue(tm/maxanimtime);
         }
         const f32 animtime = m_timeslider->GetValue()*maxanimtime;
-    
+
         if (m_demo)
         {
             // Update,Render
             m_demo->Update(animtime);
             m_demo->Render(animtime);
             
-            const float m4 = m_midi->GetControlParam(4);
-            const float m5 = m_midi->GetControlParam(5);
-            const float m6 = m_midi->GetControlParam(6);
-            const float m7 = m_midi->GetControlParam(7);
-            m_demo->SetVec4("param",MOE::Math::vec4(m4,m5,m6,m7));
+            if (m_overridecheck->GetState()) {
+                m_demo->SetVec4("param",MOE::Math::vec4(m_pbar[0]->GetValue(),
+                                                        m_pbar[1]->GetValue(),
+                                                        m_pbar[2]->GetValue(),
+                                                        m_pbar[3]->GetValue()));
+            } else {
+                m_demo->ClearUniforms();
+            }
         }
         g->Disable(VG_DEPTH_TEST);
         g->Disable(VG_CULL_FACE);
@@ -344,9 +408,11 @@ private:
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
+    SimpleGUI::Slider* m_pbar[4];
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_idlecheck;
+    SimpleGUI::Check* m_overridecheck;
     SimpleGUI::Button* m_exportbtn;
     SimpleGUI::Button* m_openbtn;
     SimpleGUI::Button* m_reloadbtn;

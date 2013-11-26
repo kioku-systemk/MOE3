@@ -23,6 +23,7 @@ namespace MOE {
         
         void SetMatrix(const s8* name, const Math::matrix4x4& mat);
         void SetVec4(const s8* name, const Math::vec4& vec);
+        void ClearUniforms();
         void Resize(s32 w, s32 h);
         f64 GetDemoTime() const;
     private:
