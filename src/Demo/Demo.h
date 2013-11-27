@@ -17,6 +17,7 @@ namespace MOE {
         b8 Load(const s8* demolua);
         b8 Export(const s8* packfile);
         
+        void ReloadEffectShaders();
         void Clear();
         void Update(f64 time);
         void Render(f64 time);

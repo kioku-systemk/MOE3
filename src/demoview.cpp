@@ -160,9 +160,9 @@ public:
 	{
         if (g_demoluafile != "")
         {
-            delete m_demo;
-            m_demo = new MOE::Demo(g);
-            m_demo->Resize(m_width,m_height);
+            //delete m_demo;
+            //m_demo = new MOE::Demo(g);
+            //m_demo->Resize(m_width,m_height);
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Faild demo load.");
@@ -170,6 +170,8 @@ public:
 	}
     void ReloadBuffers()
 	{
+        if (m_demo)
+            m_demo->ReloadEffectShaders();
 	}
     
     void OpenDemo()

@@ -396,6 +396,11 @@ public:
         }
     }
     
+    void ReloadEffectShaders()
+    {
+        clearmap(m_ovprgs);
+        createOverridePrograms(g);
+    }
 private:
     
     class ShaderParam
@@ -477,6 +482,7 @@ Demo::~Demo() { delete m_imp; }
     
 b8 Demo::Load(const s8* demolua)    { return m_imp->Load(demolua); }
 b8 Demo::Export(const s8* packfile) { return m_imp->Export(packfile); }
+void Demo::ReloadEffectShaders() { m_imp->ReloadEffectShaders(); }
 void Demo::Clear()               { m_imp->Clear();      }
 void Demo::Update(f64 time)      { m_imp->Update(time); }
 void Demo::Render(f64 time)      { m_imp->Render(time); }
