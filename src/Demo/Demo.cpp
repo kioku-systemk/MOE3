@@ -353,7 +353,7 @@ public:
                                 pg->SetUniform(re->shaderparam[p].m_name.c_str(), v.x, v.y, v.z, v.w);
                             }
                         }
-                        pg->SetUniform("time", effecttime);
+                        pg->SetUniform("time", effecttime,effecttime,effecttime,effecttime);
                         auto eit = m_vec4s.end();
                         for (auto it = m_vec4s.begin(); it != eit; ++it)
                         {

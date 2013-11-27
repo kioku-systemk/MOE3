@@ -159,7 +159,14 @@ public:
 	void ReloadModels()
 	{
         if (g_demoluafile != "")
-            m_demo->Load(g_demoluafile.c_str());
+        {
+            delete m_demo;
+            m_demo = new MOE::Demo(g);
+            m_demo->Resize(m_width,m_height);
+            b8 r = m_demo->Load(g_demoluafile.c_str());
+            if (!r)
+                MOELogE("Faild demo load.");
+        }
 	}
     void ReloadBuffers()
 	{

@@ -481,26 +481,38 @@ void ProgramObject::SetUniform(const char* name, const int num, const int* i_arr
 // 1f - 4f
 void ProgramObject::SetUniform(const char* name, const float f0)
 {
-	if (m_program)
-		g->Uniform1f(g->GetUniformLocation(m_program, name), f0);
+	if (m_program){
+        int l = g->GetUniformLocation(m_program, name);
+        if (l >= 0)
+            g->Uniform1f(l, f0);
+    }
 }
 
 void ProgramObject::SetUniform(const char* name, const float f0, const float f1)
 {
-	if (m_program)
-		g->Uniform2f(g->GetUniformLocation(m_program, name), f0, f1);
+	if (m_program) {
+        int l = g->GetUniformLocation(m_program, name);
+        if (l >= 0)
+            g->Uniform2f(l, f0, f1);
+    }
 }
 
 void ProgramObject::SetUniform(const char* name, const float f0, const float f1, const float f2)
 {
-	if (m_program)
-		g->Uniform3f(g->GetUniformLocation(m_program, name), f0, f1, f2);
+	if (m_program) {
+        int l = g->GetUniformLocation(m_program, name);
+        if (l >= 0)
+            g->Uniform3f(l, f0, f1, f2);
+    }
 }
 
 void ProgramObject::SetUniform(const char* name, const float f0, const float f1, const float f2, const float f3)
 {
-	if (m_program)
-		g->Uniform4f(g->GetUniformLocation(m_program, name), f0, f1, f2, f3);
+	if (m_program){
+        int l = g->GetUniformLocation(m_program, name);
+        if (l >= 0)
+            g->Uniform4f(l, f0, f1, f2, f3);
+    }
 }
 
 void ProgramObject::SetUniform(const char* name, const int num, const float* f_array)
