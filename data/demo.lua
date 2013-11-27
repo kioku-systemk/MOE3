@@ -47,7 +47,7 @@ function render(stime,etime,bufname, scenename)
     return {demotime={stime,etime}, src=scenename, target={bufname}, shader="default" }
 end
 function effectbokeh(stime,etime,bufname,srcbuf)
-    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf}}
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf},vec4={param="0.950,0.512,0.9,0"}}
 end
 function effectdof(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0"}}
