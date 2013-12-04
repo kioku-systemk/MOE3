@@ -73,7 +73,7 @@ public:
 		m_animcheck = mnew SimpleGUI::Check(m_gui,"Realtime",110,5);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
-        
+        /*
 		SimpleGUI::Caption* clcl = mnew SimpleGUI::Caption(m_gui, 10, 0, "ClearColor", 16);
         m_frame2->AddChild(clcl);
 
@@ -92,37 +92,25 @@ public:
 		m_frame2->AddChild(m_bar[0]);
         m_frame2->AddChild(m_bar[1]);
         m_frame2->AddChild(m_bar[2]);
+         */
 
-
-		m_idlecheck = mnew SimpleGUI::Check(m_gui,"Idle Draw",5,100);
-        m_idlecheck->SetState(true);
+		m_idlecheck = mnew SimpleGUI::Check(m_gui,"Idle Draw",5,0);
+        //m_idlecheck->SetState(true);
     	m_frame2->AddChild(m_idlecheck);
     
-        m_overridecheck = mnew SimpleGUI::Check(m_gui,"param",5,120);
+        m_overridecheck = mnew SimpleGUI::Check(m_gui,"Override",5,20);
         m_overridecheck->SetState(false);
     	m_frame2->AddChild(m_overridecheck);
 
-        m_pbar[0] = mnew SimpleGUI::Slider(m_gui, 10,140,80,16);
-        m_pbar[1] = mnew SimpleGUI::Slider(m_gui, 10,160,80,16);
-        m_pbar[2] = mnew SimpleGUI::Slider(m_gui, 10,180,80,16);
-        m_pbar[3] = mnew SimpleGUI::Slider(m_gui, 10,200,80,16);
-        SimpleGUI::Caption* plabel0 = mnew SimpleGUI::Caption(m_gui, 12,137, "0.000", 16);
-        SimpleGUI::Caption* plabel1 = mnew SimpleGUI::Caption(m_gui, 12,157, "0.000", 16);
-        SimpleGUI::Caption* plabel2 = mnew SimpleGUI::Caption(m_gui, 12,177, "0.000", 16);
-        SimpleGUI::Caption* plabel3 = mnew SimpleGUI::Caption(m_gui, 12,197, "0.000", 16);
-        m_pbar[0]->SetUserData(plabel0); m_pbar[0]->SetChangedFunc(changeSliderFunc, m_pbar[0]);
-        m_pbar[1]->SetUserData(plabel1); m_pbar[1]->SetChangedFunc(changeSliderFunc, m_pbar[1]);
-        m_pbar[2]->SetUserData(plabel2); m_pbar[2]->SetChangedFunc(changeSliderFunc, m_pbar[2]);
-        m_pbar[3]->SetUserData(plabel3); m_pbar[3]->SetChangedFunc(changeSliderFunc, m_pbar[3]);
-        m_frame2->AddChild(plabel0);
-        m_frame2->AddChild(plabel1);
-        m_frame2->AddChild(plabel2);
-        m_frame2->AddChild(plabel3);
-		m_frame2->AddChild(m_pbar[0]);
-        m_frame2->AddChild(m_pbar[1]);
-        m_frame2->AddChild(m_pbar[2]);
-        m_frame2->AddChild(m_pbar[3]);
-
+        for (int i = 0; i < 8; ++i) {
+            m_pbar[i] = mnew SimpleGUI::Slider(m_gui, 10, 40 + 20*i,80,16);
+        
+            SimpleGUI::Caption* label = mnew SimpleGUI::Caption(m_gui, 12, 40+20*i-3, "0.000", 16);
+            m_pbar[i]->SetUserData(label);
+            m_pbar[i]->SetChangedFunc(changeSliderFunc, m_pbar[i]);
+            m_frame2->AddChild(label);
+            m_frame2->AddChild(m_pbar[i]);
+        }
         
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 140, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
@@ -335,10 +323,10 @@ public:
     void Draw()
     {
         updateGUI();
-        const float mr = m_bar[0]->GetValue();
-        const float mg = m_bar[1]->GetValue();
-        const float mb = m_bar[2]->GetValue();
-        
+        const float mr = 0;//m_bar[0]->GetValue();
+        const float mg = 0;//m_bar[1]->GetValue();
+        const float mb = 0;//m_bar[2]->GetValue();
+ 
         g->Enable(VG_CULL_FACE);
         g->Enable(VG_DEPTH_TEST);
         g->ClearColor(mr,mg,mb,0);
@@ -361,10 +349,14 @@ public:
             m_demo->Render(animtime);
             
             if (m_overridecheck->GetState()) {
-                m_demo->SetVec4("param",MOE::Math::vec4(m_pbar[0]->GetValue(),
-                                                        m_pbar[1]->GetValue(),
-                                                        m_pbar[2]->GetValue(),
-                                                        m_pbar[3]->GetValue()));
+                m_demo->SetVec4("ep1",MOE::Math::vec4(m_pbar[0]->GetValue(),
+                                                      m_pbar[1]->GetValue(),
+                                                      m_pbar[2]->GetValue(),
+                                                      m_pbar[3]->GetValue()));
+                m_demo->SetVec4("ep2",MOE::Math::vec4(m_pbar[4]->GetValue(),
+                                                      m_pbar[5]->GetValue(),
+                                                      m_pbar[6]->GetValue(),
+                                                      m_pbar[7]->GetValue()));
             } else {
                 m_demo->ClearUniforms();
             }
@@ -417,7 +409,7 @@ private:
     SimpleGUI::GUIManager* m_gui;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
-    SimpleGUI::Slider* m_pbar[4];
+    SimpleGUI::Slider* m_pbar[8];
 	SimpleGUI::Slider* m_timeslider;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_idlecheck;

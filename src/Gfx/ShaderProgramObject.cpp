@@ -233,8 +233,8 @@ ProgramObject::ProgramObject(Graphics* mg)
     
     m_depthtest = true;
     m_blend = false;
-    m_cullface = false;
-    m_depthmask = false;
+    m_cullface = true;
+    m_depthmask = true;
 }
 
 ProgramObject::ProgramObject(Graphics* mg, const ShaderObject& vertexShader, const ShaderObject& fragmentShader)
@@ -246,8 +246,8 @@ ProgramObject::ProgramObject(Graphics* mg, const ShaderObject& vertexShader, con
     
     m_depthtest = true;
     m_blend = false;
-    m_cullface = false;
-    m_depthmask = false;
+    m_cullface = true;
+    m_depthmask = true;
 
 	Link(vertexShader, fragmentShader);
 }
@@ -343,7 +343,7 @@ bool ProgramObject::LoadFromMemory(const std::string &fxSource)
     eval<b8>(L, cullface, "return CullFace");
     m_cullface = cullface;
 
-    b8 depthmask = false;
+    b8 depthmask = true;
     eval<b8>(L, depthmask, "return DepthMask");
     m_depthmask = depthmask;
 
@@ -393,7 +393,7 @@ void ProgramObject::Bind()
 	m_binding = true;
 
     if (m_depthtest) g->Enable(VG_DEPTH_TEST);
-	else g->Enable(VG_DEPTH_TEST);
+	else             g->Disable(VG_DEPTH_TEST);
     
 	if (m_blend) {
 		g->Enable(VG_BLEND);
@@ -409,9 +409,10 @@ void ProgramObject::Bind()
 	} else {
 		g->Disable(VG_CULL_FACE);
 	}
-	
-	if (m_depthmask) g->DepthMask(VG_FALSE);
-	else             g->DepthMask(VG_TRUE);
+
+	// bug????
+//	if (m_depthmask) g->DepthMask(VG_TRUE);
+//	else             g->DepthMask(VG_FALSE);
 
 }
 

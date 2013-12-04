@@ -14,7 +14,7 @@ local hh = screen_height/2;
 Buffer = {
 	--{name="backbuffer"} -- default buffer
 	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
-	{name="buf2", color="RGBA16F", depth="D24", width=screen_width, height=screen_height},
+	{name="buf2", color="RGBA32F", depth="D24", width=screen_width, height=screen_height},
    	{name="buf3", color="RGBA8", depth="D24", width=screen_width, height=screen_height}
 };
 
@@ -47,7 +47,7 @@ function render(stime,etime,bufname, scenename)
     return {demotime={stime,etime}, src=scenename, target={bufname}, shader="default" }
 end
 function effectbokeh(stime,etime,bufname,srcbuf)
-    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf},vec4={param="0.950,0.512,0.9,0"}}
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/bokehblur", tex={srcBuf=srcbuf},vec4={ep1="0.750,0.400,0.9,0.375"}}
 end
 function effectdof(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="scene/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0"}}
@@ -67,10 +67,10 @@ end
 
 Render = {
     clear (0,20, "buf2"),
-	render(0,5 , "buf2","spherebreak"), effectbokeh(0,5 ,"backbuffer", "buf2"),
-	render(5,10 , "buf2","tdfandline"), effectbokeh(5,10 ,"backbuffer", "buf2"),
-	render(10,15 , "buf2","boxstageandline"), effectbokeh(10,15 ,"backbuffer", "buf2"),
-	render(15,20 , "buf2","sphereandlines"), effectbokeh(15,20 ,"backbuffer", "buf2"),
+	render(0,5 , "buf2","spherebreak"), effectdof(0,5 ,"backbuffer", "buf2"),
+	render(5,10 , "buf2","tdfandline"), effectdof(5,10 ,"backbuffer", "buf2"),
+	render(10,15 , "buf2","boxstageandline"), effectdof(10,15 ,"backbuffer", "buf2"),
+	render(15,20 , "buf2","sphereandlines"), effectdof(15,20 ,"backbuffer", "buf2"),
 };
 
 demotime = 20;
