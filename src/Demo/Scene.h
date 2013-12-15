@@ -22,6 +22,9 @@ namespace MOE {
         
         void Resize(s32 w, s32 h);
         const s8* GetName() const;
+        
+        void SetUniform(const s8* name, const MOE::Math::vec4& v);
+        
     private:
         class Impl;
         Impl* m_imp;

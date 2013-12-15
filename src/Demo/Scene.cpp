@@ -157,6 +157,10 @@ namespace MOE {
             m_render->UpdateBuffers(m_root);
         }
         
+        void SetUniform(const s8* name, const MOE::Math::vec4& v)
+        {
+            m_render->SetUniform(name, v);
+        }
         void Render(f64 demotime, ProgramObject* prg)
         {
             m_render->Draw(m_root, prg);
@@ -191,5 +195,6 @@ namespace MOE {
     void Scene::Render(f64 demotime, ProgramObject* prg) { m_imp->Render(demotime, prg); }
     void Scene::Resize(s32 w, s32 h) { m_imp->Resize(w, h); };
     const s8* Scene::GetName() const { return m_imp->GetName(); };
+    void Scene::SetUniform(const s8* name, const MOE::Math::vec4& v) { m_imp->SetUniform(name, v); }
 } // MOE
 

@@ -11,6 +11,8 @@
 #include "../Gfx/SceneGraphRender.h"
 #include "../Gfx/ShaderProgramObject.h"
 #include "../Core/LuaUtil.h"
+#include "../Core/Time.h"
+#include "Sound.h"
 
 namespace {
     template<typename T>
@@ -221,8 +223,20 @@ private:
         createBuffers(g, L);
         createScenes(g, L);
         createProcesses(L);
-        m_demotime = createRenderEffects(L);
+        m_demoalltime = createRenderEffects(L);
         createOverridePrograms(g);
+    }
+    void loadSound(lua_State* L)
+    {
+        std::string sfile = eval<std::string>(L, "return soundfile");
+        if (sfile != "") {
+            m_sound = new Sound();
+            std::string spath = m_respath + sfile;
+            if (!m_sound->Load(spath.c_str()))
+                MOELogE("Load failed sound : %s\n",spath.c_str());
+            else
+                MOELogI("Load sound : %s\n",spath.c_str());
+        }
     }
     b8 loadLua(const s8* luafile)
     {
@@ -238,6 +252,8 @@ private:
         doLua(L, static_cast<const s8*>(st.GetData()));
         createFromParams(L);
         
+        loadSound(L);
+        
         closeLua(L);
         Update(0);
         return true;
@@ -248,7 +264,12 @@ public:
     {
         m_width  = 1920;
         m_height = 1080;
-        m_demotime = 0;
+        m_demoalltime = 0;
+        m_sound = 0;
+        m_starttime = 0;
+        m_playtime = 0;
+        m_playing = false;
+        m_fftvec = MOE::Math::vec4(0,0,0,0);
     }
     ~Impl()
     {
@@ -257,9 +278,54 @@ public:
     
     f64 GetDemoTime() const
     {
-        return m_demotime;
+        return m_demoalltime;
+    }
+    
+    f64 GetTime()
+    {
+        if (!m_sound) {
+            if (m_playing)
+                m_playtime = GetTimeCount() - m_starttime;
+            return m_playtime;
+        }else{
+            return m_sound->GetPosTime();
+        }
     }
    
+    b8 Play()
+    {
+        if (m_playing)
+            return true;
+        m_playing = true;
+        if (!m_sound)
+            return false;
+        m_starttime = GetTimeCount() - m_playtime;
+        m_sound->Play();
+        return true;
+    }
+    b8 IsPlaying() const
+    {
+        return m_playing;
+    }
+    b8 Stop()
+    {
+        if (!m_playing)
+            return true;
+        m_playing = false;
+        if (!m_sound)
+            return false;
+        m_sound->Pause();
+        return true;
+    }
+    void SetTime(f64 tm)
+    {
+        if (m_sound){
+            m_sound->SetPosTime(tm);
+        } else {
+            m_starttime = GetTimeCount() - tm;
+            m_playtime = tm;
+        }
+    }
     b8 Export(const s8* packfile)
     {
         // src base path -> m_respath
@@ -276,6 +342,7 @@ public:
     }
     void Clear()
     {
+        delete m_sound; m_sound = 0;
         clearmap(m_buffers);
         clearmap(m_scenes);
         clearvector(m_processes);
@@ -284,6 +351,12 @@ public:
     }
     void Update(f64 time)
     {
+        const f32* fft = 0;
+        if (m_sound) {
+            fft = m_sound->GetFFTData();
+            m_fftvec = MOE::Math::vec4(fft[8],fft[16],fft[32], fft[64]); // chois freq.
+            //printf("%.3f,%.3f,%.3f,%.3f\n",fftvec.x,fftvec.y,fftvec.z,fftvec.w);
+        }
         std::map<std::string, Math::vec4> vec4s;
         const auto eit = m_processes.end();
         for (auto it = m_processes.begin(); it != eit; ++it)
@@ -297,6 +370,8 @@ public:
                 const f64 scenedir      = scenedirtime >= 0.0 ? 1.0 : -1.0;
                 const f64 ltime = (time - pi->demo_startTime) * scenedir * scenespantime / demospantime + pi->scene_startTime;
                 vec4s.clear();
+                if (fft)
+                    pi->scene->SetUniform("fft", m_fftvec);
                 const auto peit = pi->shaderparam.end();
                 for (auto pit = pi->shaderparam.begin(); peit != pit; ++pit)
                     vec4s[(*pit).m_name] = (*pit).m_val;
@@ -465,8 +540,13 @@ private:
     };
   
     Graphics* g;
+    Sound* m_sound;
+    b8 m_playing;
     s32 m_width, m_height;
-    f64 m_demotime;
+    f64 m_starttime;
+    f64 m_playtime;
+    f64 m_demoalltime;
+    MOE::Math::vec4 m_fftvec;
     std::map<std::string, EffectBuffer*> m_buffers;
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;
@@ -491,4 +571,10 @@ void Demo::SetVec4(const s8* name, const Math::vec4& vec){ m_imp->SetVec4(name,v
 void Demo::ClearUniforms()       { m_imp->ClearUniforms(); }
 void Demo::Resize(s32 w, s32 h)  { m_imp->Resize(w, h); }
 f64 Demo::GetDemoTime() const    { return m_imp->GetDemoTime(); }
+f64 Demo::GetTime()              { return m_imp->GetTime(); }
+b8 Demo::Play()                  { return m_imp->Play(); }
+b8 Demo::IsPlaying() const       { return m_imp->IsPlaying(); }
+b8 Demo::Stop()                  { return m_imp->Stop(); }
+void Demo::SetTime(f64 tm)       { return m_imp->SetTime(tm); }
+
 } // MOE

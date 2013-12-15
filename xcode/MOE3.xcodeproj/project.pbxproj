@@ -56,6 +56,8 @@
 		77C04C981718959700C9269B /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
 		77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
+		77F944FE185DB57D008675E7 /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		77F94501185DB627008675E7 /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		77FD452417B3ED5A001B3F22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77FD452817B3ED5A001B3F22 /* InfoPlist.strings */; };
 		77FD453B17B3EDDD001B3F22 /* viewermain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FD453A17B3EDDD001B3F22 /* viewermain.cpp */; };
@@ -75,6 +77,19 @@
 		77FD455617B3EE3E001B3F22 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FD455517B3EE3E001B3F22 /* OpenGL.framework */; };
 		77FD455817B3EE42001B3F22 /* CoreMIDI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77FD455717B3EE42001B3F22 /* CoreMIDI.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		77F94500185DB623008675E7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				77F94501185DB627008675E7 /* libbass.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		770A517616DE6FCF00872F21 /* CoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow.h; sourceTree = "<group>"; };
@@ -163,6 +178,8 @@
 		77E5213615DF2A87000595F8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		77E5213715DF2A87000595F8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		77E5215D15DF2CDE000595F8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		77F944FD185DB57D008675E7 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../lib/mac/libbass.dylib; sourceTree = "<group>"; };
+		77F94503185DB8BD008675E7 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		77FD452317B3ED5A001B3F22 /* KSceneViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KSceneViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77FD452717B3ED5A001B3F22 /* KSceneViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSceneViewer-Info.plist"; sourceTree = "<group>"; };
 		77FD452917B3ED5A001B3F22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -180,6 +197,7 @@
 				770FFFED181C33F50074F472 /* CoreMIDI.framework in Frameworks */,
 				770FFFEC181C32A90074F472 /* OpenGL.framework in Frameworks */,
 				770FFFAE181C318E0074F472 /* Cocoa.framework in Frameworks */,
+				77F944FE185DB57D008675E7 /* libbass.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +358,7 @@
 				7750233617F0853D005F5112 /* Demo.h */,
 				7750233717F0853D005F5112 /* Scene.cpp */,
 				7750233817F0853D005F5112 /* Scene.h */,
+				77F94503185DB8BD008675E7 /* Sound.h */,
 			);
 			path = Demo;
 			sourceTree = "<group>";
@@ -361,6 +380,7 @@
 		77E5212315DF2A87000595F8 = {
 			isa = PBXGroup;
 			children = (
+				77F944FD185DB57D008675E7 /* libbass.dylib */,
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5213815DF2A87000595F8 /* Resource */,
 				77FD452517B3ED5A001B3F22 /* KSceneViewer */,
@@ -445,6 +465,7 @@
 				770FFFA9181C318E0074F472 /* Sources */,
 				770FFFAA181C318E0074F472 /* Frameworks */,
 				770FFFAB181C318E0074F472 /* Resources */,
+				77F94500185DB623008675E7 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -673,7 +694,10 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/Desktop/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = "-llua";
@@ -708,7 +732,10 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/Desktop/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = "-llua";

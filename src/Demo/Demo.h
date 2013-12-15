@@ -27,6 +27,12 @@ namespace MOE {
         void ClearUniforms();
         void Resize(s32 w, s32 h);
         f64 GetDemoTime() const;
+        f64 GetTime();
+        
+        b8 Play();
+        b8 IsPlaying() const;
+        b8 Stop();
+        void SetTime(f64 tm);
     private:
         class Impl;
         Impl* m_imp;

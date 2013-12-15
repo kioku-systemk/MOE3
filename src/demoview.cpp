@@ -70,7 +70,9 @@ public:
         m_frame1->AddChild(cap);
 
 		m_timeslider = mnew SimpleGUI::Slider(m_gui, 200,10,width - 220,16);
-		m_animcheck = mnew SimpleGUI::Check(m_gui,"Realtime",110,5);
+        m_timeslider->SetChangedFunc(changeTimeSliderFunc, this);
+		m_animcheck = mnew SimpleGUI::Check(m_gui,"DEMO!!",110,5);
+        m_animcheck->SetChangedFunc(changeAnimFunc,this);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
         /*
@@ -192,6 +194,22 @@ public:
         sprintf(buf, "%4.3lf", static_cast<double>(v));
         cap->SetText(buf);
     }
+    static void changeTimeSliderFunc(float v, void* thisptr) {
+        static_cast<MOEWindow*>(thisptr)->changeTimeSlider(v);
+    }
+    void changeTimeSlider(float v)
+    {
+        if (!m_demo->IsPlaying())
+            m_demo->SetTime(v * m_demo->GetDemoTime());
+    }
+    static void changeAnimFunc(bool r, void* thisptr) { static_cast<MOEWindow*>(thisptr)->ChangeAnimMode(r); }
+    void ChangeAnimMode(bool r)
+    {
+        if (r)
+            m_demo->Play();
+        else
+            m_demo->Stop();
+    }
     s32 mx;
     s32 my;
     s32 press;
@@ -265,6 +283,9 @@ public:
 	void KeyDown(int key){
 		if (key == 27)
 			exit(0);
+        if (key == ' ')
+            m_animcheck->SetState(!m_animcheck->GetState());
+        
         m_gui->KeyDown(key);
 	}
 	void KeyUp(int key)
@@ -336,11 +357,9 @@ public:
         double maxanimtime = 0;
         if (m_demo)
             maxanimtime = m_demo->GetDemoTime();
-        if (m_animcheck->GetState()) {
-            f64 tm = fmod(MOE::GetTimeCount(),maxanimtime);
-            m_timeslider->SetValue(tm/maxanimtime);
-        }
-        const f32 animtime = m_timeslider->GetValue()*maxanimtime;
+        f64 tm = m_demo->GetTime();
+        m_timeslider->SetValue(tm / maxanimtime);
+        const f32 animtime = tm;
 
         if (m_demo)
         {
