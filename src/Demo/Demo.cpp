@@ -232,10 +232,13 @@ private:
         if (sfile != "") {
             m_sound = new Sound();
             std::string spath = m_respath + sfile;
-            if (!m_sound->Load(spath.c_str()))
+            if (!m_sound->Load(spath.c_str())) {
                 MOELogE("Load failed sound : %s\n",spath.c_str());
-            else
+                delete m_sound;
+                m_sound = 0;
+            } else {
                 MOELogI("Load sound : %s\n",spath.c_str());
+            }
         }
     }
     b8 loadLua(const s8* luafile)
