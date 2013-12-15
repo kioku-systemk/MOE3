@@ -195,11 +195,12 @@ public:
         cap->SetText(buf);
     }
     static void changeTimeSliderFunc(float v, void* thisptr) {
-        static_cast<MOEWindow*>(thisptr)->changeTimeSlider(v);
+		if (thisptr)
+			static_cast<MOEWindow*>(thisptr)->changeTimeSlider(v);
     }
     void changeTimeSlider(float v)
     {
-        if (!m_demo->IsPlaying())
+        if (m_demo && !m_demo->IsPlaying())
             m_demo->SetTime(v * m_demo->GetDemoTime());
     }
     static void changeAnimFunc(bool r, void* thisptr) { static_cast<MOEWindow*>(thisptr)->ChangeAnimMode(r); }
@@ -354,12 +355,16 @@ public:
         g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
 
 		// Animation
-        double maxanimtime = 0;
-        if (m_demo)
-            maxanimtime = m_demo->GetDemoTime();
-        f64 tm = m_demo->GetTime();
-        m_timeslider->SetValue(tm / maxanimtime);
-        const f32 animtime = tm;
+        f64 maxanimtime = 0;
+		f64 tm = 0;
+		if (m_demo) {
+			maxanimtime = m_demo->GetDemoTime();
+			tm = m_demo->GetTime();
+
+			if (m_timeslider)
+				m_timeslider->SetValue(tm / maxanimtime);
+		}
+		const f32 animtime = tm;
 
         if (m_demo)
         {
