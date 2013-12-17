@@ -42,6 +42,8 @@
 		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
 		772676AD18144848004C0113 /* demo.lua in Resources */ = {isa = PBXBuildFile; fileRef = 772676AC18144848004C0113 /* demo.lua */; };
+		7730DC0318604B9F0043807C /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		7730DC0518604BBF0043807C /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		7750233A17F0853D005F5112 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		7750233B17F0853D005F5112 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
@@ -79,6 +81,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7730DC0418604BB90043807C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				7730DC0518604BBF0043807C /* libbass.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		77F94500185DB623008675E7 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -218,6 +230,7 @@
 				77FD455817B3EE42001B3F22 /* CoreMIDI.framework in Frameworks */,
 				77FD455617B3EE3E001B3F22 /* OpenGL.framework in Frameworks */,
 				77FD452417B3ED5A001B3F22 /* Cocoa.framework in Frameworks */,
+				7730DC0318604B9F0043807C /* libbass.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +513,7 @@
 				77FD451F17B3ED5A001B3F22 /* Sources */,
 				77FD452017B3ED5A001B3F22 /* Frameworks */,
 				77FD452117B3ED5A001B3F22 /* Resources */,
+				7730DC0418604BB90043807C /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -855,7 +869,10 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -881,7 +898,10 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = "-llua";
 				PRODUCT_NAME = "$(TARGET_NAME)";
