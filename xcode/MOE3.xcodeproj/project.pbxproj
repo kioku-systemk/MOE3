@@ -44,6 +44,10 @@
 		772676AD18144848004C0113 /* demo.lua in Resources */ = {isa = PBXBuildFile; fileRef = 772676AC18144848004C0113 /* demo.lua */; };
 		7730DC0318604B9F0043807C /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		7730DC0518604BBF0043807C /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		774CF03B186EA41900DADF9E /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		774CF03E186EAD5A00DADF9E /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CF03C186EAD5A00DADF9E /* jpgd.cpp */; };
+		774CF03F186EAD5A00DADF9E /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CF03C186EAD5A00DADF9E /* jpgd.cpp */; };
+		774CF040186EAD5A00DADF9E /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CF03C186EAD5A00DADF9E /* jpgd.cpp */; };
 		7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		7750233A17F0853D005F5112 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		7750233B17F0853D005F5112 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
@@ -60,6 +64,9 @@
 		77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
 		77F944FE185DB57D008675E7 /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		77F94501185DB627008675E7 /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		77F94506186E9C09008675E7 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F94504186E9C09008675E7 /* Image.cpp */; };
+		77F94507186E9C09008675E7 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F94504186E9C09008675E7 /* Image.cpp */; };
+		77F94508186E9C09008675E7 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F94504186E9C09008675E7 /* Image.cpp */; };
 		77FD452417B3ED5A001B3F22 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
 		77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 77FD452817B3ED5A001B3F22 /* InfoPlist.strings */; };
 		77FD453B17B3EDDD001B3F22 /* viewermain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77FD453A17B3EDDD001B3F22 /* viewermain.cpp */; };
@@ -157,6 +164,8 @@
 		770FFFF0181C92A60074F472 /* FrameBufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameBufferObject.h; sourceTree = "<group>"; };
 		770FFFF4181D48660074F472 /* LuaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LuaUtil.h; sourceTree = "<group>"; };
 		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
+		774CF03C186EAD5A00DADF9E /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
+		774CF03D186EAD5A00DADF9E /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		7750233317F0853D005F5112 /* EffectBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectBuffer.cpp; sourceTree = "<group>"; };
 		7750233417F0853D005F5112 /* EffectBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EffectBuffer.h; sourceTree = "<group>"; };
 		7750233517F0853D005F5112 /* Demo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Demo.cpp; sourceTree = "<group>"; };
@@ -192,6 +201,8 @@
 		77E5215D15DF2CDE000595F8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		77F944FD185DB57D008675E7 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../lib/mac/libbass.dylib; sourceTree = "<group>"; };
 		77F94503185DB8BD008675E7 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		77F94504186E9C09008675E7 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
+		77F94505186E9C09008675E7 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		77FD452317B3ED5A001B3F22 /* KSceneViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KSceneViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77FD452717B3ED5A001B3F22 /* KSceneViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSceneViewer-Info.plist"; sourceTree = "<group>"; };
 		77FD452917B3ED5A001B3F22 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -217,6 +228,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				774CF03B186EA41900DADF9E /* libbass.dylib in Frameworks */,
 				77B04A6E168DF7FA0068FCE6 /* CoreMIDI.framework in Frameworks */,
 				77E5215E15DF2CDE000595F8 /* OpenGL.framework in Frameworks */,
 				77E5213315DF2A87000595F8 /* Cocoa.framework in Frameworks */,
@@ -240,6 +252,10 @@
 		770A517516DE6FCF00872F21 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				774CF03C186EAD5A00DADF9E /* jpgd.cpp */,
+				774CF03D186EAD5A00DADF9E /* jpgd.h */,
+				77F94504186E9C09008675E7 /* Image.cpp */,
+				77F94505186E9C09008675E7 /* Image.h */,
 				770A517616DE6FCF00872F21 /* CoreWindow.h */,
 				770A517716DE6FCF00872F21 /* CoreWindow_mac.h */,
 				770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */,
@@ -587,6 +603,7 @@
 			files = (
 				770FFFEE181C34300074F472 /* TextureObject.cpp in Sources */,
 				770FFFDB181C32460074F472 /* EffectBuffer.cpp in Sources */,
+				77F94508186E9C09008675E7 /* Image.cpp in Sources */,
 				770FFFDC181C32460074F472 /* Demo.cpp in Sources */,
 				770FFFDD181C32460074F472 /* Scene.cpp in Sources */,
 				770FFFF3181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
@@ -602,6 +619,7 @@
 				770FFFE7181C32460074F472 /* RenderDevice.cpp in Sources */,
 				770FFFEB181C32580074F472 /* demoview.cpp in Sources */,
 				770FFFE8181C32460074F472 /* SceneGraphRender.cpp in Sources */,
+				774CF040186EAD5A00DADF9E /* jpgd.cpp in Sources */,
 				770FFFE9181C32460074F472 /* BufferObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -618,7 +636,9 @@
 				770A51A916DE6FCF00872F21 /* EasyMIDIController.mm in Sources */,
 				770A51AA16DE6FCF00872F21 /* WGLExtention.cpp in Sources */,
 				770A51AC16DE6FCF00872F21 /* ShaderProgramObject.cpp in Sources */,
+				774CF03E186EAD5A00DADF9E /* jpgd.cpp in Sources */,
 				77C04C8F1714731400C9269B /* MrzLoader.cpp in Sources */,
+				77F94506186E9C09008675E7 /* Image.cpp in Sources */,
 				77C04C981718959700C9269B /* AnimLoader.cpp in Sources */,
 				779C2E8B176C9D8D00DE219C /* RenderCommand.cpp in Sources */,
 				770FFFF1181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
@@ -638,6 +658,7 @@
 			files = (
 				772676A9181433B6004C0113 /* Demo.cpp in Sources */,
 				772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */,
+				77F94507186E9C09008675E7 /* Image.cpp in Sources */,
 				772676AB181433BE004C0113 /* Scene.cpp in Sources */,
 				77FD454A17B3EE2F001B3F22 /* CoreWindow_mac.mm in Sources */,
 				770FFFF2181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
@@ -653,6 +674,7 @@
 				77FD455417B3EE2F001B3F22 /* BufferObject.cpp in Sources */,
 				77FD453D17B3EE08001B3F22 /* AnimLoader.cpp in Sources */,
 				77FD453F17B3EE08001B3F22 /* MrzLoader.cpp in Sources */,
+				774CF03F186EAD5A00DADF9E /* jpgd.cpp in Sources */,
 				77FD453B17B3EDDD001B3F22 /* viewermain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -708,13 +730,14 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
-					/Users/kioku/Desktop/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
-				OTHER_LDFLAGS = "-llua";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -746,13 +769,14 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
-					/Users/kioku/Desktop/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
-				OTHER_LDFLAGS = "-llua";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -821,10 +845,17 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/Desktop/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = MOE3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -843,10 +874,17 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
-				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/../lib/mac\"";
+				LIBRARY_SEARCH_PATHS = (
+					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					/Users/kioku/Desktop/git/MOE3/lib/mac,
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = MOE3;
 				WRAPPER_EXTENSION = app;
 			};
@@ -870,11 +908,15 @@
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					"\"$(SRCROOT)/../lib/mac\"",
 					/Users/kioku/git/MOE3/lib/mac,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_LDFLAGS = "-llua";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;
@@ -899,11 +941,15 @@
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
+					"\"$(SRCROOT)/../lib/mac\"",
 					/Users/kioku/git/MOE3/lib/mac,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
-				OTHER_LDFLAGS = "-llua";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
 				WRAPPER_EXTENSION = app;

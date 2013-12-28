@@ -215,7 +215,9 @@ b8 TextureObject::WriteImage(const s32* pImage, u32 width, u32 height)
 b8 TextureObject::WriteImage(const void* pImage, u32 width, u32 height, s32 color_component, s32 color_bit)
 {
 	if (m_refmode || !m_texname)
-		return false;
+	{
+        Resize(width, height, color_component, color_bit);
+    }
 	
 	unsigned int save_texname;
 	g->GetIntegerv(VG_TEXTURE_BINDING_2D, &(int &)save_texname);

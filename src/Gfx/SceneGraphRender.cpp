@@ -12,6 +12,8 @@
 #include "RenderCommand.h"
 #include "../SceneGraph/SceneGraph.h"
 #include "../Core/Stream.h"
+#include "../Core/Image.h"
+
 
 #define STRINGIFY(A) #A
 
@@ -280,7 +282,7 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 	} else if (type == NODETYPE_MATERIAL) {
 		const std::string name = node->GetName();
 		const Material* mat = static_cast<const Material*>(node);
-/*
+
 		// Load Texture
 		int tn = mat->GetNumTexture();
 		for (int i = 0; i < tn; ++i) {
@@ -293,7 +295,7 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 			
 			// Load texture
             MOE::Image img;
-			MOE::Stream* st = mnew MOE::Stream(m_respath + tex.c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
+			MOE::Stream* st = mnew MOE::Stream((m_respath + tex.c_str()).c_str(), MOE::Stream::MODE_INPUT_BINARY_ONMEMORY);
 			b8 r = img.Load(st);
 			delete st;
 			if (!r) {
@@ -302,10 +304,10 @@ void SceneGraphRender::UpdateBuffers(const MOE::SceneGraph::Node* node)
 			}
 			MOELogD("Load texture: %s", tex.c_str());
 			MOE::TextureObject* tobj = mnew MOE::TextureObject(g);
-			tobj->WriteImage(&img);
+			tobj->WriteImage(img.GetImage(), img.GetWidth(), img.GetHeight());
 			
 			m_texturecache[tex] = tobj;
-		}*/
+		}
 		// Load Shader
 		size_t np;
 		if (mat && (np = mat->GetName().rfind("_")) != std::string::npos) {
