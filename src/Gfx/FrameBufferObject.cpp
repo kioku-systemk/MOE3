@@ -107,6 +107,10 @@ bool FrameBufferObject::create()
 	if (m_fboname)
 		return false;
 
+    GLenum err = glGetError();
+    if (err != VG_NO_ERROR)
+        printf("Something GL error[%s]=%x\n",__FILE__, err);
+    
 	GLuint save_framebuffer;
 	g->GetIntegerv(VG_FRAMEBUFFER_BINDING, &(GLint &)save_framebuffer);
 	
