@@ -17,7 +17,7 @@ namespace MOE {
         Scene(Graphics* mg, const s8* name, const s8* path);
         virtual ~Scene();
         
-        void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps);
+        void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname);
         void Render(f64 demotime, ProgramObject* prg);
         
         void Resize(s32 w, s32 h);

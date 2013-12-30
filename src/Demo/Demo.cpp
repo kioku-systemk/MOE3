@@ -117,6 +117,10 @@ private:
             const f64 sc_end   = eval<f64>(L, "return Process[%d].scenetime[2]",i+1);
             const f64 dt_start = eval<f64>(L, "return Process[%d].demotime[1]",i+1);
             const f64 dt_end   = eval<f64>(L, "return Process[%d].demotime[2]",i+1);
+            std::string camname= eval<std::string>(L, "return Process[%d].camera",i+1);
+            if (camname == "")
+                camname = "Camera";
+            
             char paramstr[128] = {};
             std::map<std::string,std::string> vals;
             sprintf(paramstr, "Process[%d].vec4", i+1);
@@ -135,7 +139,7 @@ private:
             }
 
             if (scene != "") {
-                ProcessInfo* pi = mnew ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene],params);
+                ProcessInfo* pi = mnew ProcessInfo(dt_start,dt_end,sc_start, sc_end, m_scenes[scene],params,camname);
                 m_processes.push_back(pi);
             }
         }
@@ -366,7 +370,8 @@ public:
         {
             ProcessInfo* pi = (*it);
             if (pi->demo_startTime <= time
-            &&  pi->demo_endTime   >  time) {
+            &&  pi->demo_endTime   >  time
+            &&  pi->scene) {
                 const f64 demospantime  = pi->demo_endTime - (*it)->demo_startTime;
                 const f64 scenedirtime  = pi->scene_endTime - (*it)->scene_startTime;
                 const f64 scenespantime = fabs(pi->scene_endTime - (*it)->scene_startTime);
@@ -378,7 +383,7 @@ public:
                 const auto peit = pi->shaderparam.end();
                 for (auto pit = pi->shaderparam.begin(); peit != pit; ++pit)
                     vec4s[(*pit).m_name] = (*pit).m_val;
-                pi->scene->Update(time, ltime, vec4s);
+                pi->scene->Update(time, ltime, vec4s, pi->cameraname);
             }
         }
     }
@@ -503,7 +508,7 @@ private:
     class ProcessInfo
     {
     public:
-        ProcessInfo(f64 demo_st, f64 demo_et, f64 scene_st, f64 scene_et, Scene* sc, std::vector<ShaderParam>& sp)
+        ProcessInfo(f64 demo_st, f64 demo_et, f64 scene_st, f64 scene_et, Scene* sc, std::vector<ShaderParam>& sp, const std::string& camname)
         {
             demo_startTime  = demo_st;
             demo_endTime    = demo_et;
@@ -511,12 +516,14 @@ private:
             scene_endTime   = scene_et;
             scene = sc;
             shaderparam = sp;
+            cameraname = camname;
         }
         ~ProcessInfo(){}
         f64 demo_startTime;
         f64 demo_endTime;
         f64 scene_startTime;
         f64 scene_endTime;
+        std::string cameraname;
         Scene* scene;
         std::vector<ShaderParam> shaderparam;
     };

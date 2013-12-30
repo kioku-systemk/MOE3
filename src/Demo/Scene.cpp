@@ -109,7 +109,7 @@ namespace MOE {
             delete m_root;
         }
         
-        void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps)
+        void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname)
         {
             // Animation
             if (m_anim)
@@ -120,16 +120,23 @@ namespace MOE {
             using namespace MOE::Math;
             f32 fov = 60.0;
             matrix view = Identity();
-            if (m_cameranode)
+            
+            const Transform* cameranode = m_cameranode;
+            if (camname != "Camera") {
+                const Transform* c = static_cast<const SceneGraph::Transform*>(FindNode(m_root, camname.c_str()));
+                if (c)
+                    cameranode = c;
+            }
+            if (cameranode)
             {
-                const matrix cammat = GetParentMatrix(m_cameranode);
+                const matrix cammat = GetParentMatrix(cameranode);
                 const vec3 cpos = (cammat * vec4(0,0,0,1)).xyz();
                 const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
                 const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
                 view = LookAt(cpos, ctar, cup);
-                if (m_cameranode->GetType() == NODETYPE_TRANSFORM)
+                if (cameranode->GetType() == NODETYPE_TRANSFORM)
                 {
-                    const Transform* tr = static_cast<const Transform*>(m_cameranode);
+                    const Transform* tr = static_cast<const Transform*>(cameranode);
                     s32 n = tr->GetChildCount();
                     for (s32 i = 0; i < n; ++i){
                         const Node* nd = tr->GetChild(i);
@@ -191,7 +198,7 @@ namespace MOE {
 // -----------------------------------------------------------------------------
     Scene::Scene(Graphics* mg, const s8* name, const s8* path) : m_imp(mnew Impl(mg,name,path)) {}
     Scene::~Scene() { delete m_imp; }
-    void Scene::Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps) { m_imp->Update(demotime,scenetime, sps); }
+    void Scene::Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname) { m_imp->Update(demotime,scenetime, sps, camname); }
     void Scene::Render(f64 demotime, ProgramObject* prg) { m_imp->Render(demotime, prg); }
     void Scene::Resize(s32 w, s32 h) { m_imp->Resize(w, h); };
     const s8* Scene::GetName() const { return m_imp->GetName(); };

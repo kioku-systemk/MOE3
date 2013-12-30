@@ -53,6 +53,7 @@ namespace  {
         std::string m_objname;
 		AnimType type;
         std::vector<KeyFrame> m_key;
+        double fps;
 	};
 	
 } // namespace
@@ -81,7 +82,7 @@ public:
 	{
         std::map<std::string, AnimData*>::iterator it = m_animmap.begin();
 		if (it != m_animmap.end())
-			return it->second->m_key.size() / 24.0;
+			return it->second->m_key.size() / it->second->fps;
 		else
 			return 0.0;
 	}
@@ -213,7 +214,7 @@ public:
         std::map<std::string, AnimData*>::iterator it = m_animmap.find(node->GetName());
 		if (it != m_animmap.end()) {
 			const s32 maxk = static_cast<s32>(it->second->m_key.size());
-			double tm = time * 24.0;
+			double tm = time * it->second->fps;
 			s32 timek = static_cast<s32>(MOE::Math::Floor(tm));
 			double fl = tm - timek;
 			if (timek >= maxk - 1) {
@@ -282,7 +283,7 @@ Animation* AnimLoader::Load(const Stream* st)
 	const u8 ver = data[3];
 	data += 4;
 	
-	/*const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]);*/ data += sizeof(s32);
+	const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
 	
 	const s32 nodenum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
 	
@@ -291,6 +292,7 @@ Animation* AnimLoader::Load(const Stream* st)
 	
 	for (s32 i = 0; i < nodenum; ++i) {
 		AnimData ad;
+        ad.fps = static_cast<double>(fpsmode);
 		ad.m_objname = data; data += ad.m_objname.length() + 1;
 		//ad.type = static_cast<AnimData::AnimType>(*reinterpret_cast<const u8*>(&data[0])); data += sizeof(u8);
 		MOELogDX("Name = %s", ad.m_objname.c_str());
