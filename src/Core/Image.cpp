@@ -4,6 +4,10 @@
 #include "Stream.h"
 
 #include <stdio.h>
+#include <string.h>
+#if MOE_PLATFORM_WINDOWS
+#define strncasecmp strnicmp
+#endif
 #include <string>
 #include <libpng/png.h>
 #include "jpgd.h"
