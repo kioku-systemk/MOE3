@@ -53,10 +53,10 @@ public:
         // load lua
         if (g_demoluafile != "") {
             m_demo = new MOE::Demo(g);
-            m_demo->Resize(width,height);
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Load error: demo.lua");
+            m_demo->Resize(width,height);
         }
         
         // TEST
@@ -117,8 +117,8 @@ public:
         m_openbtn = mnew SimpleGUI::Button(m_gui,"OpenDemo",5,height - 140, 90, 16);
         m_openbtn->SetClickedFunc(MOEWindow::openBtnFunc, this);
     	m_frame2->AddChild(m_openbtn);
-        m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadModel",5,height - 120, 90, 16);
-        m_reloadbtn->SetClickedFunc(MOEWindow::reloadModelBtnFunc, this);
+        m_reloadbtn = mnew SimpleGUI::Button(m_gui,"ReloadDemo",5,height - 120, 90, 16);
+        m_reloadbtn->SetClickedFunc(MOEWindow::reloadDemoBtnFunc, this);
     	m_frame2->AddChild(m_reloadbtn);
         m_rebufbtn = mnew SimpleGUI::Button(m_gui,"ReloadShader",5,height - 100, 90, 16);
         m_rebufbtn->SetClickedFunc(MOEWindow::reloadShaderFunc, this);
@@ -146,16 +146,19 @@ public:
     {
     }
 	
-	void ReloadModels()
+	void ReloadDemo()
 	{
         if (g_demoluafile != "")
         {
             //delete m_demo;
             //m_demo = new MOE::Demo(g);
             //m_demo->Resize(m_width,m_height);
+            float demorate = m_timeslider->GetValue();
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Faild demo load.");
+            m_demo->Resize(m_width,m_height);
+            m_demo->SetTime(m_demo->GetDemoTime()*demorate);
         }
 	}
     void ReloadBuffers()
@@ -172,8 +175,8 @@ public:
             delete m_demo;
             g_demoluafile = std::string(fn);
             m_demo = new MOE::Demo(g);
-            m_demo->Resize(m_width,m_height);
             m_demo->Load(g_demoluafile.c_str());
+            m_demo->Resize(m_width,m_height);
         }
     }
     
@@ -186,7 +189,7 @@ public:
 
     static void exportBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ExportDemo(); }
     static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenDemo(); }
-    static void reloadModelBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadModels(); }
+    static void reloadDemoBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadDemo(); }
     static void reloadShaderFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadBuffers(); }
     static void changeSliderFunc(float v, void* thisptr) {
         SimpleGUI::Caption* cap = static_cast<SimpleGUI::Caption*>(static_cast<SimpleGUI::Slider*>(thisptr)->GetUserData());
@@ -292,7 +295,7 @@ public:
 	void KeyUp(int key)
     {
 		if (key == 'r' || key == 'R')
-			ReloadModels();
+			ReloadDemo();
         if (key == 's' || key == 'S')
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
