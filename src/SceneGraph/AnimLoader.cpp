@@ -216,13 +216,19 @@ public:
 			const s32 maxk = static_cast<s32>(it->second->m_key.size());
 			double tm = time * it->second->fps;
 			s32 timek = static_cast<s32>(MOE::Math::Floor(tm));
+            s32 timek1 = timek + 1;
 			double fl = tm - timek;
 			if (timek >= maxk - 1) {
-				timek = maxk - 2;
-				fl    = 1.0;
-			}
+				timek  = maxk - 2;
+                timek1 = maxk - 1;
+				fl     = 1.0;
+			} else if (timek < 0) {
+                timek  = 0;
+                timek1 = 0;
+                fl = 0;
+            }
 			
-			const KeyFrame& kf = interpolateKeyframe(it->second->m_key[timek],it->second->m_key[timek+1], fl);
+			const KeyFrame& kf = interpolateKeyframe(it->second->m_key[timek],it->second->m_key[timek1], fl);
 			if (ntype == NODETYPE_TRANSFORM || ntype == NODETYPE_JOINT) {
 				Transform* Tr = static_cast<Transform*>(node);
 				Tr->SetMatrix(kf.mat);
