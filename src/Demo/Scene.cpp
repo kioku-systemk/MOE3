@@ -150,8 +150,8 @@ namespace MOE {
                 }
             }
             
-            const f32 znear = 0.5;
-            const f32 zfar = 500.0;
+            const f32 znear = 0.1;
+            const f32 zfar = 100.0;
             const matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), znear, zfar);
 
             m_render->SetProjMatrix(proj);
