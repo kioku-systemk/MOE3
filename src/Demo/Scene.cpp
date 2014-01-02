@@ -134,7 +134,8 @@ namespace MOE {
                 const vec3 ctar = (cammat * vec4(0,0,-1,1)).xyz();
                 const vec3 cup  = (cammat * vec4(0,1,0,0)).xyz();
                 view = LookAt(cpos, ctar, cup);
-                if (cameranode->GetType() == NODETYPE_TRANSFORM)
+				m_render->SetUniform("eyepos", vec4(cpos, 1));
+				if (cameranode->GetType() == NODETYPE_TRANSFORM)
                 {
                     const Transform* tr = static_cast<const Transform*>(cameranode);
                     s32 n = tr->GetChildCount();
@@ -150,8 +151,8 @@ namespace MOE {
                 }
             }
             
-            const f32 znear = 0.5;
-            const f32 zfar = 500.0;
+            const f32 znear = 0.1;
+            const f32 zfar = 100.0;
             const matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), znear, zfar);
 
             m_render->SetProjMatrix(proj);
