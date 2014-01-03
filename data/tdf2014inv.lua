@@ -16,7 +16,7 @@ soundfile = "music.mp3"
 Buffer = {
 	--{name="backbuffer"} -- default buffer
 	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
-	{name="buf2", color="RGBA32F", depth="D24", width=screen_width, height=screen_height},
+	{name="hdrbuffer", color="RGBA32F", depth="D24", width=screen_width, height=screen_height},
    	{name="buf3", color="RGBA8", depth="D24", width=screen_width, height=screen_height}
 };
 
@@ -47,11 +47,15 @@ end
 function render(stime,etime,bufname, scenename)
     return {demotime={stime,etime}, src=scenename, target={bufname}, shader="default" }
 end
-function effectbokeh(stime,etime,bufname,srcbuf)
-    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/bokehblur", tex={srcBuf=srcbuf},vec4={ep1="0.750,0.400,0.9,0.375"}}
+function renderPlaneShadow(stime,etime,bufname, scenename)
+    return {demotime={stime,etime}, src=scenename, target={bufname}, shader="fx/planeshadow" }
 end
-function effectdof(stime,etime,bufname,srcbuf)
-    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0"}}
+
+--function effectbokeh(stime,etime,bufname,srcbuf)
+--    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/bokehblur", tex={srcBuf=srcbuf},vec4={ep1="0.812,0.550,0.15,0.712"}}
+--end
+function effectdof(stime,etime,bufname,srcbuf,ep)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
 end
 
 function showdepth(stime,etime,bufname,srcbuf)
@@ -71,7 +75,7 @@ end
 -- ex. animation, physics, update partiles
 local mpart = 21.57
 demotime={}
-alltime     = {0.0000,227.000}
+alltime      = {0.0000,227.000}
 demotime[1]  = {0.0000,  mpart*1-0.0001}
 demotime[2]  = {mpart*1, mpart*2-0.0001}
 demotime[3]  = {mpart*2, mpart*3-0.0001}
@@ -140,7 +144,7 @@ demotime["10d"]  = {mpart*9.75, mpart*10.0-0.0001}
 
 	
 Process = {
---	{demotime=alltime,        scene="plane",   scenetime={0,5.000}},
+	{demotime=alltime,        scene="plane",   scenetime={0,5.000}},
 	{demotime=demotime[1],    scene="toukyou", scenetime={0,5.000}},
 	{demotime=demotime["2a"], scene="stripetestB", scenetime={0.000+0.1375*0.5,1.375*0.5}, camera="CameraB"},	
 	{demotime=demotime["2b"], scene="stripetestB", scenetime={0.2500+0.2,1.750*0.5}, camera="Camera" },
@@ -205,12 +209,28 @@ Process = {
 };
 
 Render = {
-    clear (0,227, "backbuffer"),
+	clear (0,227, "backbuffer"),
+-- Scene1
 	render(demotime[1][1],demotime[1][2], "backbuffer","toukyou"),
-	render(demotime[2][1],demotime[2][2], "backbuffer","stripetestB"),
-	render(demotime[3][1],demotime[3][2], "backbuffer","dropballsB"),
-	render(demotime[4][1],demotime[4][2], "backbuffer","downringsB"),
-	render(demotime[5][1],demotime[5][2], "backbuffer","breakbox"),
+-- Scene2	
+	clear    (demotime[2][1],demotime[2][2], "hdrbuffer"),
+	render   (demotime[2][1],demotime[2][2], "hdrbuffer","stripetestB"),
+	effectdof(demotime[2][1],demotime[2][2], "backbuffer","hdrbuffer","0.950,0.450,0.225,0.663"),
+-- Scene3
+	clear            (demotime[3][1],demotime[3][2], "hdrbuffer"),
+	render           (demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
+	renderPlaneShadow(demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
+	effectdof(demotime[3][1],demotime[3][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
+	
+-- Scene4	
+	clear    (demotime[4][1],demotime[4][2], "hdrbuffer"),
+	render   (demotime[4][1],demotime[4][2], "hdrbuffer","downringsB"),
+	effectdof(demotime[4][1],demotime[4][2],"backbuffer","hdrbuffer","0.812,0.550,0.15,0.712"),
+-- Scene5
+	clear    (demotime[5][1],demotime[5][2], "hdrbuffer"),
+	render   (demotime[5][1],demotime[5][2], "hdrbuffer","breakbox"),
+	effectdof(demotime[5][1],demotime[5][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
+-- Scene6
 	render(demotime[6][1],demotime[6][2], "backbuffer","transsphere"),
 	render(demotime[7][1],demotime[7][2], "backbuffer","boxfly"),
 	render(demotime[8][1],demotime[8][2], "backbuffer","boxstageandline"),
