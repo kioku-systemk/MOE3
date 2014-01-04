@@ -231,12 +231,25 @@ Render = {
 	render   (demotime[5][1],demotime[5][2], "hdrbuffer","breakbox"),
 	effectdof(demotime[5][1],demotime[5][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
 -- Scene6
-	render(demotime[6][1],demotime[6][2], "backbuffer","transsphere"),
+	clear    (demotime[6][1],demotime[6][2], "hdrbuffer"),
+	render   (demotime[6][1],demotime[6][2], "hdrbuffer","transsphere"),
+	effectdof(demotime[6][1],demotime[6][2], "backbuffer","hdrbuffer","0.962,0.587,0.712,0.1"),
+-- Scene7	
 	render(demotime[7][1],demotime[7][2], "backbuffer","boxfly"),
+	
+-- Scene8
 	render(demotime[8][1],demotime[8][2], "backbuffer","boxstageandline"),
+-- Scene9
+	
 	render(demotime[9][1],demotime[9][2], "backbuffer","events"),
-	render(demotime[10][1],demotime[10][2], "backbuffer","spherebreak"),
-	render(demotime[11][1],demotime[11][2], "backbuffer","tdfandline"),	
+-- Scene10
+	clear    (demotime[10][1],demotime[10][2], "hdrbuffer"),	
+	render   (demotime[10][1],demotime[10][2], "hdrbuffer","spherebreak"),
+	effectdof(demotime[10][1],demotime[10][2], "backbuffer","hdrbuffer","0.950,0.425,0.138,0.738"),
+-- Scene11
+	clear    (demotime[11][1],demotime[11][2], "hdrbuffer"),	
+	render   (demotime[11][1],demotime[11][2], "hdrbuffer","tdfandline"),	
+	effectdof(demotime[11][1],demotime[11][2], "backbuffer","hdrbuffer","0.988,0.375,0.512,0.825"),
 };
 
 demotime = alltime;

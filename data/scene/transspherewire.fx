@@ -1,4 +1,43 @@
-VertexShader = [[attribute vec3 pos;attribute vec4 col;attribute vec3 nor;attribute vec2 uv;uniform sampler2D color_tex;uniform mat4 proj;uniform mat4 view;uniform mat4 world;uniform vec4 p1;varying HIGHP vec4 vtx_pos;varying HIGHP vec2 vtx_uv;varying LOWP vec4    vtx_col;void main(void){	vtx_uv = uv;	vtx_col = col;	vtx_pos = world * vec4(pos, 1);	gl_Position = proj * view * vtx_pos;}]]FragmentShader = [[	varying HIGHP vec4 vtx_pos;	uniform vec4 p1;	uniform vec4 eyepos;	/*uniform sampler2D color_tex; uniform vec4 color;uniform vec4 time;uniform vec4 p1;varying HIGHP vec2 vtx_uv;varying LOWP vec4  vtx_col;float PI = 3.1415926;void main(void){	gl_FragColor = vec4(1, 1, 0, 1);s// color * texture2D(color_tex, vtx_uv);}*/
+
+VertexShader = [[
+attribute vec3 pos;
+attribute vec4 col;
+attribute vec3 nor;
+attribute vec2 uv;
+uniform sampler2D color_tex;
+uniform mat4 proj;
+uniform mat4 view;
+uniform mat4 world;
+uniform vec4 p1;
+varying HIGHP vec4 vtx_pos;
+varying HIGHP vec2 vtx_uv;
+varying LOWP vec4    vtx_col;
+
+void main(void)
+{
+	vtx_uv = uv;
+	vtx_col = col;
+	vtx_pos = world * vec4(pos, 1);
+	gl_Position = proj * view * vtx_pos;
+}
+]]
+
+FragmentShader = [[
+	varying HIGHP vec4 vtx_pos;
+	uniform vec4 p1;
+	uniform vec4 eyepos;
+
+	/*uniform sampler2D color_tex; 
+uniform vec4 color;
+uniform vec4 time;
+uniform vec4 p1;
+varying HIGHP vec2 vtx_uv;
+varying LOWP vec4  vtx_col;
+float PI = 3.1415926;
+void main(void)
+{
+	gl_FragColor = vec4(1, 1, 0, 1);s// color * texture2D(color_tex, vtx_uv);
+}*/
 	float time = p1.x;
 
 	float map(vec3 p)
@@ -60,6 +99,16 @@
 
 		float c = (total_d)*0.0001;
 		vec4 result = vec4(1.0 - vec3(c, c, c) - vec3(0.02, 0.025, 0.025)*m*0.8, 1.0);
-		gl_FragColor = result;
+		gl_FragColor = result*2.0;
 	}
-]]GeometryShader = ""DepthTest = falseBlend = trueBlendSrc = "SRC_ALPAH"BlendDst = "ONE_MINUS_SRC_ALPHA"Priority=10
+
+]]
+
+GeometryShader = ""
+
+DepthTest = true
+Blend = true
+BlendSrc = "SRC_ALPAH"
+BlendDst = "ONE_MINUS_SRC_ALPHA"
+
+Priority=0
