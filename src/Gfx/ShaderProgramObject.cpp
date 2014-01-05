@@ -411,8 +411,8 @@ void ProgramObject::Bind()
 	}
 
 	// bug????
-//	if (m_depthmask) g->DepthMask(VG_TRUE);
-//	else             g->DepthMask(VG_FALSE);
+	if (m_depthmask) g->DepthMask(VG_TRUE);
+	else             g->DepthMask(VG_FALSE);
 
 }
 

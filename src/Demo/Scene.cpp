@@ -152,11 +152,12 @@ namespace MOE {
             }
             
             const f32 znear = 0.1;
-            const f32 zfar = 100.0;
+            const f32 zfar = 150.0;
             const matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), znear, zfar);
 
             m_render->SetProjMatrix(proj);
             m_render->SetViewMatrix(view);
+            m_render->SetUniform("demotime", vec4(demotime,demotime,demotime,demotime));
             m_render->SetUniform("time", vec4(scenetime,scenetime,scenetime,scenetime));
             m_render->SetUniform("vparam", vec4(znear, zfar, fov/180.0*PI,1.0));
             const auto eit = sps.end();
