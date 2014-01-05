@@ -48,6 +48,8 @@ public:
         m_width  = width;
         m_height = height;
         
+        m_guivisible = true;
+        
         m_demo = 0;
         
         // load lua
@@ -69,10 +71,12 @@ public:
         SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 10, 5, "KScene3", 16);
         m_frame1->AddChild(cap);
 
+        m_timelabel = mnew SimpleGUI::Caption(m_gui, 220,7, "0.000", 16);
 		m_timeslider = mnew SimpleGUI::Slider(m_gui, 200,10,width - 220,16);
         m_timeslider->SetChangedFunc(changeTimeSliderFunc, this);
 		m_animcheck = mnew SimpleGUI::Check(m_gui,"DEMO!!",110,5);
         m_animcheck->SetChangedFunc(changeAnimFunc,this);
+        m_frame1->AddChild(m_timelabel);
     	m_frame1->AddChild(m_timeslider);
 		m_frame1->AddChild(m_animcheck);
         /*
@@ -203,8 +207,13 @@ public:
     }
     void changeTimeSlider(float v)
     {
-        if (m_demo && !m_demo->IsPlaying())
-            m_demo->SetTime(v * m_demo->GetDemoTime());
+        if (m_demo && !m_demo->IsPlaying()){
+            f64 tm = v * m_demo->GetDemoTime();
+            m_demo->SetTime(tm);
+            char buf[64];
+            sprintf(buf, "%4.3lf", tm);
+            m_timelabel->SetText(buf);
+        }
     }
     static void changeAnimFunc(bool r, void* thisptr) { static_cast<MOEWindow*>(thisptr)->ChangeAnimMode(r); }
     void ChangeAnimMode(bool r)
@@ -300,6 +309,8 @@ public:
 			ReloadBuffers();
         if (key == 'o' || key == 'O')
             OpenDemo();
+        if (key == 'v' || key == 'V')
+            VisibleUI();
         
 		m_gui->KeyUp(key);
         Draw();
@@ -391,12 +402,17 @@ public:
         g->Disable(VG_DEPTH_TEST);
         g->Disable(VG_CULL_FACE);
         
-        m_gui->Draw();
+        if (m_guivisible)
+            m_gui->Draw();
         // own graphics code.
         
         SwapBuffer();
     }
-     
+    
+    void VisibleUI()
+    {
+        m_guivisible = !m_guivisible;
+    }
 	void Idle(void)
 	{
         // call draw in Animation mode
@@ -434,10 +450,12 @@ private:
 
     EasyMIDIController* m_midi;
     SimpleGUI::GUIManager* m_gui;
+    b8 m_guivisible;
     SimpleGUI::Frame* m_frame1, *m_frame2;
     SimpleGUI::Slider* m_bar[3];
     SimpleGUI::Slider* m_pbar[8];
 	SimpleGUI::Slider* m_timeslider;
+    SimpleGUI::Caption* m_timelabel;
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_idlecheck;
     SimpleGUI::Check* m_overridecheck;
