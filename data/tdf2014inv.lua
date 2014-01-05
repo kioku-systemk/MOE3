@@ -153,9 +153,9 @@ fpart6={
 
 fpart7={
 	{mpart*0.00,mpart*0.25},
-	{mpart*0.50,mpart*0.75},
-	{mpart*0.25,mpart*0.50},
-	{mpart*0.75,mpart*1.00}
+	{mpart*0.28,mpart*0.40},
+	{mpart*0.75,mpart*0.50},
+	{mpart*0.82,mpart*1.00}
 }
 
 fpart8={
