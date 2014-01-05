@@ -15,9 +15,9 @@ soundfile = "music.mp3"
 -- first, basic buffer is supported
 Buffer = {
 	--{name="backbuffer"} -- default buffer
-	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
-	{name="hdrbuffer", color="RGBA32F", depth="D24", width=screen_width, height=screen_height},
-   	{name="buf3", color="RGBA8", depth="D24", width=screen_width, height=screen_height}
+--	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
+	{name="hdrbuffer", color="RGBA16F", depth="D24", width=screen_width, height=screen_height},
+--   	{name="minibuf", color="RGBA8", depth="D24", width=screen_width/4, height=screen_height/4}
 };
 
 Scene = {
@@ -62,6 +62,10 @@ function showdepth(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/depthshow", tex={srcBuf=srcbuf}}
 end
 
+function white(stime,etime,bufname, whiteshader)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/"..whiteshader}
+end
+
 local gbsize = "0.8,0.8,0,0"
 function effectGaussH(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/gaussblurh", tex={srcBuf=srcbuf}, vec4={scale=gbsize}}
@@ -100,7 +104,7 @@ local snea2 = snea1 + sneat
 local snea3 = 1.0
 
 local q
-for q = 3,5 do
+for q = 3,10 do
 local stm = q-1.0
 	demotime[q.."a"]  = {mpart*(stm+0.00), mpart*(stm+0.25) -0.0001}
 	demotime[q.."b"]  = {mpart*(stm+0.25), mpart*(stm+0.50) -0.0001}
@@ -136,13 +140,31 @@ p5={
 }
 for i,v in pairs(p5) do v[3] = v[2]-v[1] end
 
+demotime["9a"]  = {mpart*8.00, mpart*8.50-0.0001}
+demotime["9b"]  = {mpart*8.50, mpart*9.0-0.0001}
 
-demotime["10a"]  = {mpart*9.00, mpart*9.25-0.0001}
-demotime["10b"]  = {mpart*9.25, mpart*9.50-0.0001}
-demotime["10c"]  = {mpart*9.50, mpart*9.75-0.0001}
-demotime["10d"]  = {mpart*9.75, mpart*10.0-0.0001}
 
-	
+fpart6={
+	{mpart*1.00,mpart*0.85},	
+	{mpart*0.15,mpart*0.25},
+	{mpart*0.40,mpart*0.65},
+	{mpart*0.85,mpart*1.00},
+}
+
+fpart7={
+	{mpart*0.00,mpart*0.25},
+	{mpart*0.50,mpart*0.75},
+	{mpart*0.25,mpart*0.50},
+	{mpart*0.75,mpart*1.00}
+}
+
+fpart8={
+	{mpart*0.00,mpart*0.25},
+	{mpart*0.50,mpart*0.75},
+	{mpart*0.25,mpart*0.50},
+	{mpart*0.75,mpart*1.00}
+}
+
 Process = {
 	{demotime=alltime,        scene="plane",   scenetime={0,5.000}},
 	{demotime=demotime[1],    scene="toukyou", scenetime={0,5.000}},
@@ -196,10 +218,23 @@ Process = {
 	{demotime=demotime["5d2"], scene="breakbox", scenetime={p5[4][1]+0.5*p5[4][3]      ,p5[4][1]+0.50*p5[4][3]+0.005}, camera="Camera"  },
 	{demotime=demotime["5d3"], scene="breakbox", scenetime={p5[4][1]+0.5*p5[4][3]+0.005,p5[4][1]+0.75*p5[4][3]+0.005}, camera="Camera"  },
 
-	{demotime=demotime[6],    scenetime={0,21.570},scene="transsphere"},
-	{demotime=demotime[7],    scenetime={0,21.570}, scene="boxfly"},
-	{demotime=demotime[8],    scenetime={0,21.570}, scene="boxstageandline"},
-	{demotime=demotime[9],    scenetime={0,21.570}, scene="events"},
+	{demotime=demotime["6a"],    scenetime={fpart6[1][1],fpart6[1][2]},scene="transsphere"},
+	{demotime=demotime["6b"],    scenetime={fpart6[2][1],fpart6[2][2]},scene="transsphere"},
+	{demotime=demotime["6c"],    scenetime={fpart6[3][1],fpart6[3][2]},scene="transsphere"},
+	{demotime=demotime["6d"],    scenetime={fpart6[4][1],fpart6[4][2]},scene="transsphere"},
+	
+	{demotime=demotime["7a"],    scenetime={fpart7[1][1],fpart7[1][2]},scene="boxfly"},
+	{demotime=demotime["7b"],    scenetime={fpart7[2][1],fpart7[2][2]},scene="boxfly"},
+	{demotime=demotime["7c"],    scenetime={fpart7[3][1],fpart7[3][2]},scene="boxfly"},
+	{demotime=demotime["7d"],    scenetime={fpart7[4][1],fpart7[4][2]},scene="boxfly"},
+	
+	{demotime=demotime["8a"],    scenetime={fpart8[1][1],fpart8[1][2]},scene="boxstageandline"},
+	{demotime=demotime["8b"],    scenetime={fpart8[2][1],fpart8[2][2]},scene="boxstageandline"},
+	{demotime=demotime["8c"],    scenetime={fpart8[3][1],fpart8[3][2]},scene="boxstageandline"},
+	{demotime=demotime["8d"],    scenetime={fpart8[4][1],fpart8[4][2]},scene="boxstageandline"},
+	
+	{demotime=demotime["9a"],    scene="events", scenetime={0,21.570}, camera="Camera", },
+	{demotime=demotime["9b"],    scene="events", scenetime={0,21.570}, camera="CameraA",},
 	{demotime=demotime["10a"],   scene="spherebreak",scenetime={8.000,5.000}, camera="CameraB", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10b"],   scene="spherebreak",scenetime={5.000,2.000}, camera="CameraA", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10c"],   scene="spherebreak",scenetime={2.000,0.500}, camera="CameraC", vec4={p1="1,1,1,1"}},
@@ -215,6 +250,7 @@ Render = {
 -- Scene2	
 	clear    (demotime[2][1],demotime[2][2], "hdrbuffer"),
 	render   (demotime[2][1],demotime[2][2], "hdrbuffer","stripetestB"),
+	white    (demotime[2][1],demotime[2][2], "hdrbuffer", "breakboxwhite"),
 	effectdof(demotime[2][1],demotime[2][2], "backbuffer","hdrbuffer","0.950,0.450,0.225,0.663"),
 -- Scene3
 	clear            (demotime[3][1],demotime[3][2], "hdrbuffer"),
@@ -235,13 +271,19 @@ Render = {
 	render   (demotime[6][1],demotime[6][2], "hdrbuffer","transsphere"),
 	effectdof(demotime[6][1],demotime[6][2], "backbuffer","hdrbuffer","0.962,0.587,0.712,0.1"),
 -- Scene7	
-	render(demotime[7][1],demotime[7][2], "backbuffer","boxfly"),
+	clear    (demotime[7][1],demotime[7][2], "hdrbuffer"),		
+	render   (demotime[7][1],demotime[7][2], "hdrbuffer","boxfly"),
+	effectdof(demotime[7][1],demotime[7][2], "backbuffer","hdrbuffer","0.988,0.338,0.613,0.162"),
 	
 -- Scene8
-	render(demotime[8][1],demotime[8][2], "backbuffer","boxstageandline"),
--- Scene9
+	clear    (demotime[8][1],demotime[8][2], "hdrbuffer"),		
+	render   (demotime[8][1],demotime[8][2], "hdrbuffer","boxstageandline"),
+	effectdof(demotime[8][1],demotime[8][2], "backbuffer","hdrbuffer","0.988,0.338,0.613,0.162"),
 	
-	render(demotime[9][1],demotime[9][2], "backbuffer","events"),
+-- Scene9
+	clear    (demotime[9][1],demotime[9][2], "hdrbuffer"),		
+	render   (demotime[9][1],demotime[9][2], "hdrbuffer","events"),
+	effectdof(demotime[9][1],demotime[9][2], "backbuffer","hdrbuffer","0.988,0.338,0.613,0.162"),
 -- Scene10
 	clear    (demotime[10][1],demotime[10][2], "hdrbuffer"),	
 	render   (demotime[10][1],demotime[10][2], "hdrbuffer","spherebreak"),
