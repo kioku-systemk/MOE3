@@ -143,26 +143,33 @@ for i,v in pairs(p5) do v[3] = v[2]-v[1] end
 demotime["9a"]  = {mpart*8.00, mpart*8.50-0.0001}
 demotime["9b"]  = {mpart*8.50, mpart*9.0-0.0001}
 
+local sne = 0.5+0.03125*8
+demotime["6a2"]  = {mpart*5.0+mpart*0.25*snea1, mpart*5.0+mpart*0.25*sne -0.0001}
+demotime["6a3"]  = {mpart*5.0+mpart*0.25*sne, mpart*5.0+mpart*0.25 -0.0001}
 
 fpart6={
-	{mpart*1.00,mpart*0.85},	
+	{mpart*1.00,mpart*0.85},
+	{mpart*0.20,mpart*0.35},
+	{mpart*0.85,mpart*0.65},
 	{mpart*0.15,mpart*0.25},
-	{mpart*0.40,mpart*0.65},
+	{mpart*0.50,mpart*0.60},
 	{mpart*0.85,mpart*1.00},
 }
 
 fpart7={
-	{mpart*0.00,mpart*0.25},
+	{mpart*0.00,mpart*0.23},
 	{mpart*0.28,mpart*0.40},
-	{mpart*0.75,mpart*0.50},
+	{mpart*0.00,mpart*1.00},
 	{mpart*0.82,mpart*1.00}
 }
 
 fpart8={
 	{mpart*0.00,mpart*0.25},
-	{mpart*0.50,mpart*0.75},
-	{mpart*0.25,mpart*0.50},
-	{mpart*0.75,mpart*1.00}
+	{mpart*0.40,mpart*0.60},
+	{mpart*0.35,mpart*0.25},
+	{mpart*0.75,mpart*0.60},
+	{mpart*0.40,mpart*0.50},
+	{mpart*0.60,mpart*1.00}
 }
 
 Process = {
@@ -218,23 +225,27 @@ Process = {
 	{demotime=demotime["5d2"], scene="breakbox", scenetime={p5[4][1]+0.5*p5[4][3]      ,p5[4][1]+0.50*p5[4][3]+0.005}, camera="Camera"  },
 	{demotime=demotime["5d3"], scene="breakbox", scenetime={p5[4][1]+0.5*p5[4][3]+0.005,p5[4][1]+0.75*p5[4][3]+0.005}, camera="Camera"  },
 
-	{demotime=demotime["6a"],    scenetime={fpart6[1][1],fpart6[1][2]},scene="transsphere"},
-	{demotime=demotime["6b"],    scenetime={fpart6[2][1],fpart6[2][2]},scene="transsphere"},
-	{demotime=demotime["6c"],    scenetime={fpart6[3][1],fpart6[3][2]},scene="transsphere"},
-	{demotime=demotime["6d"],    scenetime={fpart6[4][1],fpart6[4][2]},scene="transsphere"},
+	{demotime=demotime["6a1"],    scenetime={fpart6[1][1],fpart6[1][2]},scene="transsphere", camera="CameraA"},
+	{demotime=demotime["6a2"],    scenetime={fpart6[2][1],fpart6[2][2]},scene="transsphere", camera="CameraA"},
+	{demotime=demotime["6a3"],    scenetime={fpart6[3][1],fpart6[3][2]},scene="transsphere", camera="CameraA"},	
+	{demotime=demotime["6b"],    scenetime={fpart6[4][1],fpart6[4][2]},scene="transsphere"},
+	{demotime=demotime["6c"],    scenetime={fpart6[5][1],fpart6[5][2]},scene="transsphere"},
+	{demotime=demotime["6d"],    scenetime={fpart6[6][1],fpart6[6][2]},scene="transsphere"},
 	
 	{demotime=demotime["7a"],    scenetime={fpart7[1][1],fpart7[1][2]},scene="boxfly"},
 	{demotime=demotime["7b"],    scenetime={fpart7[2][1],fpart7[2][2]},scene="boxfly"},
-	{demotime=demotime["7c"],    scenetime={fpart7[3][1],fpart7[3][2]},scene="boxfly"},
+	{demotime=demotime["7c"],    scenetime={fpart7[3][1],fpart7[3][2]},scene="boxfly",camera="CameraA"},
 	{demotime=demotime["7d"],    scenetime={fpart7[4][1],fpart7[4][2]},scene="boxfly"},
 	
-	{demotime=demotime["8a"],    scenetime={fpart8[1][1],fpart8[1][2]},scene="boxstageandline"},
-	{demotime=demotime["8b"],    scenetime={fpart8[2][1],fpart8[2][2]},scene="boxstageandline"},
-	{demotime=demotime["8c"],    scenetime={fpart8[3][1],fpart8[3][2]},scene="boxstageandline"},
-	{demotime=demotime["8d"],    scenetime={fpart8[4][1],fpart8[4][2]},scene="boxstageandline"},
+	{demotime=demotime["8a1"],    scenetime={fpart8[1][1],fpart8[1][2]},scene="boxstageandline"  },
+	{demotime=demotime["8a2"],    scenetime={fpart8[2][1],fpart8[2][2]},scene="boxstageandline", camera="CameraA" },
+	{demotime=demotime["8a3"],    scenetime={fpart8[3][1],fpart8[3][2]},scene="boxstageandline" },	
+	{demotime=demotime["8b"],    scenetime={fpart8[4][1],fpart8[4][2]},scene="boxstageandline"},
+	{demotime=demotime["8c"],    scenetime={fpart8[5][1],fpart8[5][2]},scene="boxstageandline" },
+	{demotime=demotime["8d"],    scenetime={fpart8[6][1],fpart8[6][2]},scene="boxstageandline"},
 	
-	{demotime=demotime["9a"],    scene="events", scenetime={0,21.570}, camera="Camera", },
-	{demotime=demotime["9b"],    scene="events", scenetime={0,21.570}, camera="CameraA",},
+	{demotime=demotime["9a"],    scene="events", scenetime={0,21.570}, camera="Camera", vec4={p1="1,0, 1.1,1.0"}},
+	{demotime=demotime["9b"],    scene="events", scenetime={0,21.570}, camera="CameraA",vec4={p1="0,1, 1.0,1.3"}},
 	{demotime=demotime["10a"],   scene="spherebreak",scenetime={8.000,5.000}, camera="CameraB", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10b"],   scene="spherebreak",scenetime={5.000,2.000}, camera="CameraA", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10c"],   scene="spherebreak",scenetime={2.000,0.500}, camera="CameraC", vec4={p1="1,1,1,1"}},
