@@ -50,17 +50,6 @@ public:
         
         m_guivisible = true;
         
-        m_demo = 0;
-        
-        // load lua
-        if (g_demoluafile != "") {
-            m_demo = new MOE::Demo(g);
-            b8 r = m_demo->Load(g_demoluafile.c_str());
-            if (!r)
-                MOELogE("Load error: demo.lua");
-            m_demo->Resize(width,height);
-        }
-        
         // TEST
         const f32 col[] = {0.50,0.50,0.50,0.50};
         m_frame1 = mnew SimpleGUI::Frame(m_gui,0,0,width, 30, col);
@@ -144,6 +133,14 @@ public:
 #if MOE_PLATFORM_WINDOWS
 		m_inited = true;
 #endif
+        
+        m_demo = 0;
+        
+        // load lua
+        if (g_demoluafile != "") {
+            m_demo = new MOE::Demo(g);
+            ReloadDemo();
+        }
         Draw();
 	}
 	~MOEWindow()
@@ -154,10 +151,9 @@ public:
 	{
         if (g_demoluafile != "")
         {
-            //delete m_demo;
-            //m_demo = new MOE::Demo(g);
-            //m_demo->Resize(m_width,m_height);
             float demorate = m_timeslider->GetValue();
+//            MOE::Stream::LoadKDB("/Users/kioku/Desktop/git/MOE3/data/aaa.kdb");
+//            b8 r = m_demo->Load("tdf2014inv.lua");
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Faild demo load.");
@@ -186,7 +182,7 @@ public:
     
     void ExportDemo()
     {
-        const char* fn = FileSaveDialog("dpk");
+        const char* fn = FileSaveDialog("kdb");
         if (m_demo)
             m_demo->Export(fn);
     }

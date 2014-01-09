@@ -38,6 +38,9 @@
 		770FFFF1181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
 		770FFFF2181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
 		770FFFF3181C92A60074F472 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
+		7719C641187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
+		7719C642187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
+		7719C643187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
 		772676A9181433B6004C0113 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
@@ -163,6 +166,8 @@
 		770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FrameBufferObject.cpp; sourceTree = "<group>"; };
 		770FFFF0181C92A60074F472 /* FrameBufferObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrameBufferObject.h; sourceTree = "<group>"; };
 		770FFFF4181D48660074F472 /* LuaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LuaUtil.h; sourceTree = "<group>"; };
+		7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KdbImporterExporter.cpp; sourceTree = "<group>"; };
+		7719C640187C9D5900D6B442 /* KdbImporterExporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KdbImporterExporter.h; sourceTree = "<group>"; };
 		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
 		774CF03C186EAD5A00DADF9E /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		774CF03D186EAD5A00DADF9E /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
@@ -252,6 +257,8 @@
 		770A517516DE6FCF00872F21 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */,
+				7719C640187C9D5900D6B442 /* KdbImporterExporter.h */,
 				774CF03C186EAD5A00DADF9E /* jpgd.cpp */,
 				774CF03D186EAD5A00DADF9E /* jpgd.h */,
 				77F94504186E9C09008675E7 /* Image.cpp */,
@@ -615,6 +622,7 @@
 				770FFFE3181C32460074F472 /* Stream.cpp in Sources */,
 				770FFFE4181C32460074F472 /* EasyMIDIController.mm in Sources */,
 				770FFFE5181C32460074F472 /* ShaderProgramObject.cpp in Sources */,
+				7719C643187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */,
 				770FFFE6181C32460074F472 /* RenderCommand.cpp in Sources */,
 				770FFFE7181C32460074F472 /* RenderDevice.cpp in Sources */,
 				770FFFEB181C32580074F472 /* demoview.cpp in Sources */,
@@ -644,6 +652,7 @@
 				770FFFF1181C92A60074F472 /* FrameBufferObject.cpp in Sources */,
 				779C2E8C176C9D8D00DE219C /* RenderDevice.cpp in Sources */,
 				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
+				7719C641187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */,
 				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
 				779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */,
 				7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */,
@@ -670,6 +679,7 @@
 				77FD455017B3EE2F001B3F22 /* RenderCommand.cpp in Sources */,
 				77FD455117B3EE2F001B3F22 /* RenderDevice.cpp in Sources */,
 				77FD455217B3EE2F001B3F22 /* SceneGraphRender.cpp in Sources */,
+				7719C642187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */,
 				77FD455317B3EE2F001B3F22 /* TextureObject.cpp in Sources */,
 				77FD455417B3EE2F001B3F22 /* BufferObject.cpp in Sources */,
 				77FD453D17B3EE08001B3F22 /* AnimLoader.cpp in Sources */,

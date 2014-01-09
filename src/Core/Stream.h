@@ -8,20 +8,10 @@
 
 #include "Type.h"
 #include <string>
+#include <map>
 
 namespace MOE {
-
-enum StorageType {
-	TYPE_STORAGE_ONMEMORY   = 0,
-	TYPE_STORAGE_TEMP       = 1,
-	TYPE_STORAGE_CACHE      = 2,
-	TYPE_STORAGE_PREFERENCE = 3,
-	TYPE_STORAGE_RESOURCES  = 4,
-	TYPE_STORAGE_DOCUMENTS  = 5,
-	TYPE_STORAGE_PICTURES   = 6,
-	TYPE_STORAGE_MOVIES     = 7,
-	TYPE_STORAGE_MUSICS     = 8
-};
+class KdbImporter;
 
 class NoncopyableStream
 {
@@ -69,6 +59,7 @@ public:
 	Stream() {
 		m_ptr = 0;
 		m_size = 0;
+        m_refptr = false;
 	}
 	Stream(const u8* ptr, u32 size);       // for buffer
 	Stream(const s8* filename, Mode mode);
@@ -101,18 +92,25 @@ public:
 	const std::string& GetFilePath() const;
 	
 	b8 IsOpened() const;
-	
+
+	static const std::map<std::string,u32>& GetFileList() { return m_filelist; }
+    static bool LoadKDB(const s8* kdbfile);
+    
 private:
 	u8* m_ptr;
+    b8 m_refptr;
     FILE *m_filePtr;
 	u32 m_size;
 	Mode m_mode;
 	std::string m_filename;
 	std::string m_filepath;
-	StorageType m_strageType;
 	DataType m_dataType;
 	b8 m_opened;
-	
+
+    // kdb
+    static std::map<std::string,u32> m_filelist;
+    static KdbImporter* m_kdb;
+    
 	b8 isInputMode ()   const { return !(m_mode & MODE_FLAG_OUTPUT); }
 	b8 isOutputMode()   const { return  (m_mode & MODE_FLAG_OUTPUT) ? true : false;  }
 	b8 isBinaryMode()   const { return !(m_mode & MODE_FLAG_TEXT);   }

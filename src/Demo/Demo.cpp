@@ -12,6 +12,7 @@
 #include "../Gfx/ShaderProgramObject.h"
 #include "../Core/LuaUtil.h"
 #include "../Core/Time.h"
+#include "../Core/KdbImporterExporter.h"
 #include "Sound.h"
 
 namespace {
@@ -200,7 +201,7 @@ private:
         for (auto it = m_renderEffects.begin(); it != eit; ++it)
         {
             const std::string sdr = (*it)->overrideShader;
-            if (sdr != "default" && !m_ovprgs[sdr])
+            if (sdr != "" && sdr != "default" && !m_ovprgs[sdr])
             {
                 ProgramObject* prg = mnew ProgramObject(g);
                 std::string fpath = m_respath + sdr + ".fx";
@@ -336,10 +337,9 @@ public:
     b8 Export(const s8* packfile)
     {
         // src base path -> m_respath
-        //
-        // TODO:export code.
-        //
-        return true;
+
+        KdbExporter exporter;
+        return exporter.Export(packfile, m_respath);
     }
     
     b8 Load(const s8* demolua)

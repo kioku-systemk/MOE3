@@ -16,6 +16,8 @@
 
 #include <assert.h>
 
+#include "KdbImporterExporter.h"
+
 namespace  {
 	std::string parseFilename(const s8* fpath, const s8* splitChar)
 	{
@@ -71,18 +73,32 @@ Stream::Stream(const s8* filename, Mode mode){
 			m_dataType = TYPE_DATA_TEXT;
 		}
 		
-		FILE* fp = fopen(filename, mode[m]);
-		if (fp)
-		{
-			m_opened = true;
-			fseek(fp, 0, SEEK_END);
-			m_size = static_cast<u32>(ftell(fp));
-			fseek(fp, 0, SEEK_SET);
-			m_ptr = mnew u8[m_size+1];
-            m_ptr[m_size] = 0;
-			fread(m_ptr, m_size, 1, fp);
-			fclose(fp);
-		}
+        if (m_kdb){
+            std::string fpath(filename);
+            m_size = m_kdb->GetSize(std::string(fpath));
+            if (!m_size){
+                MOELogE("Failed load from KDB : %s", fpath.c_str());
+                return;
+            }
+            m_opened = true;
+            m_ptr = const_cast<u8*>(static_cast<const u8*>(m_kdb->GetData(std::string(fpath))));
+            m_refptr = true;
+        } else {
+            FILE* fp = fopen(filename, mode[m]);
+            if (fp)
+            {
+                m_opened = true;
+                fseek(fp, 0, SEEK_END);
+                m_size = static_cast<u32>(ftell(fp));
+                fseek(fp, 0, SEEK_SET);
+                m_ptr = mnew u8[m_size+1];
+                m_ptr[m_size] = 0;
+                fread(m_ptr, m_size, 1, fp);
+                fclose(fp);
+                
+                m_filelist[filename] = m_size;
+            }
+        }
 	}
 	else
 	{
@@ -111,7 +127,7 @@ Stream::Stream(const s8* filename, Mode mode){
 }
 	
 Stream::~Stream(){
-	if (m_ptr)
+	if (m_ptr && !m_refptr)
 		mdeleteArray( m_ptr );
     if (m_filePtr)
     {
@@ -195,6 +211,18 @@ const std::string& Stream::GetFilePath() const {
 bool Stream::IsOpened() const {
 	return m_opened;
 }
+    
+// for KDB
+std::map<std::string,u32> Stream::m_filelist;
+KdbImporter* Stream::m_kdb = 0;
+bool Stream::LoadKDB(const s8* kdbfile)
+{
+    std::string kdbpath(kdbfile);
+    delete m_kdb;
+    m_kdb = mnew KdbImporter();
+    return m_kdb->Load(kdbfile);
+}
+
 	
 } // namespace MOE
 
