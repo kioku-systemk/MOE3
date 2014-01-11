@@ -41,6 +41,32 @@
 		7719C641187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
 		7719C642187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
 		7719C643187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
+		7719C6491880D79E00D6B442 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5213215DF2A87000595F8 /* Cocoa.framework */; };
+		7719C64F1880D79E00D6B442 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7719C64D1880D79E00D6B442 /* InfoPlist.strings */; };
+		7719C6761880D81A00D6B442 /* demoplayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C6751880D81A00D6B442 /* demoplayer.cpp */; };
+		7719C6771880D8D600D6B442 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77E5215D15DF2CDE000595F8 /* OpenGL.framework */; };
+		7719C6781880D8EA00D6B442 /* KdbImporterExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */; };
+		7719C6791880D8EE00D6B442 /* jpgd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 774CF03C186EAD5A00DADF9E /* jpgd.cpp */; };
+		7719C67A1880D8F100D6B442 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77F94504186E9C09008675E7 /* Image.cpp */; };
+		7719C67B1880D8F600D6B442 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */; };
+		7719C67C1880D8FB00D6B442 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A517D16DE6FCF00872F21 /* Log.cpp */; };
+		7719C67D1880D90400D6B442 /* Stream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518416DE6FCF00872F21 /* Stream.cpp */; };
+		7719C67E1880D90F00D6B442 /* ShaderProgramObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A51A016DE6FCF00872F21 /* ShaderProgramObject.cpp */; };
+		7719C67F1880D91300D6B442 /* RenderCommand.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E84176C9D8D00DE219C /* RenderCommand.cpp */; };
+		7719C6801880D91700D6B442 /* SceneGraphRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E87176C9D8D00DE219C /* SceneGraphRender.cpp */; };
+		7719C6811880D91900D6B442 /* RenderDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E85176C9D8D00DE219C /* RenderDevice.cpp */; };
+		7719C6821880D92000D6B442 /* TextureObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E89176C9D8D00DE219C /* TextureObject.cpp */; };
+		7719C6831880D92200D6B442 /* BufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 779C2E8F176C9E7E00DE219C /* BufferObject.cpp */; };
+		7719C6841880D92400D6B442 /* FrameBufferObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770FFFEF181C92A60074F472 /* FrameBufferObject.cpp */; };
+		7719C6851880DA2400D6B442 /* AnimLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C961718959700C9269B /* AnimLoader.cpp */; };
+		7719C6861880DA2500D6B442 /* MrzLoader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 77C04C8D1714731400C9269B /* MrzLoader.cpp */; };
+		7719C6871880DA2A00D6B442 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
+		7719C6881880DA2B00D6B442 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
+		7719C6891880DA2D00D6B442 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
+		7719C68A1880DA3F00D6B442 /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		7719C68C1880DA9500D6B442 /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
+		7719C6901880F55400D6B442 /* demo.kdb in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7719C68D1880EE0200D6B442 /* demo.kdb */; };
+		7719C6931880F68B00D6B442 /* music.mp3 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 7719C6911880F68500D6B442 /* music.mp3 */; };
 		772676A9181433B6004C0113 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
@@ -91,6 +117,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		7719C68B1880DA9100D6B442 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				7719C68C1880DA9500D6B442 /* libbass.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7719C68F1880F53100D6B442 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = ../../..;
+			dstSubfolderSpec = 7;
+			files = (
+				7719C6901880F55400D6B442 /* demo.kdb in CopyFiles */,
+				7719C6931880F68B00D6B442 /* music.mp3 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7730DC0418604BB90043807C /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -168,6 +215,13 @@
 		770FFFF4181D48660074F472 /* LuaUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LuaUtil.h; sourceTree = "<group>"; };
 		7719C63F187C9D5900D6B442 /* KdbImporterExporter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = KdbImporterExporter.cpp; sourceTree = "<group>"; };
 		7719C640187C9D5900D6B442 /* KdbImporterExporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KdbImporterExporter.h; sourceTree = "<group>"; };
+		7719C6481880D79E00D6B442 /* demoplayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demoplayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7719C64C1880D79E00D6B442 /* demoplayer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "demoplayer-Info.plist"; sourceTree = "<group>"; };
+		7719C64E1880D79E00D6B442 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		7719C6521880D79E00D6B442 /* demoplayer-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "demoplayer-Prefix.pch"; sourceTree = "<group>"; };
+		7719C6751880D81A00D6B442 /* demoplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demoplayer.cpp; path = ../../src/demoplayer.cpp; sourceTree = "<group>"; };
+		7719C68D1880EE0200D6B442 /* demo.kdb */ = {isa = PBXFileReference; lastKnownFileType = file; name = demo.kdb; path = ../data/demo.kdb; sourceTree = "<group>"; };
+		7719C6911880F68500D6B442 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = music.mp3; path = ../data/music.mp3; sourceTree = "<group>"; };
 		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
 		774CF03C186EAD5A00DADF9E /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		774CF03D186EAD5A00DADF9E /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
@@ -226,6 +280,16 @@
 				770FFFEC181C32A90074F472 /* OpenGL.framework in Frameworks */,
 				770FFFAE181C318E0074F472 /* Cocoa.framework in Frameworks */,
 				77F944FE185DB57D008675E7 /* libbass.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7719C6451880D79E00D6B442 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7719C6771880D8D600D6B442 /* OpenGL.framework in Frameworks */,
+				7719C6491880D79E00D6B442 /* Cocoa.framework in Frameworks */,
+				7719C68A1880DA3F00D6B442 /* libbass.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +449,24 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		7719C64A1880D79E00D6B442 /* demoplayer */ = {
+			isa = PBXGroup;
+			children = (
+				7719C64B1880D79E00D6B442 /* Supporting Files */,
+			);
+			path = demoplayer;
+			sourceTree = "<group>";
+		};
+		7719C64B1880D79E00D6B442 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7719C64C1880D79E00D6B442 /* demoplayer-Info.plist */,
+				7719C64D1880D79E00D6B442 /* InfoPlist.strings */,
+				7719C6521880D79E00D6B442 /* demoplayer-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		7750233217F0853D005F5112 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
@@ -417,10 +499,13 @@
 			isa = PBXGroup;
 			children = (
 				77F944FD185DB57D008675E7 /* libbass.dylib */,
+				7719C68D1880EE0200D6B442 /* demo.kdb */,
+				7719C6911880F68500D6B442 /* music.mp3 */,
 				77B04A43168DE9700068FCE6 /* src */,
 				77E5213815DF2A87000595F8 /* Resource */,
 				77FD452517B3ED5A001B3F22 /* KSceneViewer */,
 				770FFFAF181C318E0074F472 /* demoview */,
+				7719C64A1880D79E00D6B442 /* demoplayer */,
 				77E5213115DF2A87000595F8 /* Frameworks */,
 				77E5212F15DF2A87000595F8 /* Products */,
 			);
@@ -432,6 +517,7 @@
 				77E5212E15DF2A87000595F8 /* MOE3.app */,
 				77FD452317B3ED5A001B3F22 /* KSceneViewer.app */,
 				770FFFAD181C318E0074F472 /* demoview.app */,
+				7719C6481880D79E00D6B442 /* demoplayer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -475,6 +561,7 @@
 			children = (
 				772676AC18144848004C0113 /* demo.lua */,
 				77FD453A17B3EDDD001B3F22 /* viewermain.cpp */,
+				7719C6751880D81A00D6B442 /* demoplayer.cpp */,
 				770FFFEA181C32580074F472 /* demoview.cpp */,
 				77FD452617B3ED5A001B3F22 /* Supporting Files */,
 			);
@@ -510,6 +597,25 @@
 			name = demoview;
 			productName = demoview;
 			productReference = 770FFFAD181C318E0074F472 /* demoview.app */;
+			productType = "com.apple.product-type.application";
+		};
+		7719C6471880D79E00D6B442 /* demoplayer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7719C6731880D79E00D6B442 /* Build configuration list for PBXNativeTarget "demoplayer" */;
+			buildPhases = (
+				7719C6441880D79E00D6B442 /* Sources */,
+				7719C6451880D79E00D6B442 /* Frameworks */,
+				7719C6461880D79E00D6B442 /* Resources */,
+				7719C68B1880DA9100D6B442 /* CopyFiles */,
+				7719C68F1880F53100D6B442 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = demoplayer;
+			productName = demoplayer;
+			productReference = 7719C6481880D79E00D6B442 /* demoplayer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		77E5212D15DF2A87000595F8 /* MOE3 */ = {
@@ -572,6 +678,7 @@
 				77E5212D15DF2A87000595F8 /* MOE3 */,
 				77FD452217B3ED5A001B3F22 /* KSceneViewer */,
 				770FFFAC181C318E0074F472 /* demoview */,
+				7719C6471880D79E00D6B442 /* demoplayer */,
 			);
 		};
 /* End PBXProject section */
@@ -582,6 +689,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				770FFFB4181C318E0074F472 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7719C6461880D79E00D6B442 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7719C64F1880D79E00D6B442 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -629,6 +744,32 @@
 				770FFFE8181C32460074F472 /* SceneGraphRender.cpp in Sources */,
 				774CF040186EAD5A00DADF9E /* jpgd.cpp in Sources */,
 				770FFFE9181C32460074F472 /* BufferObject.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7719C6441880D79E00D6B442 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7719C6811880D91900D6B442 /* RenderDevice.cpp in Sources */,
+				7719C6851880DA2400D6B442 /* AnimLoader.cpp in Sources */,
+				7719C6761880D81A00D6B442 /* demoplayer.cpp in Sources */,
+				7719C6781880D8EA00D6B442 /* KdbImporterExporter.cpp in Sources */,
+				7719C6891880DA2D00D6B442 /* Scene.cpp in Sources */,
+				7719C6881880DA2B00D6B442 /* Demo.cpp in Sources */,
+				7719C6861880DA2500D6B442 /* MrzLoader.cpp in Sources */,
+				7719C6791880D8EE00D6B442 /* jpgd.cpp in Sources */,
+				7719C6871880DA2A00D6B442 /* EffectBuffer.cpp in Sources */,
+				7719C67A1880D8F100D6B442 /* Image.cpp in Sources */,
+				7719C67B1880D8F600D6B442 /* CoreWindow_mac.mm in Sources */,
+				7719C67C1880D8FB00D6B442 /* Log.cpp in Sources */,
+				7719C67D1880D90400D6B442 /* Stream.cpp in Sources */,
+				7719C6831880D92200D6B442 /* BufferObject.cpp in Sources */,
+				7719C67E1880D90F00D6B442 /* ShaderProgramObject.cpp in Sources */,
+				7719C67F1880D91300D6B442 /* RenderCommand.cpp in Sources */,
+				7719C6841880D92400D6B442 /* FrameBufferObject.cpp in Sources */,
+				7719C6801880D91700D6B442 /* SceneGraphRender.cpp in Sources */,
+				7719C6821880D92000D6B442 /* TextureObject.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,6 +837,14 @@
 			isa = PBXVariantGroup;
 			children = (
 				770FFFB3181C318E0074F472 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		7719C64D1880D79E00D6B442 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7719C64E1880D79E00D6B442 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -782,6 +931,86 @@
 				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		7719C66F1880D79E00D6B442 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "demoplayer/demoplayer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
+				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
+				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_LDFLAGS = (
+					"-llua",
+					"-lpng",
+					"-lz",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		7719C6701880D79E00D6B442 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "demoplayer/demoplayer-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = NOTUSE_MOEMEMORY;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"\"$(SRCROOT)/../lib/include\"",
+				);
+				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
+				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-llua",
 					"-lpng",
@@ -977,6 +1206,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		7719C6731880D79E00D6B442 /* Build configuration list for PBXNativeTarget "demoplayer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7719C66F1880D79E00D6B442 /* Debug */,
+				7719C6701880D79E00D6B442 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		77E5212815DF2A87000595F8 /* Build configuration list for PBXProject "MOE3" */ = {
 			isa = XCConfigurationList;
