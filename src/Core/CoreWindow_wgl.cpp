@@ -398,6 +398,29 @@ void CoreWindow::SwapBuffer()
 	SwapBuffers(m_hDC);
 }
 
+
+b8 CoreWindow::GoFullscreen(bool fullscreen)
+{
+	DWORD dwStyle = (DWORD)GetWindowLong(m_hWnd, GWL_STYLE);
+	//DWORD dwExStyle = (DWORD)GetWindowLong(hWnd, GWL_EXSTYLE);
+	if (fullscreen) {
+		//dwExStyle = WS_EX_APPWINDOW | WS_EX_WINDOWEDGE;
+		dwStyle   = WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
+		m_w  = m_restore_width;
+		m_h  = m_restore_height;
+	} else {
+		m_restore_width  = m_w;
+		m_restore_height = m_h;
+		m_w  = GetSystemMetrics(SM_CXSCREEN);
+		m_h  = GetSystemMetrics(SM_CYSCREEN);
+		dwStyle   =  WS_VISIBLE | WS_POPUP;
+	}
+	SetWindowLong(hWnd, GWL_STYLE,dwStyle);
+	SetWindowPos(hWnd, HWND_TOPMOST, 0,0, m_w, m_h,SWP_SHOWWINDOW);
+	resize(m_width, m_height);
+	return true;
+}
+
 const char* CoreWindow::GetExePath() const
 {
 	char exefilepath[2048];
