@@ -33,6 +33,8 @@ namespace MOE {
         b8 IsPlaying() const;
         b8 Stop();
         void SetTime(f64 tm);
+        
+        b8 Cache();
     private:
         class Impl;
         Impl* m_imp;

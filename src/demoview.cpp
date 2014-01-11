@@ -307,7 +307,12 @@ public:
             OpenDemo();
         if (key == 'v' || key == 'V')
             VisibleUI();
-        
+
+        static bool fsmode = false;
+        if (key == 'f' || key == 'F'){
+            fsmode = !fsmode;
+            GoFullscreen(fsmode);
+        }
 		m_gui->KeyUp(key);
         Draw();
     }
@@ -420,6 +425,7 @@ public:
 	
 	void Resize(int w, int h)
 	{
+        printf("RESIZE:%d,%d\n",w,h);
         m_width = w;
         m_height = h;
         g->Viewport(0, 0, w, h);

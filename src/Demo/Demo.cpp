@@ -453,6 +453,26 @@ public:
         }
     }
     
+    b8 Cache()
+    {
+        /*const auto eit = m_processes.end();
+        for (auto it = m_processes.begin(); it != eit; ++it)
+        {
+            ProcessInfo* pi = (*it);
+        }*/
+        const auto eit = m_renderEffects.end();
+        for (auto it = m_renderEffects.begin(); it != eit; ++it)
+        {
+            RenderEffectInfo* re = (*it);
+            Update(re->demo_startTime);
+            Render(re->demo_startTime);
+        }
+        Update(0);
+        Render(0);
+        
+        return true;
+    }
+    
     void SetMatrix(const s8* name, const Math::matrix4x4& mat)
     {
         assert(0);// TODO:
@@ -585,6 +605,7 @@ f64 Demo::GetTime()              { return m_imp->GetTime(); }
 b8 Demo::Play()                  { return m_imp->Play(); }
 b8 Demo::IsPlaying() const       { return m_imp->IsPlaying(); }
 b8 Demo::Stop()                  { return m_imp->Stop(); }
+b8 Demo::Cache()                 { return m_imp->Cache(); }
 void Demo::SetTime(f64 tm)       { return m_imp->SetTime(tm); }
 
 } // MOE

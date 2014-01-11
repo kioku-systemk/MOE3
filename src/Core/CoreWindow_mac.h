@@ -43,6 +43,8 @@ public:
 	virtual void Idle           (void)        {}
 	virtual void Draw           (void)        {}
 	
+    virtual void GoFullscreen(bool fullscreen);
+
 	void Active();
 	void Toplevel(bool top);
     void SwapBuffer();
