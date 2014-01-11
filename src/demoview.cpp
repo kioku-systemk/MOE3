@@ -154,6 +154,8 @@ public:
             float demorate = m_timeslider->GetValue();
 //            MOE::Stream::LoadKDB("/Users/kioku/Desktop/git/MOE3/data/aaa.kdb");
 //            b8 r = m_demo->Load("tdf2014inv.lua");
+            delete m_demo;
+            m_demo = new MOE::Demo(g);
             b8 r = m_demo->Load(g_demoluafile.c_str());
             if (!r)
                 MOELogE("Faild demo load.");
@@ -322,38 +324,44 @@ public:
         static f32 m0 = m_midi->GetControlParam(0);
         if (m0 != m_midi->GetControlParam(0)){
             m0 = m_midi->GetControlParam(0);
-            m_bar[0]->SetValue(m0);
+            m_pbar[0]->SetValue(m0);
         }
         static f32 m1 = m_midi->GetControlParam(1);
         if (m1 != m_midi->GetControlParam(1)){
             m1 = m_midi->GetControlParam(1);
-            m_bar[1]->SetValue(m1);
+            m_pbar[1]->SetValue(m1);
         }
         static f32 m2 = m_midi->GetControlParam(2);
         if (m2 != m_midi->GetControlParam(2)){
             m2 = m_midi->GetControlParam(2);
-            m_bar[2]->SetValue(m2);
+            m_pbar[2]->SetValue(m2);
         }
-        
+
+        static f32 m3 = m_midi->GetControlParam(3);
+        if (m3 != m_midi->GetControlParam(3)){
+            m3 = m_midi->GetControlParam(3);
+            m_pbar[3]->SetValue(m3);
+        }
+
         static float m4 = m_midi->GetControlParam(4);
         if (m4 != m_midi->GetControlParam(4)){
             m4 = m_midi->GetControlParam(4);
-            m_pbar[0]->SetValue(m4);
+            m_pbar[4]->SetValue(m4);
         }
         static float m5 = m_midi->GetControlParam(5);
         if (m5 != m_midi->GetControlParam(5)){
             m5 = m_midi->GetControlParam(5);
-            m_pbar[1]->SetValue(m5);
+            m_pbar[5]->SetValue(m5);
         }
         static float m6 = m_midi->GetControlParam(6);
         if (m6 != m_midi->GetControlParam(6)){
             m6 = m_midi->GetControlParam(6);
-            m_pbar[2]->SetValue(m6);
+            m_pbar[6]->SetValue(m6);
         }
         static float m7 = m_midi->GetControlParam(7);
         if (m7 != m_midi->GetControlParam(7)){
             m7 = m_midi->GetControlParam(7);
-            m_pbar[3]->SetValue(m7);
+            m_pbar[7]->SetValue(m7);
         }
 	}
     
@@ -425,7 +433,6 @@ public:
 	
 	void Resize(int w, int h)
 	{
-        printf("RESIZE:%d,%d\n",w,h);
         m_width = w;
         m_height = h;
         g->Viewport(0, 0, w, h);
