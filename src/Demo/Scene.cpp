@@ -106,7 +106,9 @@ namespace MOE {
         }
         ~Impl()
         {
+            delete m_render;
             delete m_root;
+            delete m_anim;
         }
         
         void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname)

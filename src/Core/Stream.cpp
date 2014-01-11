@@ -39,6 +39,7 @@ Stream::Stream(const u8* ptr, u32 size){
 	m_mode = MODE_INPUT_BINARY_ONMEMORY;
 	memcpy(m_ptr, ptr, size);
 	m_opened = false;
+    m_refptr = false;
 }
 
 Stream::Stream(const s8* filename, Mode mode){
@@ -47,7 +48,8 @@ Stream::Stream(const s8* filename, Mode mode){
 	m_opened = false;
 	m_size = 0;
 	m_mode = mode;
-	
+    m_refptr = false;
+    
 	m_filepath = filename;
 	m_filename = parseFilename(filename, "/");
 
