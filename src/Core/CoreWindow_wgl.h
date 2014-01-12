@@ -57,7 +57,7 @@ public:
 	static void DoEvents();
 	static void MainLoop();
     
-    virtual void GoFullscreen(bool fullscreen){};
+    virtual void GoFullscreen(bool fullscreen);
 	
 	HDC GetHDC();
 	int GetWidth() const  { return m_w; }

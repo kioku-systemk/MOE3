@@ -160,6 +160,7 @@
     <ClInclude Include="..\..\src\Core\CoreWindow_x11.h" />
     <ClInclude Include="..\..\src\Core\Image.h" />
     <ClInclude Include="..\..\src\Core\jpgd.h" />
+    <ClInclude Include="..\..\src\Core\KdbImporterExporter.h" />
     <ClInclude Include="..\..\src\Core\Log.h" />
     <ClInclude Include="..\..\src\Core\Math.h" />
     <ClInclude Include="..\..\src\Core\MatrixStack.h" />
@@ -207,6 +208,7 @@
     <ClCompile Include="..\..\src\Core\CoreWindow_wgl.cpp" />
     <ClCompile Include="..\..\src\Core\Image.cpp" />
     <ClCompile Include="..\..\src\Core\jpgd.cpp" />
+    <ClCompile Include="..\..\src\Core\KdbImporterExporter.cpp" />
     <ClCompile Include="..\..\src\Core\Log.cpp" />
     <ClCompile Include="..\..\src\Core\Memory.cpp" />
     <ClCompile Include="..\..\src\Core\Stream.cpp" />

@@ -30,6 +30,8 @@
 
 #ifndef _WIN32
 #include <unistd.h>
+#else
+#include <direct.h>
 #endif
 
 namespace {
@@ -101,8 +103,13 @@ public:
         Draw();
         
         std::string exepath = GetExePath();
+#if MOE_PLATFORM_WINDOWS
+		ShowCursor(FALSE);
+		_chdir(exepath.c_str());
+#else
         chdir((exepath + "/../").c_str());
-        MOE::Stream::LoadKDB("demo.kdb");
+#endif
+		MOE::Stream::LoadKDB("demo.kdb");
         const s8* fn = "demo.lua";
         delete m_demo;
         g_demoluafile = std::string(fn);
@@ -277,9 +284,7 @@ int main(int argc, char *argv[])
 #endif
 {
 	printf("KScene3 - System K(c)\n");
-	if (argc >= 2)
-		g_demoluafile = std::string(argv[1]);
-    MOEWindow win(32, 32, 1280,720);
+	MOEWindow win(32, 32, 1280,720);
     CoreWindow::MainLoop();
     return 0;
 }
