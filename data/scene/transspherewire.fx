@@ -26,6 +26,7 @@ FragmentShader = [[
 	varying HIGHP vec4 vtx_pos;
 	uniform vec4 p1;
 	uniform vec4 eyepos;
+	varying HIGHP vec2 vtx_uv;
 uniform vec4 time;
 	/*uniform sampler2D color_tex; 
 uniform vec4 color;
@@ -43,7 +44,7 @@ void main(void)
 	{
 		const int MAX_ITER = 20;
 		const float BAILOUT = 4.0;
-		float Power = 10.0+sin(time.x*2.0)*2.0;
+		float Power = 10.0+sin(time.x*2.0)*1.0;
 
 		vec3 v = p;
 		vec3 c = v;
@@ -62,7 +63,7 @@ void main(void)
 			float zr = pow(r, Power);
 			theta = theta*Power;
 			phi = phi*Power;
-			v = (vec3(sin(theta)*cos(phi), sin(phi)*sin(theta), cos(theta))*zr) + c;
+			v = (vec3(cos(theta)*sin(phi), cos(phi)*sin(theta), sin(theta))*zr) + c;
 		}
 		return 0.5*log(r)*r / d;
 	}
@@ -82,7 +83,7 @@ void main(void)
 
 		vec3 rayDir = normalize(vec3(vtx_pos.xyz-eyepos.xyz));// normalize(camSide*pos.x + camUp*pos.y + camDir*focus);
 		
-		vec3 ray = vtx_pos.xyz*0.115;// camPos;
+		vec3 ray = vtx_pos.xyz*0.15;// camPos;
 		vec3 m = vec3(0.0);
 		float d = 0.0, total_d = 0.0;
 		const int MAX_MARCH = 50;
@@ -91,15 +92,15 @@ void main(void)
 			d = map(ray);
 			total_d += d;
 			ray += rayDir * d;
-			m += vec3(1.0);
+			m += vec3(1.3,1.1,2.2);//vec3(1.0);
 			if (d<0.001) { break; }
 			if (total_d>MAX_DISTANCE) { total_d = MAX_DISTANCE; discard; }
 		}
 
 		float c = (total_d)*0.0001;
-		vec4 result = vec4(1.0 - vec3(c, c, c) - vec3(0.02, 0.025, 0.025)*m*0.8, 1.0);
-		float cld = total_d;
-		vec3 cm = vec3(sin(cld*20.0)*0.1+0.8, sin(cld*20.0)*0.1+0.5, sin(cld*10.0)*0.1+0.5);
+		vec4 result = vec4(1.0 - vec3(c, c, c) - vec3(0.025, 0.025, 0.025)*m*0.9, 1.0);
+		float cld = total_d;// + fract(sin(vtx_uv.x+time.x*0.5)*10.0);
+		vec3 cm = vec3(sin(cld*20.0)*0.1+0.8, sin(cld*20.0)*0.1+0.8, sin(cld*10.0)*0.1+0.5);
 		result.xyz *= cm;
 		gl_FragColor = result*2.0;
 	}

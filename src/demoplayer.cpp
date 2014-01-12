@@ -208,7 +208,7 @@ public:
 			tm = m_demo->GetTime();
 		}
 		const f32 animtime = tm;
-        if (maxanimtime < tm)
+        if (maxanimtime != 0.0 && maxanimtime <= tm)
             ExitDemo();
         
         if (m_demo)
