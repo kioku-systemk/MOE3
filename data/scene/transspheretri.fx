@@ -83,7 +83,7 @@ void main(void)
 
 		vec3 rayDir = normalize(vec3(vtx_pos.xyz-eyepos.xyz));// normalize(camSide*pos.x + camUp*pos.y + camDir*focus);
 		
-		vec3 ray = vtx_pos.xyz*0.15;// camPos;
+		vec3 ray = vtx_pos.xyz*0.15 + p1.x;// camPos;
 		vec3 m = vec3(0.0);
 		float d = 0.0, total_d = 0.0;
 		const int MAX_MARCH = 50;
@@ -105,7 +105,8 @@ void main(void)
 			ex = 0.0;
 		vec3 cm = vec3(sin(cld*10.0)*0.1+0.8+ex, sin(cld*20.0)*0.1+0.8, sin(cld*30.0)*0.1+0.5);
 		result.xyz *= cm;
-		gl_FragColor = result*2.0;
+		gl_FragColor = result*4.0;
+		gl_FragColor.a = 1.0;
 	}
 
 ]]
@@ -117,4 +118,4 @@ Blend = true
 BlendSrc = "SRC_ALPAH"
 BlendDst = "ONE_MINUS_SRC_ALPHA"
 
-Priority=0
+Priority=10
