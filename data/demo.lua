@@ -58,6 +58,10 @@ function effectdof(stime,etime,bufname,srcbuf,ep)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dof", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
 end
 
+function effectdof_dropball(stime,etime,bufname,srcbuf,ep)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dofdropball", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
+end
+
 function showdepth(stime,etime,bufname,srcbuf)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/depthshow", tex={srcBuf=srcbuf}}
 end
@@ -279,11 +283,12 @@ Render = {
 	clear            (demotime[3][1],demotime[3][2], "hdrbuffer"),
 	render           (demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
 	renderPlaneShadow(demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
-	effectdof(demotime[3][1],demotime[3][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
+	effectdof_dropball(demotime[3][1],demotime[3][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
 	
 -- Scene4	
 	clear    (demotime[4][1],demotime[4][2], "hdrbuffer"),
 	render   (demotime[4][1],demotime[4][2], "hdrbuffer","downringsB"),
+	white    (demotime[4][1],demotime[4][2], "hdrbuffer", "dropringfadein"),
 	effectdof(demotime[4][1],demotime[4][2],"backbuffer","hdrbuffer","0.812,0.550,0.15,0.712"),
 -- Scene5
 	clear    (demotime[5][1],demotime[5][2], "hdrbuffer"),
@@ -296,6 +301,7 @@ Render = {
 	-- Scene6
 	clear    (demotime[6][1],demotime[6][2], "hdrbuffer"),
 	render   (demotime[6][1],demotime[6][2], "hdrbuffer","transsphere"),
+	white    (demotime[6][1],demotime[6][2], "hdrbuffer", "transspheregray"),
 	effectdof(demotime[6][1],demotime[6][2], "backbuffer","hdrbuffer","0.962,0.587,0.712,0.1"),
 -- Scene7	
 	clear    (demotime[7][1],demotime[7][2], "hdrbuffer"),		
