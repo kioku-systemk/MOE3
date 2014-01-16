@@ -43,14 +43,14 @@ public:
 	virtual void Idle           (void)        {}
 	virtual void Draw           (void)        {}
 	
-    virtual void GoFullscreen(bool fullscreen);
-
 	void Active();
 	void Toplevel(bool top);
     void SwapBuffer();
 	static void DoEvents(void);
 	static void MainLoop(void);
     
+	void GoFullscreen(bool fullscreen);
+
     int GetWidth() const  { return m_w; }
     int GetHeight() const { return m_h; }
     
