@@ -57,12 +57,12 @@ public:
 	static void DoEvents();
 	static void MainLoop();
     
-    virtual void GoFullscreen(bool fullscreen);
-	
 	HDC GetHDC();
 	int GetWidth() const  { return m_w; }
 	int GetHeight() const { return m_h; }
 	
+	void GoFullscreen(bool fullscreen);
+
 	const char* GetExePath() const;
 	const char* FileOpenDialog(const char* ext) const;
 	const char* FileSaveDialog(const char* ext) const;
