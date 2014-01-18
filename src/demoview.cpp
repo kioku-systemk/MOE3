@@ -29,6 +29,8 @@
 
 #include "Demo/Demo.h"
 
+#include "Core/SimpleJPG.h"
+
 namespace {
 	std::string g_demoluafile;
 }
@@ -54,8 +56,16 @@ public:
         const f32 col[] = {0.50,0.50,0.50,0.50};
         m_frame1 = mnew SimpleGUI::Frame(m_gui,0,0,width, 30, col);
         m_frame2 = mnew SimpleGUI::Frame(m_gui,0,30,100, height-30, col);
+
+        const f32 col2[] = {0.20,0.20,0.20,0.50};
+        m_sceneframe = mnew SimpleGUI::Frame(m_gui,100,30,width-100, 300, col2);
+        
+        const f32 col3[] = {1.0,0.20,0.20,0.50};
+        m_timelinetime = mnew SimpleGUI::Frame(m_gui, 100,0, 3, 300, col3, 5);
+
         win->AddChild(m_frame1);
         win->AddChild(m_frame2);
+        win->AddChild(m_sceneframe);
 
         SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 10, 5, "KScene3", 16);
         m_frame1->AddChild(cap);
@@ -97,10 +107,18 @@ public:
         m_overridecheck->SetState(false);
     	m_frame2->AddChild(m_overridecheck);
 
-        for (int i = 0; i < 8; ++i) {
-            m_pbar[i] = mnew SimpleGUI::Slider(m_gui, 10, 40 + 20*i,80,16);
+        m_timelinecheck = mnew SimpleGUI::Check(m_gui,"Timeline",105,0);
+        m_timelinecheck->SetState(false);
+        m_timelinecheck->SetChangedFunc(timelineBtnFunc, this);
+    	m_frame2->AddChild(m_timelinecheck);
+
+        m_sceneframe->SetShow(m_timelinecheck->GetState());
         
-            SimpleGUI::Caption* label = mnew SimpleGUI::Caption(m_gui, 12, 40+20*i-3, "0.000", 16);
+        const int syoffset = 60;
+        for (int i = 0; i < 8; ++i) {
+            m_pbar[i] = mnew SimpleGUI::Slider(m_gui, 10, syoffset + 20*i,80,16);
+        
+            SimpleGUI::Caption* label = mnew SimpleGUI::Caption(m_gui, 12, syoffset+20*i-3, "0.000", 16);
             m_pbar[i]->SetUserData(label);
             m_pbar[i]->SetChangedFunc(changeSliderFunc, m_pbar[i]);
             m_frame2->AddChild(label);
@@ -120,7 +138,11 @@ public:
         m_exportbtn = mnew SimpleGUI::Button(m_gui,"ExportDemo",5,height - 60, 90, 16);
         m_exportbtn->SetClickedFunc(MOEWindow::exportBtnFunc, this);
     	m_frame2->AddChild(m_exportbtn);
-        
+
+        m_renderbtn = mnew SimpleGUI::Button(m_gui,"RenderDemo",5,height - 200, 90, 16);
+        m_renderbtn->SetClickedFunc(MOEWindow::renderBtnFunc, this);
+    	m_frame2->AddChild(m_renderbtn);
+
 		m_cameranode = 0;
  
         m_rot = m_view = MOE::Math::Identity();
@@ -141,10 +163,76 @@ public:
             m_demo = new MOE::Demo(g);
             ReloadDemo();
         }
+        
+        UpdateSceneline(m_sceneframe);
+        
         Draw();
 	}
 	~MOEWindow()
     {
+    }
+    
+    void UpdateScenelineTime()
+    {
+        const int allw    = m_timeslider->GetWidth();
+        const f64 alltime = m_demo->GetDemoTime();
+        const f64 dtm     = m_demo->GetTime();
+        const int tmpos = allw * dtm/alltime;
+        m_timelinetime->SetPos(100+tmpos,0);
+    }
+    void UpdateSceneline(SimpleGUI::Frame* layer)
+    {
+        using namespace SimpleGUI;
+        
+        layer->ClearChild();
+        if (!m_demo)
+            return;
+
+        layer->AddChild(m_timelinetime);
+        UpdateScenelineTime();
+        
+        const int allw    = m_timeslider->GetWidth();
+        const f64 alltime = m_demo->GetDemoTime();
+
+        const s32 pn = m_demo->GetProcessNum();
+        for (s32 i = 0; i < pn; ++i){
+            std::string scenename;
+            f64 start_demotm, end_demotm, start_scntm, end_scntm;
+            m_demo->GetProcessScene(i, scenename, start_demotm, end_demotm, start_scntm, end_scntm);
+            
+            const f32 col[] = {0.80,0.30,0.40,0.50};
+            const int xofs = 100;
+            const int yofs = 20;
+            const int stm = allw * start_demotm/alltime;
+            const int etm = allw * end_demotm/alltime;
+            const int wtm = etm - stm;
+            const int yp = i % 20;
+            Frame* bar = mnew Frame(m_gui, xofs + stm, yofs+yp * 10, wtm, 10, col);
+            Caption* scname = mnew Caption(m_gui, 0,0, scenename.c_str(), 14.0f,2);
+            bar->AddChild(scname);
+            layer->AddChild(bar);
+        }
+        const s32 rn = m_demo->GetRenderEffectNum();
+        for (s32 i = 0; i < rn; ++i) {
+            std::string scenename;
+            f64 start_demotm, end_demotm;
+            s32 texid;
+            std::string ovshader;
+            m_demo->GetRenderEffect(i, scenename, start_demotm, end_demotm, texid, ovshader);
+            
+            const f32 col[] = {0.30,0.30,0.80,0.50};
+            const int xofs = 100;
+            const int yofs = 100;
+            const int stm = allw * start_demotm/alltime;
+            const int etm = allw * end_demotm/alltime;
+            const int wtm = etm - stm;
+            const int yp = i % 5;
+            Frame* bar = mnew Frame(m_gui, xofs + stm, yofs+texid*5 + yp*10, wtm, 10, col);
+            Caption* scname = mnew Caption(m_gui, 0,0, scenename.c_str(), 14.0f,2);
+            bar->AddChild(scname);
+            layer->AddChild(bar);
+
+        }
     }
 	
 	void ReloadDemo()
@@ -185,10 +273,17 @@ public:
     void ExportDemo()
     {
         const char* fn = FileSaveDialog("kdb");
-        if (m_demo)
+        if (fn && m_demo)
             m_demo->Export(fn);
     }
 
+    void RenderDemo()
+    {
+        const char* fn = FileSaveDialog("jpg");
+        if (fn)
+            WriteAllImages(fn);
+    }
+    static void renderBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->RenderDemo(); }
     static void exportBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ExportDemo(); }
     static void openBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->OpenDemo(); }
     static void reloadDemoBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ReloadDemo(); }
@@ -211,6 +306,7 @@ public:
             char buf[64];
             sprintf(buf, "%4.3lf", tm);
             m_timelabel->SetText(buf);
+            UpdateScenelineTime();
         }
     }
     static void changeAnimFunc(bool r, void* thisptr) { static_cast<MOEWindow*>(thisptr)->ChangeAnimMode(r); }
@@ -220,6 +316,13 @@ public:
             m_demo->Play();
         else
             m_demo->Stop();
+    }
+    
+    static void timelineBtnFunc(bool r, void* thisptr){ static_cast<MOEWindow*>(thisptr)->CheckTimeline(r); }
+    void CheckTimeline(bool r)
+    {
+        m_sceneframe->SetShow(r);
+        m_gui->Update();
     }
     s32 mx;
     s32 my;
@@ -365,6 +468,76 @@ public:
         }
 	}
     
+    void renderScene(f64 tm)
+    {
+        g->Enable(VG_CULL_FACE);
+        g->Enable(VG_DEPTH_TEST);
+        g->ClearColor(0,0,0,0);
+        g->Clear(VG_COLOR_BUFFER_BIT | VG_DEPTH_BUFFER_BIT);
+        
+		const f32 animtime = tm;
+        if (m_demo)
+        {
+            // Update,Render
+            m_demo->Update(animtime);
+            m_demo->Render(animtime);
+            
+            if (m_overridecheck->GetState()) {
+                m_demo->SetVec4("ep1",MOE::Math::vec4(m_pbar[0]->GetValue(),
+                                                      m_pbar[1]->GetValue(),
+                                                      m_pbar[2]->GetValue(),
+                                                      m_pbar[3]->GetValue()));
+                m_demo->SetVec4("ep2",MOE::Math::vec4(m_pbar[4]->GetValue(),
+                                                      m_pbar[5]->GetValue(),
+                                                      m_pbar[6]->GetValue(),
+                                                      m_pbar[7]->GetValue()));
+            } else {
+                m_demo->ClearUniforms();
+            }
+        }
+        g->Disable(VG_DEPTH_TEST);
+        g->Disable(VG_CULL_FACE);
+    }
+    
+    bool SaveColorBuffer(const char* filename, s32 w, s32 h, u8* imgbuf)
+	{
+        glReadPixels(0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, imgbuf);
+        glFinish();
+
+        void* jpgbuf;
+        int fsize = SimpleJPGSaverRGBA(&jpgbuf, w, h, imgbuf);
+        FILE* fp = fopen(filename, "wb");
+        fwrite(jpgbuf, 1, fsize, fp);
+        fclose(fp);
+        free(jpgbuf);
+        return true;
+	}
+    void WriteAllImages(const s8* basefname)
+    {
+        f64 maxanimtime = 0.0;
+        if (m_demo)
+            maxanimtime = m_demo->GetDemoTime();
+
+        f64 tm = 0.0;
+        u64 cnt = 0;
+        s32 w = m_width;
+        s32 h = m_height;
+        u8* imgbuf = new u8[w*h*4];
+        while (tm < maxanimtime){
+            renderScene(tm);
+            
+            char fname[512];
+            char bname[512];
+            strcpy(bname,basefname);
+            bname[strlen(bname)-4] = 0;
+            sprintf(fname,"%s%06ld.jpg", bname, cnt);
+            SaveColorBuffer(fname, w,h, imgbuf);
+            cnt++;
+            tm = cnt / 30.0;
+        }
+        delete [] imgbuf;
+    }
+    
     void Draw()
     {
         updateGUI();
@@ -443,8 +616,10 @@ public:
         m_openbtn->SetPos(5, h - 140);
         m_reloadbtn->SetPos(5, h - 120);
         m_rebufbtn->SetPos(5, h -  100);
-        
         m_exportbtn->SetPos(5, h - 60);
+        
+        m_sceneframe->SetSize(w-100,300);
+        UpdateSceneline(m_sceneframe);
         if (m_demo)
             m_demo->Resize(w,h);
         Draw();
@@ -461,6 +636,7 @@ private:
     SimpleGUI::GUIManager* m_gui;
     b8 m_guivisible;
     SimpleGUI::Frame* m_frame1, *m_frame2;
+    SimpleGUI::Frame* m_sceneframe;
     SimpleGUI::Slider* m_bar[3];
     SimpleGUI::Slider* m_pbar[8];
 	SimpleGUI::Slider* m_timeslider;
@@ -468,6 +644,9 @@ private:
 	SimpleGUI::Check* m_animcheck;
 	SimpleGUI::Check* m_idlecheck;
     SimpleGUI::Check* m_overridecheck;
+    SimpleGUI::Check* m_timelinecheck;
+    SimpleGUI::Frame* m_timelinetime;
+    SimpleGUI::Button* m_renderbtn;
     SimpleGUI::Button* m_exportbtn;
     SimpleGUI::Button* m_openbtn;
     SimpleGUI::Button* m_reloadbtn;
@@ -490,7 +669,7 @@ int main(int argc, char *argv[])
 	printf("KScene3 - System K(c)\n");
 	if (argc >= 2)
 		g_demoluafile = std::string(argv[1]);
-    MOEWindow win(32, 32, 1024, 800);
+    MOEWindow win(32, 32, 1280, 720);
     CoreWindow::MainLoop();
     return 0;
 }

@@ -3,6 +3,8 @@
 
 #include "../Core/Type.h"
 
+#include <string>
+
 namespace MOE {
     class Graphics;
     namespace Math{
@@ -35,6 +37,13 @@ namespace MOE {
         void SetTime(f64 tm);
         
         b8 Cache();
+        
+        // scene info query
+        s32 GetProcessNum() const;
+        s32 GetRenderEffectNum() const;
+        b8 GetProcessScene(s32 pi, std::string& scenename, f64& start_demotm, f64& end_demotm, f64& start_scntm, f64& end_scntm) const;
+        b8 GetRenderEffect(s32 ri, std::string& scenename, f64& start_demotm, f64& end_demotm, s32& texid, std::string& ovshader) const;
+
     private:
         class Impl;
         Impl* m_imp;

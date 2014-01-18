@@ -504,6 +504,48 @@ public:
         clearmap(m_ovprgs);
         createOverridePrograms(g);
     }
+    
+    s32 GetProcessNum() const
+    {
+        return static_cast<s32>(m_processes.size());
+    }
+    s32 GetRenderEffectNum() const
+    {
+        return static_cast<s32>(m_renderEffects.size());
+    }
+    b8 GetProcessScene(s32 pi, std::string& scenename, f64& start_demotm, f64& end_demotm, f64& start_scntm, f64& end_scntm) const
+    {
+        if (pi < 0 || GetProcessNum() <= pi)
+            return false;
+        
+        start_demotm = m_processes[pi]->demo_startTime;
+        end_demotm   = m_processes[pi]->demo_endTime;
+        start_scntm  = m_processes[pi]->scene_startTime;
+        end_scntm    = m_processes[pi]->scene_endTime;
+        scenename    = m_processes[pi]->scene->GetName();
+        std::string camname = m_processes[pi]->cameraname;
+        scenename += std::string(":") + camname;
+        return true;
+    }
+    b8 GetRenderEffect(s32 ri, std::string& scenename, f64& start_demotm, f64& end_demotm, s32& texid, std::string& ovshader) const
+    {
+        if (ri < 0 || GetRenderEffectNum() <= ri)
+            return false;
+
+        start_demotm = m_renderEffects[ri]->demo_startTime;
+        end_demotm   = m_renderEffects[ri]->demo_endTime;
+        texid        = 0;
+        if (m_renderEffects[ri]->effectBuffer)
+            texid = m_renderEffects[ri]->effectBuffer->GetTextureID();
+        ovshader     = m_renderEffects[ri]->overrideShader;
+        scenename = "clear";
+        if (m_renderEffects[ri]->scene)
+            scenename    = m_renderEffects[ri]->scene->GetName();
+        scenename += std::string(":") + ovshader;
+        return true;
+    }
+    
+
 private:
     
     class ShaderParam
@@ -607,5 +649,14 @@ b8 Demo::IsPlaying() const       { return m_imp->IsPlaying(); }
 b8 Demo::Stop()                  { return m_imp->Stop(); }
 b8 Demo::Cache()                 { return m_imp->Cache(); }
 void Demo::SetTime(f64 tm)       { return m_imp->SetTime(tm); }
+    s32 Demo::GetProcessNum() const { return m_imp->GetProcessNum(); }
+    s32 Demo::GetRenderEffectNum() const { return m_imp->GetRenderEffectNum(); }
+    b8 Demo::GetProcessScene(s32 pi, std::string& scenename,
+                             f64& start_demotm, f64& end_demotm, f64& start_scntm, f64& end_scntm) const
+    { return m_imp->GetProcessScene(pi,scenename,start_demotm,end_demotm, start_scntm, end_scntm); }
+    b8 Demo::GetRenderEffect(s32 ri, std::string& scenename, f64& start_demotm, f64& end_demotm,
+                             s32& texid, std::string& ovshader) const
+    { return m_imp->GetRenderEffect(ri, scenename, start_demotm,end_demotm, texid, ovshader); }
 
+    
 } // MOE

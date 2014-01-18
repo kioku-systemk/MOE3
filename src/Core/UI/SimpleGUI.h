@@ -141,6 +141,10 @@ public:
 	{
 		return m_deftex;
 	}
+    void Update()
+    {
+        clearDrawSets();
+    }
 	
 protected:
 	void Ortho(float l, float r, float t, float b, float nearval, float farval, float mat[16])
@@ -210,6 +214,13 @@ protected:
 			}
 		}
 	}
+    void clearDrawSets()
+    {
+		auto eit = m_drawsets.end();
+        for (auto it = m_drawsets.begin(); eit != it; ++it) {
+            it->vb->Clear();
+		}
+    }
 	
 private:
 	MOE::Graphics* g;
@@ -463,7 +474,7 @@ public:
 		m_color[1] = col[1];
 		m_color[2] = col[2];
 		m_color[3] = col[3];
-		
+        
 		textRasterizer& txt = textRasterizer::GetInstance();
 		int w,h,rw;
 		txt.GetTextSize(text, size, w, h, rw);
@@ -517,7 +528,7 @@ protected:
 	{
 		const int sx = parent_x + m_x;
 		const int sy = parent_y + m_y;
-		if (m_cache_x != sx || m_cache_y != sy || m_cache_w != m_width || m_cache_h != m_height) {
+		if (m_vb->GetBufferSize()==0 || m_cache_x != sx || m_cache_y != sy || m_cache_w != m_width || m_cache_h != m_height) {
 			m_vb->Clear();
 			m_vb->Color4f(m_color[0],m_color[1],m_color[2],m_color[3]);
 			m_vb->RectUV2f(static_cast<float>(sx), static_cast<float>(sy),

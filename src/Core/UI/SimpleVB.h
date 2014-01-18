@@ -174,8 +174,15 @@ public:
         m_indexbuffer.clear();
 	}
 	
+    s32 GetBufferSize()
+    {
+        return static_cast<s32>(m_buffer.size());
+    }
+    
 	void Update()
 	{
+        if (!m_buffer.size())
+            return;
 		g->BindBuffer(VG_ARRAY_BUFFER, m_vb);
 		g->BufferData(VG_ARRAY_BUFFER, static_cast<int>(m_buffer.size()) * sizeof(VertexFormat), &m_buffer[0], VG_STATIC_DRAW);
         g->BindBuffer(VG_ELEMENT_ARRAY_BUFFER, m_ib);
@@ -186,6 +193,8 @@ public:
 	
 	void Draw()
 	{
+        if (!m_buffer.size())
+            return;
 		g->BindBuffer(VG_ARRAY_BUFFER, m_vb);
         g->BindBuffer(VG_ELEMENT_ARRAY_BUFFER, m_ib);
 		m_shader->Bind();
