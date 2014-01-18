@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7707E8B21885AD1400519F82 /* jpge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7707E8B11885AD1400519F82 /* jpge.cpp */; };
+		7707E8B31885AD1400519F82 /* jpge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7707E8B11885AD1400519F82 /* jpge.cpp */; };
 		770A51A216DE6FCF00872F21 /* CoreWindow_mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = 770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */; };
 		770A51A516DE6FCF00872F21 /* Log.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A517D16DE6FCF00872F21 /* Log.cpp */; };
 		770A51A616DE6FCF00872F21 /* Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 770A518116DE6FCF00872F21 /* Memory.cpp */; };
@@ -70,7 +72,6 @@
 		772676A9181433B6004C0113 /* Demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233517F0853D005F5112 /* Demo.cpp */; };
 		772676AA181433BB004C0113 /* EffectBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233317F0853D005F5112 /* EffectBuffer.cpp */; };
 		772676AB181433BE004C0113 /* Scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7750233717F0853D005F5112 /* Scene.cpp */; };
-		772676AD18144848004C0113 /* demo.lua in Resources */ = {isa = PBXBuildFile; fileRef = 772676AC18144848004C0113 /* demo.lua */; };
 		7730DC0318604B9F0043807C /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		7730DC0518604BBF0043807C /* libbass.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
 		774CF03B186EA41900DADF9E /* libbass.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 77F944FD185DB57D008675E7 /* libbass.dylib */; };
@@ -161,6 +162,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		7707E8B11885AD1400519F82 /* jpge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpge.cpp; sourceTree = "<group>"; };
 		770A517616DE6FCF00872F21 /* CoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow.h; sourceTree = "<group>"; };
 		770A517716DE6FCF00872F21 /* CoreWindow_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreWindow_mac.h; sourceTree = "<group>"; };
 		770A517816DE6FCF00872F21 /* CoreWindow_mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CoreWindow_mac.mm; sourceTree = "<group>"; };
@@ -222,7 +224,6 @@
 		7719C6751880D81A00D6B442 /* demoplayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = demoplayer.cpp; path = ../../src/demoplayer.cpp; sourceTree = "<group>"; };
 		7719C68D1880EE0200D6B442 /* demo.kdb */ = {isa = PBXFileReference; lastKnownFileType = file; name = demo.kdb; path = ../data/demo.kdb; sourceTree = "<group>"; };
 		7719C6911880F68500D6B442 /* music.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = music.mp3; path = ../data/music.mp3; sourceTree = "<group>"; };
-		772676AC18144848004C0113 /* demo.lua */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = demo.lua; path = ../../data/demo.lua; sourceTree = "<group>"; };
 		774CF03C186EAD5A00DADF9E /* jpgd.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jpgd.cpp; sourceTree = "<group>"; };
 		774CF03D186EAD5A00DADF9E /* jpgd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jpgd.h; sourceTree = "<group>"; };
 		7750233317F0853D005F5112 /* EffectBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EffectBuffer.cpp; sourceTree = "<group>"; };
@@ -325,6 +326,7 @@
 				7719C640187C9D5900D6B442 /* KdbImporterExporter.h */,
 				774CF03C186EAD5A00DADF9E /* jpgd.cpp */,
 				774CF03D186EAD5A00DADF9E /* jpgd.h */,
+				7707E8B11885AD1400519F82 /* jpge.cpp */,
 				77F94504186E9C09008675E7 /* Image.cpp */,
 				77F94505186E9C09008675E7 /* Image.h */,
 				770A517616DE6FCF00872F21 /* CoreWindow.h */,
@@ -559,7 +561,6 @@
 		77FD452517B3ED5A001B3F22 /* KSceneViewer */ = {
 			isa = PBXGroup;
 			children = (
-				772676AC18144848004C0113 /* demo.lua */,
 				77FD453A17B3EDDD001B3F22 /* viewermain.cpp */,
 				7719C6751880D81A00D6B442 /* demoplayer.cpp */,
 				770FFFEA181C32580074F472 /* demoview.cpp */,
@@ -712,7 +713,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				77FD452A17B3ED5A001B3F22 /* InfoPlist.strings in Resources */,
-				772676AD18144848004C0113 /* demo.lua in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -724,6 +724,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				770FFFEE181C34300074F472 /* TextureObject.cpp in Sources */,
+				7707E8B31885AD1400519F82 /* jpge.cpp in Sources */,
 				770FFFDB181C32460074F472 /* EffectBuffer.cpp in Sources */,
 				77F94508186E9C09008675E7 /* Image.cpp in Sources */,
 				770FFFDC181C32460074F472 /* Demo.cpp in Sources */,
@@ -795,6 +796,7 @@
 				779C2E8D176C9D8D00DE219C /* SceneGraphRender.cpp in Sources */,
 				7719C641187C9D5900D6B442 /* KdbImporterExporter.cpp in Sources */,
 				779C2E8E176C9D8D00DE219C /* TextureObject.cpp in Sources */,
+				7707E8B21885AD1400519F82 /* jpge.cpp in Sources */,
 				779C2E91176C9E7E00DE219C /* BufferObject.cpp in Sources */,
 				7750233917F0853D005F5112 /* EffectBuffer.cpp in Sources */,
 				7750233A17F0853D005F5112 /* Demo.cpp in Sources */,
@@ -1214,6 +1216,7 @@
 				7719C6701880D79E00D6B442 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		77E5212815DF2A87000595F8 /* Build configuration list for PBXProject "MOE3" */ = {
 			isa = XCConfigurationList;
