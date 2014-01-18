@@ -15,6 +15,8 @@
 #include "../Core/KdbImporterExporter.h"
 #include "Sound.h"
 
+const s32 exportFPS = 30;
+
 namespace {
     template<typename T>
     void clearmap(T& buffers)
@@ -244,6 +246,12 @@ private:
             } else {
                 MOELogI("Load sound : %s\n",spath.c_str());
             }
+            
+            assert(!m_ffthist);
+            const s32 fnum = static_cast<s32>(GetDemoTime() * exportFPS);
+            m_ffthist = mnew MOE::Math::vec4[fnum];
+            m_ffthistnum = fnum;
+            memset(m_ffthist, 0, m_ffthistnum*sizeof(MOE::Math::vec4));
         }
     }
     b8 loadLua(const s8* luafile)
@@ -263,6 +271,7 @@ private:
         loadSound(L);
         
         closeLua(L);
+        
         Update(0);
         return true;
     }
@@ -278,6 +287,8 @@ public:
         m_playtime = 0;
         m_playing = false;
         m_fftvec = MOE::Math::vec4(0,0,0,0);
+        m_ffthist = 0;
+        m_ffthistnum = 0;
     }
     ~Impl()
     {
@@ -341,6 +352,29 @@ public:
         KdbExporter exporter;
         return exporter.Export(packfile, m_respath);
     }
+    b8 ExportFFTHistory(const s8* histfile)
+    {
+        FILE* fp = fopen(histfile, "wb");
+        if (!fp)
+            return false;
+        
+        fwrite(&m_ffthistnum, sizeof(s32), 1, fp);
+        fwrite(m_ffthist, sizeof(MOE::Math::vec4)*m_ffthistnum, 1, fp);
+        fclose(fp);
+        return true;
+    }
+    b8 LoadFFTHistory(const s8* histfile)
+    {
+        FILE* fp = fopen(histfile, "rb");
+        if (!fp)
+            return false;
+        
+        fread(&m_ffthistnum, sizeof(s32), 1, fp);
+        m_ffthist = mnew MOE::Math::vec4[m_ffthistnum];
+        fread(m_ffthist, sizeof(MOE::Math::vec4)*m_ffthistnum, 1, fp);
+        fclose(fp);
+        return true;
+    }
     
     b8 Load(const s8* demolua)
     {
@@ -350,6 +384,8 @@ public:
     void Clear()
     {
         delete m_sound; m_sound = 0;
+        delete [] m_ffthist; m_ffthist = 0;
+        m_ffthistnum = 0;
         clearmap(m_buffers);
         clearmap(m_scenes);
         clearvector(m_processes);
@@ -361,7 +397,15 @@ public:
         const f32* fft = 0;
         if (m_sound) {
             fft = m_sound->GetFFTData();
-            m_fftvec = MOE::Math::vec4(fft[8],fft[16],fft[32], fft[64]); // chois freq.
+            const s32 ftm = static_cast<s32>(time * exportFPS);
+            if (m_sound->IsPlaying()) {
+                m_fftvec = MOE::Math::vec4(fft[8],fft[16],fft[32], fft[64]); // chois freq.
+                if (ftm < m_ffthistnum)
+                    m_ffthist[ftm] = m_fftvec;
+            } else {
+                if (ftm < m_ffthistnum)
+                    m_fftvec = m_ffthist[ftm];
+            }
             //printf("%.3f,%.3f,%.3f,%.3f\n",fftvec.x,fftvec.y,fftvec.z,fftvec.w);
         }
         std::map<std::string, Math::vec4> vec4s;
@@ -619,6 +663,8 @@ private:
     f64 m_playtime;
     f64 m_demoalltime;
     MOE::Math::vec4 m_fftvec;
+    MOE::Math::vec4* m_ffthist;
+    s32 m_ffthistnum;
     std::map<std::string, EffectBuffer*> m_buffers;
     std::map<std::string, Scene*> m_scenes;
     std::vector<ProcessInfo*> m_processes;

@@ -11,6 +11,7 @@ public:
 	{
 		m_inited = false;
 		m_chan = 0;
+        m_isplaying = false;
 		if (!(m_inited = init()))
 			printf("faild play music");
 	}
@@ -39,21 +40,28 @@ public:
 	{
 		if (!m_inited)
 			return;
-
+        
+        m_isplaying = true;
 		BASS_ChannelPlay(m_chan,FALSE);
 	}
+    bool IsPlaying() const
+    {
+        return m_isplaying;
+    }
 	void Stop()
 	{
 		if (!m_inited)
 			return;
 
+        m_isplaying = false;
 		BASS_ChannelStop(m_chan);
 	}
 	void Pause()
 	{
 		if (!m_inited)
 			return;
-
+        
+        m_isplaying = false;
 		BASS_ChannelPause(m_chan);
 	}
 
@@ -95,6 +103,7 @@ public:
 private:
 	DWORD m_chan;
 	bool m_inited;
+    bool m_isplaying;
 
 	bool init()
 	{
