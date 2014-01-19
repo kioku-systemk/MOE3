@@ -34,6 +34,7 @@ Scene = {
 	{name="kaijyou", path="scene/kaijyou.MRZ"},
 	{name="events", path="scene/events.MRZ"},
 	{name="stripetestB", path="scene/stripetestB.MRZ"},
+	{name="areyouready", path="scene/areyouready.MRZ"},
 }
 
 
@@ -60,6 +61,10 @@ end
 
 function effectdof_dropball(stime,etime,bufname,srcbuf,ep)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dofdropball", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
+end
+
+function effectdof_transsphere(stime,etime,bufname,srcbuf,ep)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/doftranssphere", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
 end
 
 function showdepth(stime,etime,bufname,srcbuf)
@@ -151,10 +156,17 @@ local sne = 0.5+0.03125*8
 demotime["6a2"]  = {mpart*5.0+mpart*0.25*snea1, mpart*5.0+mpart*0.25*sne -0.0001}
 demotime["6a3"]  = {mpart*5.0+mpart*0.25*sne, mpart*5.0+mpart*0.25 -0.0001}
 
+
+local sn5 = 0.5+0.03125*1.5
+print("sn5="..sn5)
+demotime["5c2"]  = {mpart*4.5+mpart*0.25*snea1, mpart*4.5+mpart*0.25*sn5 -0.0001}
+demotime["5c3"]  = {mpart*4.5+mpart*0.25*sn5, mpart*4.5+mpart*0.25 -0.0001}
+
+
 fpart6={
 	{mpart*1.00,mpart*0.85},
 	{mpart*0.70,mpart*0.85},
-	{mpart*0.85,mpart*0.65},
+	{mpart*0.85,mpart*0.56},
 	{mpart*0.15,mpart*0.25},
 	{mpart*0.50,mpart*0.60},
 	{mpart*0.85,mpart*1.00},
@@ -237,11 +249,15 @@ Process = {
 	{demotime=demotime["6b"],    scenetime={fpart6[4][1],fpart6[4][2]},scene="transsphere", vec4={p1="0.1,2.5,0,1"}},
 	{demotime=demotime["6c"],    scenetime={fpart6[5][1],fpart6[5][2]},scene="transsphere", vec4={p1="0.1,2.5,0,1"}},
 	{demotime=demotime["6d"],    scenetime={fpart6[6][1],fpart6[6][2]},scene="transsphere", vec4={p1="0.1,2.5,0,4"}},
-	
+	{demotime=demotime["6d"],    scenetime={0.0,1.0},scene="areyouready", camera="Camera" }, --fadeout
+
 	{demotime=demotime["7a"],    scenetime={fpart7[1][1],fpart7[1][2]},scene="boxfly"},
 	{demotime=demotime["7b"],    scenetime={fpart7[2][1],fpart7[2][2]},scene="boxfly"},
 	{demotime=demotime["7c"],    scenetime={fpart7[3][1],fpart7[3][2]},scene="boxfly",camera="CameraA"},
 	{demotime=demotime["7d"],    scenetime={fpart7[4][1],fpart7[4][2]},scene="boxfly"},
+	
+	{demotime={demotime["7a"][1],demotime["7a"][1]+0.5},    scenetime={1.0,2.0},scene="areyouready", camera="Camera" }, --fadein
+	
 	
 	{demotime=demotime["8a1"],    scenetime={fpart8[1][1],fpart8[1][2]},scene="boxstageandline",camera="Camera"  ,vec4={p1="0,0,0,1"}},
 	{demotime=demotime["8a2"],    scenetime={fpart8[2][1],fpart8[2][2]},scene="boxstageandline",camera="CameraA" ,vec4={p1="0,0,0,0.5"}},
@@ -266,8 +282,10 @@ local dd1 = 0.969 + 0.244*0.1
 local dd2 = 0.913 + 0.795*0.1
 local dd3 = 0.913 + 0.795*0.1
 
+print("7a1="..demotime["7a"][1])
+
 Render = {
-	clear (alltime[1],alltime[1], "backbuffer"),
+	clear (alltime[1],alltime[2], "backbuffer"),
 -- Scene1
 	render(demotime[1][1],demotime[1][2], "backbuffer","toukyou"),
 -- Scene2	
@@ -283,35 +301,56 @@ Render = {
 	clear            (demotime[3][1],demotime[3][2], "hdrbuffer"),
 	render           (demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
 	renderPlaneShadow(demotime[3][1],demotime[3][2], "hdrbuffer","dropballsB"),
-	effectdof_dropball(demotime[3][1],demotime[3][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
+	effectdof_dropball(demotime["3a"][1],demotime["3a"][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
+	effectdof_dropball(demotime["3b"][1],demotime["3b"][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
+	effectdof_dropball(demotime["3c"][1],demotime["3c"][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),	
+	effectdof_dropball(demotime["3d"][1],demotime["3d"][2],"backbuffer","hdrbuffer","0.938,0.488,0.613,0.1"),
 	
 -- Scene4	
 	clear    (demotime[4][1],demotime[4][2], "hdrbuffer"),
 	render   (demotime[4][1],demotime[4][2], "hdrbuffer","downringsB"),
 	white    (demotime[4][1],demotime[4][2], "hdrbuffer", "dropringfadein"),
-	effectdof(demotime[4][1],demotime[4][2],"backbuffer","hdrbuffer","0.812,0.550,0.15,0.712"),
+	--effectdof(demotime[4][1],demotime[4][2],"backbuffer","hdrbuffer","0.812,0.550,0.15,0.712"),
+	effectdof(demotime["4a"][1],demotime["4a"][2],"backbuffer","hdrbuffer","0.788,0.562,0.25,0.625"),
+	effectdof(demotime["4b"][1],demotime["4b"][2],"backbuffer","hdrbuffer","0.950,0.387,0.45,0.825"),
+	effectdof(demotime["4c"][1],demotime["4c"][2],"backbuffer","hdrbuffer","0.788,0.562,0.40,0.625"),
+	effectdof(demotime["4d"][1],demotime["4d"][2],"backbuffer","hdrbuffer","0.950,0.338,0.463,0.712"),
+	
 -- Scene5
 	clear    (demotime[5][1],demotime[5][2], "hdrbuffer"),
 	render   (demotime[5][1],demotime[5][2], "hdrbuffer","breakbox"),
 	effectdof(demotime["5a"][1],demotime["5a"][2], "backbuffer","hdrbuffer","0.800,0.400,0.287,0.3"),
-	effectdof(demotime["5b"][1],demotime["5b"][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
+	effectdof(demotime["5b"][1],demotime["5b"][2], "backbuffer","hdrbuffer","0.887,0.503,0.387,0.1"),
 	effectdof(demotime["5c"][1],demotime["5c"][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
-	effectdof(demotime["5d"][1],demotime["5d"][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
+	effectdof(demotime["5d"][1],demotime["5d"][2], "backbuffer","hdrbuffer","0.887,0.650,0.200,0.125"),
 
-	-- Scene6
+-- Scene6
 	clear    (demotime[6][1],demotime[6][2], "hdrbuffer"),
 	render   (demotime[6][1],demotime[6][2], "hdrbuffer","transsphere"),
 	white    (demotime[6][1],demotime[6][2], "hdrbuffer", "transspheregray"),
-	effectdof(demotime[6][1],demotime[6][2], "backbuffer","hdrbuffer","0.962,0.587,0.712,0.1"),
+	effectdof_transsphere(demotime["6a"][1],demotime["6b"][2], "backbuffer","hdrbuffer","0.875,0.438,0.712,0.1"),
+	effectdof_transsphere(demotime["6c"][1],demotime["6c"][2], "backbuffer","hdrbuffer","0.962,0.375,0.700,0.8"),
+	effectdof_transsphere(demotime["6d"][1],demotime["6d"][2], "backbuffer","hdrbuffer","0.988,0.375,0.700,0.8"),
+	
+	render   (demotime["6d"][1],demotime["6d"][2], "backbuffer","areyouready"),
+	
 -- Scene7	
 	clear    (demotime[7][1],demotime[7][2], "hdrbuffer"),		
 	render   (demotime[7][1],demotime[7][2], "hdrbuffer","boxfly"),
 	effectdof(demotime[7][1],demotime[7][2], "backbuffer","hdrbuffer","0.988,0.338,0.613,0.162"),
+	render   (demotime["7a"][1],demotime["7a"][1]+0.5, "backbuffer","areyouready"),
 	
 -- Scene8
 	clear    (demotime[8][1],demotime[8][2], "hdrbuffer"),		
 	render   (demotime[8][1],demotime[8][2], "hdrbuffer","boxstageandline"),
-	effectdof(demotime[8][1],demotime[8][2], "backbuffer","hdrbuffer","0.988,0.338,0.613,0.162"),
+	effectdof(demotime["8a1"][1],demotime["8a1"][2], "backbuffer","hdrbuffer","0.900,0.512,0.637,0.562"),
+	effectdof(demotime["8a2"][1],demotime["8a2"][2], "backbuffer","hdrbuffer","0.975,0.262,0.712,0.138"),
+	effectdof(demotime["8a3"][1],demotime["8a3"][2], "backbuffer","hdrbuffer","0.962,0.412,0.875,0.325"),	
+	effectdof(demotime["8b1"][1],demotime["8b1"][2], "backbuffer","hdrbuffer","0.962,0.412,0.875,0.325"),	
+	effectdof(demotime["8b2"][1],demotime["8b2"][2], "backbuffer","hdrbuffer","0.985,0.225,0.700,0.300"),	
+	effectdof(demotime["8b3"][1],demotime["8b3"][2], "backbuffer","hdrbuffer","0.962,0.412,0.875,0.325"),		
+	effectdof(demotime["8c"][1],demotime["8c"][2], "backbuffer","hdrbuffer","0.962,0.425,0.650,0.162"),
+	effectdof(demotime["8d"][1],demotime["8d"][2], "backbuffer","hdrbuffer","0.975,0.287,0.712,0.162"),
 	
 -- Scene9
 	clear    (demotime[9][1],demotime[9][2], "hdrbuffer"),		
@@ -320,8 +359,12 @@ Render = {
 -- Scene10
 	clear    (demotime[10][1],demotime[10][2], "hdrbuffer"),	
 	render   (demotime[10][1],demotime[10][2], "hdrbuffer","spherebreak"),
-	effectdof(demotime[10][1],demotime[10][2], "backbuffer","hdrbuffer","0.950,0.425,0.138,0.738"),
--- Scene11
+	effectdof(demotime["10a"][1],demotime["10a"][2], "backbuffer","hdrbuffer","0.925,0.378,0.138,0.338"),
+	effectdof(demotime["10b"][1],demotime["10b"][2], "backbuffer","hdrbuffer","0.975,0.375,0.0.175,0.425"),
+	effectdof(demotime["10c"][1],demotime["10c"][2], "backbuffer","hdrbuffer","0.900,0.363,0.150,0.200"),
+	effectdof(demotime["10d"][1],demotime["10d"][2], "backbuffer","hdrbuffer","0.962,0.338,0.200,0.775"),
+
+	-- Scene11
 	clear    (demotime[11][1],demotime[11][2], "hdrbuffer"),	
 	render   (demotime[11][1],demotime[11][2], "hdrbuffer","tdfandline"),	
 	effectdof(demotime[11][1],demotime[11][2], "backbuffer","hdrbuffer","0.988,0.375,0.512,0.825"),
