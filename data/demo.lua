@@ -63,6 +63,10 @@ function effectdof_dropball(stime,etime,bufname,srcbuf,ep)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dofdropball", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
 end
 
+function effectdof_breakbox(stime,etime,bufname,srcbuf,ep)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/dofbreakbox", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
+end
+
 function effectdof_transsphere(stime,etime,bufname,srcbuf,ep)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/doftranssphere", tex={srcBuf=srcbuf}, vec4={size=w..","..h..",0,0", ep1=ep}, }
 end
@@ -268,8 +272,8 @@ Process = {
 	{demotime=demotime["8c"],    scenetime={fpart8[7][1],fpart8[7][2]},scene="boxstageandline" ,camera="CameraB" ,vec4={p1="0,0,0,0.5"}},
 	{demotime=demotime["8d"],    scenetime={fpart8[8][1],fpart8[8][2]},scene="boxstageandline" ,camera="Camera"  ,vec4={p1="0,0,0,2"}},
 	
-	{demotime=demotime["9a"],    scene="events", scenetime={0,21.570}, camera="CameraB2", vec4={p1="1,0, 1.1,1.0"}},
-	{demotime=demotime["9b"],    scene="events", scenetime={0,21.570}, camera="CameraA2",vec4={p1="0,1, 1.0,1.3"}},
+	{demotime=demotime["9a"],    scene="events", scenetime={0,21.570}, camera="CameraA2", vec4={p1="1,0, 1.1,1.0"}},
+	{demotime=demotime["9b"],    scene="events", scenetime={0,21.570}, camera="CameraB2",vec4={p1="0,1, 1.0,1.3"}},
 	{demotime=demotime["10a"],   scene="spherebreak",scenetime={8.000,5.000}, camera="CameraB", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10b"],   scene="spherebreak",scenetime={5.000,2.000}, camera="CameraA", vec4={p1="1,1,1,1"}},
 	{demotime=demotime["10c"],   scene="spherebreak",scenetime={2.000,0.500}, camera="CameraC", vec4={p1="1,1,1,1"}},
@@ -322,7 +326,7 @@ Render = {
 	effectdof(demotime["5a"][1],demotime["5a"][2], "backbuffer","hdrbuffer","0.800,0.400,0.287,0.3"),
 	effectdof(demotime["5b"][1],demotime["5b"][2], "backbuffer","hdrbuffer","0.887,0.503,0.387,0.1"),
 	effectdof(demotime["5c"][1],demotime["5c"][2], "backbuffer","hdrbuffer","0.887,0.463,0.387,0.1"),
-	effectdof(demotime["5d"][1],demotime["5d"][2], "backbuffer","hdrbuffer","0.887,0.650,0.200,0.125"),
+	effectdof_breakbox(demotime["5d"][1],demotime["5d"][2], "backbuffer","hdrbuffer","0.887,0.650,0.200,0.125"),
 
 -- Scene6
 	clear    (demotime[6][1],demotime[6][2], "hdrbuffer"),

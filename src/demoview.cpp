@@ -60,8 +60,7 @@ public:
         const f32 col2[] = {0.20,0.20,0.20,0.50};
         m_sceneframe = mnew SimpleGUI::Frame(m_gui,100,30,width-100, 300, col2);
         
-        const f32 col3[] = {1.0,0.20,0.20,0.50};
-        m_timelinetime = mnew SimpleGUI::Frame(m_gui, 100,0, 3, 300, col3, 5);
+        m_timelinetime = 0;
 
         win->AddChild(m_frame1);
         win->AddChild(m_frame2);
@@ -178,7 +177,8 @@ public:
         const f64 alltime = m_demo->GetDemoTime();
         const f64 dtm     = m_demo->GetTime();
         const int tmpos = allw * dtm/alltime;
-        m_timelinetime->SetPos(100+tmpos,0);
+        if (m_timelinetime)
+            m_timelinetime->SetPos(100+tmpos,0);
     }
     void UpdateSceneline(SimpleGUI::Frame* layer)
     {
@@ -188,6 +188,8 @@ public:
         if (!m_demo)
             return;
 
+        const f32 col3[] = {1.0,0.20,0.20,0.50};
+        m_timelinetime = mnew SimpleGUI::Frame(m_gui, 100,0, 3, 300, col3, 5);
         layer->AddChild(m_timelinetime);
         UpdateScenelineTime();
         
