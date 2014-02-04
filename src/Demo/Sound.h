@@ -84,7 +84,7 @@ public:
 	float* GetFFTData()
 	{
 		static float fft[256]={};
-		BASS_ChannelGetData(m_chan,fft,BASS_DATA_FFT256); // get the FFT data
+		BASS_ChannelGetData(m_chan,fft,BASS_DATA_FFT512); // get the FFT data 512samples->256floats
 		return fft;
 	}
     unsigned int GetFFTNum()
