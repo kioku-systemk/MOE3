@@ -41,7 +41,7 @@ public:
 	virtual void Toplevel       (bool top)     = 0;
     virtual void SwapBuffer     (void)         = 0;
 
-    virtual void GoFullscreen(bool fullscreen) = 0;
+    virtual void GoFullscreen(bool fullscreen, bool cursor=true) = 0;
     
     virtual int GetWidth() const               = 0;
     virtual int GetHeight() const              = 0;

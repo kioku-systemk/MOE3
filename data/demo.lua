@@ -161,7 +161,7 @@ demotime["6a2"]  = {mpart*5.0+mpart*0.25*snea1, mpart*5.0+mpart*0.25*sne -0.0001
 demotime["6a3"]  = {mpart*5.0+mpart*0.25*sne, mpart*5.0+mpart*0.25 -0.0001}
 
 
-local sn5 = 0.5+0.03125*1.5
+local sn5 = 0.5+0.03125*2.5
 print("sn5="..sn5)
 demotime["5c2"]  = {mpart*4.5+mpart*0.25*snea1, mpart*4.5+mpart*0.25*sn5 -0.0001}
 demotime["5c3"]  = {mpart*4.5+mpart*0.25*sn5, mpart*4.5+mpart*0.25 -0.0001}

@@ -103,7 +103,7 @@ public:
     void LoadDemo()
     {
         if (m_fullscreencheck->GetState())
-            GoFullscreen(true);
+            GoFullscreen(true,false);
     
         m_guivisible = false;
         Draw();
@@ -213,7 +213,7 @@ public:
         static bool fsmode = false;
         if (key == 'f' || key == 'F'){
             fsmode = !fsmode;
-            GoFullscreen(fsmode);
+            GoFullscreen(fsmode, !fsmode);
         }
 		m_gui->KeyUp(key);
         Draw();
