@@ -60,22 +60,28 @@ public:
         m_frame1 = mnew SimpleGUI::Frame(m_gui,(width-ww)/2,(height-wh)/2,ww, wh, col);
         win->AddChild(m_frame1);
 
-        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 10, 5, "MOE3 Demo player", 16);
-        m_frame1->AddChild(cap);
+//        SimpleGUI::Caption* cap = mnew SimpleGUI::Caption(m_gui, 10, 5, "MOE3 Demo player", 16);
+        SimpleGUI::Caption* cap1 = mnew SimpleGUI::Caption(m_gui, 10, 5,    "Break over", 16);
+        SimpleGUI::Caption* cap2 = mnew SimpleGUI::Caption(m_gui, 10, 5+16, "  - TokyoDemoFest 2014 Invitation -", 16);
+        m_frame1->AddChild(cap1);
+        m_frame1->AddChild(cap2);
 
-		m_fullscreencheck = mnew SimpleGUI::Check(m_gui,"Fullscreen mode",5,30);
+		m_fullscreencheck = mnew SimpleGUI::Check(m_gui,"Fullscreen mode",5,50);
         m_fullscreencheck->SetState(true);
     	m_frame1->AddChild(m_fullscreencheck);
+
     
-        m_windowcheck = mnew SimpleGUI::Check(m_gui,"Window mode",5,50);
+        m_windowcheck = mnew SimpleGUI::Check(m_gui,"Window mode",5,70);
         m_windowcheck->SetState(false);
     	m_frame1->AddChild(m_windowcheck);
-
         
-        m_exitbtn = mnew SimpleGUI::Button(m_gui,"Exit",35,wh - 30, 90, 16);
+        m_fullscreencheck->SetChangedFunc(MOEWindow::fullscreenFunc_,this);
+        m_windowcheck->SetChangedFunc(MOEWindow::windowFunc_,this);
+        
+        m_exitbtn = mnew SimpleGUI::Button(m_gui,"Exit",140,wh - 30, 90, 16);
         m_exitbtn->SetClickedFunc(MOEWindow::exitBtnFunc, this);
     	m_frame1->AddChild(m_exitbtn);
-        m_demobtn = mnew SimpleGUI::Button(m_gui,"Demo!!",130,wh - 30, 90, 16);
+        m_demobtn = mnew SimpleGUI::Button(m_gui,"Demo!!", 25,wh - 30, 90, 16);
         m_demobtn->SetClickedFunc(MOEWindow::demoBtnFunc, this);
     	m_frame1->AddChild(m_demobtn);
         
@@ -127,6 +133,19 @@ public:
     
     static void demoBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->LoadDemo(); }
     static void exitBtnFunc(void* thisptr){ static_cast<MOEWindow*>(thisptr)->ExitDemo(); }
+
+    static void fullscreenFunc_(bool b, void* thisptr){ static_cast<MOEWindow*>(thisptr)->fullscreenFunc(b); }
+    static void windowFunc_(bool b, void* thisptr){ static_cast<MOEWindow*>(thisptr)->windowFunc(b); }
+    void fullscreenFunc(bool b) {
+        m_windowcheck->SetChangedFunc(0,0);
+        m_windowcheck->SetState(!b);
+        m_windowcheck->SetChangedFunc(windowFunc_, this);
+    }
+    void windowFunc(bool b) {
+        m_fullscreencheck->SetChangedFunc(0,0);
+        m_fullscreencheck->SetState(!b);
+        m_fullscreencheck->SetChangedFunc(fullscreenFunc_, this);
+    }
 
     s32 mx;
     s32 my;
