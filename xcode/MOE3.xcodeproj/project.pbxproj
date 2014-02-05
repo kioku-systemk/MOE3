@@ -974,6 +974,10 @@
 				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DNOTUSE_MOEMEMORY",
+				);
 				OTHER_LDFLAGS = (
 					"-llua",
 					"-lpng",
@@ -1013,6 +1017,10 @@
 				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
 				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DNOTUSE_MOEMEMORY",
+				);
 				OTHER_LDFLAGS = (
 					"-llua",
 					"-lpng",
