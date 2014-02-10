@@ -68,7 +68,7 @@ typedef int                 b32; //32bit boolean
 // ビルド対象ウィンドウズバージョン
 #undef _WIN32_WINNT
 #undef _WIN32_WINDOWS
-#define _WIN32_WINNT    0x0400	//Win2k or later
+#define _WIN32_WINNT    0x0501	//Win2k or later
 #define _WIN32_WINDOWS  0x0500	//Win98 or later
 
 
