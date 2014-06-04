@@ -25,7 +25,8 @@ public:
 	{
 		if (!m_inited)
 			return false;
-
+        m_soundfile = std::string(soundfile);
+        
 		BASS_MusicFree(m_chan);
 		BASS_StreamFree(m_chan);
 		if (!(m_chan = BASS_StreamCreateFile(FALSE, soundfile,0,0,0))
@@ -100,10 +101,16 @@ public:
     {
         return BASS_GetVolume();
     }
+    
+    const char* GetFileName() const
+    {
+        return m_soundfile.c_str();
+    }
 private:
 	DWORD m_chan;
 	bool m_inited;
     bool m_isplaying;
+    std::string m_soundfile;
 
 	bool init()
 	{

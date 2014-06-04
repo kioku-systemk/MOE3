@@ -233,6 +233,7 @@ private:
         m_demoalltime = createRenderEffects(L);
         createOverridePrograms(g);
     }
+    
     void loadSound(lua_State* L)
     {
         std::string sfile = eval<std::string>(L, "return soundfile");
@@ -344,6 +345,12 @@ public:
             m_starttime = GetTimeCount() - tm;
             m_playtime = tm;
         }
+    }
+    const char* GetMusicFile() const
+    {
+        if (m_sound)
+            return m_sound->GetFileName();
+        return 0;
     }
     b8 Export(const s8* packfile)
     {
@@ -694,6 +701,7 @@ b8 Demo::Play()                  { return m_imp->Play(); }
 b8 Demo::IsPlaying() const       { return m_imp->IsPlaying(); }
 b8 Demo::Stop()                  { return m_imp->Stop(); }
 b8 Demo::Cache()                 { return m_imp->Cache(); }
+const char* Demo::GetMusicFile() const { return m_imp->GetMusicFile(); }
 void Demo::SetTime(f64 tm)       { return m_imp->SetTime(tm); }
     s32 Demo::GetProcessNum() const { return m_imp->GetProcessNum(); }
     s32 Demo::GetRenderEffectNum() const { return m_imp->GetRenderEffectNum(); }

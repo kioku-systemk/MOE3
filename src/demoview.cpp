@@ -21,7 +21,6 @@
 
 #include "Core/Math.h"
 #include "Core/Thread.h"
-
 #include "Core/UI/SimpleGUI.h"
 #include "SceneGraph/SceneGraph.h"
 
