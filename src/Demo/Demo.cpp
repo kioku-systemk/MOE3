@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include <stdlib.h>
 #include "../Gfx/Graphics.h"
 #include "../Gfx/SceneGraphRender.h"
 #include "../Gfx/ShaderProgramObject.h"
@@ -238,7 +239,9 @@ private:
     {
         std::string sfile = eval<std::string>(L, "return soundfile");
         if (sfile != "") {
+#ifndef __EMSCRIPTEN__
             m_sound = new Sound();
+#endif
             std::string spath = m_respath + sfile;
             if (!m_sound->Load(spath.c_str())) {
                 MOELogE("Load failed sound : %s\n",spath.c_str());

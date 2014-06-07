@@ -53,7 +53,9 @@ public:
 
 };
 
-#if defined (__APPLE__)
+#if defined(__EMSCRIPTEN__)
+#include "CoreWindow_egl.h"
+#elif defined (__APPLE__)
 #include "CoreWindow_mac.h"
 #elif defined(_WIN32)
 #include "CoreWindow_wgl.h"

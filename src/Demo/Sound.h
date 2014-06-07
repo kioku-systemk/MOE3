@@ -1,6 +1,35 @@
 #ifndef INCLUDE_SOUND_H
 #define INCLUDE_SOUND_H
 
+#ifdef __EMSCRIPTEN__
+
+class Sound
+{
+public:
+	Sound() {}
+    
+	~Sound() {}
+	bool Load(const char* soundfile) { return false; }
+	void Play(){}
+    bool IsPlaying() const { return false; }
+	void Stop(){}
+	void Pause(){}
+	double GetPosTime() const { return 0.0; }
+    bool SetPosTime(double tm){ return false; }
+	float* GetFFTData()
+	{
+		static float fft[256]={};
+		return fft;
+	}
+    unsigned int GetFFTNum()
+    {
+        return 256;
+    }
+    void SetVolume(float vol) {}
+    float GetVolume() { return 0.0f; }
+    const char* GetFileName() const { return ""; }
+};
+#else
 
 #include <bass.h>
 
@@ -128,5 +157,6 @@ private:
 		BASS_Free();
 	}
 };
+#endif
 
 #endif // INCLUDE_SOUND_H
