@@ -58,7 +58,7 @@ namespace MOE {
             m_cameranode = 0;
             const size_t p = m_path.rfind(".MRZ");
             if (p == m_path.size()-4) {
-                MOELogD("Loading MRZ:[%s]", m_path.c_str());
+                //MOELogD("Loading MRZ:[%s]", m_path.c_str());
                 
                 m_render->SetResourcePath(getResourcePath(path).c_str());
 
@@ -77,7 +77,7 @@ namespace MOE {
                     MOELogE("can't load MRZ. [%s]", m_path.c_str());
                     return;
                 }
-                MOELogD("Loaded MRZ. [%s]", m_path.c_str());
+                //MOELogD("Loaded MRZ. [%s]", m_path.c_str());
                 
                 m_cameranode = static_cast<const SceneGraph::Transform*>(SceneGraph::FindNode(m_root, "Camera"));
                 if (!m_cameranode)

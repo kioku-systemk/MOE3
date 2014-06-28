@@ -90,7 +90,7 @@ private:
 			if (infoLog != NULL) {
 				int length;
 				g->GetShaderInfoLog(shader, bufSize, &length, infoLog);
-				printf("InfoLog:\n%s\n",infoLog);
+                //printf("InfoLog:\n%s\n",infoLog);
 				delete [] infoLog;
 			} else {
 				printf("Could not allocate InfoLog buffer.");
@@ -108,7 +108,7 @@ private:
 			if (infoLog != NULL) {
 				int length;
 				g->GetProgramInfoLog(program, bufSize, &length, infoLog);
-				printf("InfoLog:\n%s\n",infoLog);
+				//printf("InfoLog:\n%s\n",infoLog);
 				delete [] infoLog;
 			} else {
 				printf("Could not allocate InfoLog buffer.");

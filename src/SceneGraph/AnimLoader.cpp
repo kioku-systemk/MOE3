@@ -289,9 +289,13 @@ Animation* AnimLoader::Load(const Stream* st)
 	const u8 ver = data[3];
 	data += 4;
 	
-	const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
-	
-	const s32 nodenum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
+	//const s32 fpsmode = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
+    const s32 fpsmode = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+    data += sizeof(u32);
+
+	//const s32 nodenum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(s32);
+    const s32 nodenum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+    data += sizeof(u32);
 	
 	Animation::internalAnimation* internalAnim = mnew Animation::internalAnimation(nodenum);
 	Animation* anim = mnew Animation(internalAnim);
@@ -302,7 +306,10 @@ Animation* AnimLoader::Load(const Stream* st)
 		ad.m_objname = data; data += ad.m_objname.length() + 1;
 		//ad.type = static_cast<AnimData::AnimType>(*reinterpret_cast<const u8*>(&data[0])); data += sizeof(u8);
 		MOELogDX("Name = %s", ad.m_objname.c_str());
-		const s32 keynum = *reinterpret_cast<const s32*>(&data[0]); data += sizeof(s32);
+		//const s32 keynum = *reinterpret_cast<const s32*>(&data[0]); data += sizeof(s32);
+        const s32 keynum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+        data += sizeof(u32);
+
 		MOE::Math::vec3 av;
 		ad.m_key.reserve(keynum);
 		MOELogDX(" Keynum = %d", keynum);

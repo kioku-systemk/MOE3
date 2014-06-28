@@ -34,6 +34,10 @@
 #include <direct.h>
 #endif
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten/emscripten.h>
+#endif
+
 namespace {
 	std::string g_demoluafile;
     s32 ww = 256;
@@ -53,7 +57,7 @@ public:
         skGUI::BaseWindow* win = m_gui->GetRoot();
         m_width  = width;
         m_height = height;
-        
+  
         m_guivisible = true;
 
         const f32 col[] = {0.50,0.50,0.50,0.50};
@@ -93,7 +97,6 @@ public:
 #endif
         
         m_demo = 0;
-        
         Draw();
 	}
 	~MOEWindow()
@@ -107,15 +110,22 @@ public:
     
         m_guivisible = false;
         Draw();
-        
+#ifdef __EMSCRIPTEN__
+        std::string exepath = "";
+#else
         std::string exepath = GetExePath();
-#if MOE_PLATFORM_WINDOWS
+#endif
+        
+#ifdef __EMSCRIPTEN__
+        MOE::Stream::LoadKDB("webdata/demo.kdb");
+#elif MOE_PLATFORM_WINDOWS
 		ShowCursor(FALSE);
 		_chdir(exepath.c_str());
+        MOE::Stream::LoadKDB("demo.kdb");
 #else
         chdir((exepath + "/../").c_str());
+        MOE::Stream::LoadKDB("demo.kdb");
 #endif
-		MOE::Stream::LoadKDB("demo.kdb");
         const s8* fn = "demo.lua";
         delete m_demo;
         g_demoluafile = std::string(fn);
@@ -125,6 +135,9 @@ public:
         
         m_demo->Cache();
         m_demo->Play();
+        EM_ASM(
+               document.getElementById("music").play();
+        );
     }
     void ExitDemo()
     {
@@ -302,7 +315,7 @@ int WINAPI WinMain(
 int main(int argc, char *argv[])
 #endif
 {
-	printf("KScene3 - System K(c)\n");
+	printf("KScene3 Demo player - System K 2014(c)\n");
 	MOEWindow win(32, 32, 1280,720);
     CoreWindow::MainLoop();
     return 0;

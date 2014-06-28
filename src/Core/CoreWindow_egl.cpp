@@ -216,9 +216,9 @@ bool esCreateWindow ( ESContext *esContext, const char* title, GLint width, GLin
 {
     EGLint attribList[] =
     {
-        EGL_RED_SIZE,       5,
-        EGL_GREEN_SIZE,     6,
-        EGL_BLUE_SIZE,      5,
+        EGL_RED_SIZE,       8,
+        EGL_GREEN_SIZE,     8,
+        EGL_BLUE_SIZE,      8,
         EGL_ALPHA_SIZE,     (flags & ES_WINDOW_ALPHA) ? 8 : EGL_DONT_CARE,
         EGL_DEPTH_SIZE,     (flags & ES_WINDOW_DEPTH) ? 8 : EGL_DONT_CARE,
         EGL_STENCIL_SIZE,   (flags & ES_WINDOW_STENCIL) ? 8 : EGL_DONT_CARE,
@@ -303,7 +303,22 @@ CoreWindow::CoreWindow(int x, int y, int width, int height, const char* title, b
 //	glXMakeCurrent(m_display, m_imp->m_win, m_imp->m_ctx);
     
     esInitContext ( &esContext );
-    esCreateWindow ( &esContext, title, width, height, ES_WINDOW_RGB );
+    esCreateWindow ( &esContext, title, width, height,
+                    ES_WINDOW_RGB | ES_WINDOW_ALPHA | ES_WINDOW_DEPTH);
+    
+    EM_ASM(
+           if (!GLctx.getExtension("OES_texture_float")) {
+               alert("Not support: OES_texture_float");
+           }
+           /*if (!GLctx.getExtension("OES_texture_float_linear")) {
+               alert("Not support: OES_texture_float_linear");
+           }*/
+           if (!GLctx.getExtension("WEBGL_depth_texture")) {
+               alert("Not support: WEBGL_depth_texture");
+               GLctx.getExtension("WEBKIT_WEBGL_depth_texture");
+           }
+           );
+    
 	g_win = this;
 	glViewport(0,0,width,height);
 }
@@ -411,8 +426,17 @@ int mouseEvent(int eventType, const EmscriptenMouseEvent *mouseEvent, void *user
 
 int resizeEvent(int eventType, const EmscriptenUiEvent *uiEvent, void *userData)
 {
-    //glViewport(0,0,uiEvent->windowInnerWidth, uiEvent->windowInnerHeight);
-    //g_win->Resize(uiEvent->windowInnerWidth, uiEvent->windowInnerHeight);
+    //glViewport(0,0,uiEvent->documentBodyClientWidth, uiEvent->documentBodyClientHeight);
+    //g_win->Resize(uiEvent->documentBodyClientWidth, uiEvent->documentBodyClientHeight);
+    //printf("resize(%d,%d)\n",uiEvent->documentBodyClientWidth, uiEvent->documentBodyClientHeight);
+    return 0;
+}
+
+int fullscreenEvent(int eventType, const EmscriptenFullscreenChangeEvent *uiEvent, void *userData)
+{
+    //glViewport(0,0,uiEvent->screenWidth, uiEvent->screenHeight);
+    //g_win->Resize(uiEvent->screenWidth, uiEvent->screenHeight);
+    //printf("fullscreen(%d,%d)\n",uiEvent->screenWidth, uiEvent->screenHeight);
     return 0;
 }
 
@@ -426,7 +450,7 @@ void CoreWindow::MainLoop(void)
     emscripten_set_mousemove_callback("#window", NULL, 0, mouseEvent);
     
     emscripten_set_resize_callback("#window", NULL, 0, resizeEvent);
-
+    emscripten_set_fullscreenchange_callback("#window", NULL, 0, fullscreenEvent);
     emscripten_set_main_loop (idleloop, 0, 1);
 }
 

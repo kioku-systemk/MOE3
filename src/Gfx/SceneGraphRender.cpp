@@ -20,6 +20,9 @@
 namespace  {
 	
 static const char* vsShader = STRINGIFY(
+#ifdef GL_ES
+precision highp float;
+#endif
 										attribute vec3 pos;
 										attribute vec4 col;
 										attribute vec3 nor;
@@ -40,6 +43,9 @@ static const char* vsShader = STRINGIFY(
 										);
 
 static const char* fsShader = STRINGIFY(
+#ifdef GL_ES
+precision highp float;
+#endif
 										vec3 lerp(vec3 a, vec3 b, float r) {
 											return (b - a) * r + a;
 										}
@@ -87,7 +93,7 @@ SceneGraphRender::SceneGraphRender(Graphics* mg)
 	b8 r = m_defprg->Link(vs, fs);
 	if (!r) {
 		MOELogE("error link shader\n");
-		exit(1);
+		//exit(1);
 	}
 	m_blanktexture = mnew MOE::TextureObject(g,4,4, 4,32);
 	s32* white = mnew s32[4*4];

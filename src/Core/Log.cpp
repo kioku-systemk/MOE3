@@ -61,6 +61,7 @@ void MOELogW (const char *format, ...)
 
 void MOELogI (const char *format, ...)
 {
+#ifdef _DEBUG
 	char buf[4096];
 	va_list arg;
 	va_start(arg, format);
@@ -68,6 +69,7 @@ void MOELogI (const char *format, ...)
 	va_end(arg);
 	
 	MOELog(LOG_INFO, buf);
+#endif
 }
 
 void MOELogD (const char *format, ...)

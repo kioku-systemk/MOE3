@@ -121,7 +121,7 @@ public:
             for (int y = 0; y < height; ++y){
                 for (int x = 0; x < width; ++x){
                     const unsigned int col = *reinterpret_cast<unsigned int*>(&img[(y * width + x) * 4]);
-                    *reinterpret_cast<unsigned int*>(&m_img[((height - y - 1) * width + x) * 4]) = BGRA2RGBA(col);
+                    *reinterpret_cast<unsigned int*>(&m_img[((height - y - 1) * width + x) * 4]) = col;//BGRA2RGBA(col);
                 }
             }
             free(img);
@@ -136,7 +136,7 @@ public:
             for (int y = 0; y < height; ++y){
                 for (int x = 0; x < width; ++x){
                     const unsigned int col = *reinterpret_cast<unsigned int*>(&img[(y * width + x) * 4]);
-                    *reinterpret_cast<unsigned int*>(&m_img[((height - y - 1) * width + x) * 4]) = BGRA2RGBA(col);
+                    *reinterpret_cast<unsigned int*>(&m_img[((height - y - 1) * width + x) * 4]) = col;//BGRA2RGBA(col);
                 }
             }
             free(img);
@@ -257,7 +257,7 @@ public:
 		// 出力を1ピクセル4バイトに指定
 		// RGBA の場合も無視されるっぽいのでとりあえず実行しておく
 		png_set_filler(png_ptr, 255, PNG_FILLER_AFTER);// BGRの場合はBGR1になる
-		png_set_bgr(png_ptr);// BGR形式に変換
+		//png_set_bgr(png_ptr);// BGR形式に変換
 		
 		// バイトデータ読み込み
 		int nRowBytes = (nWidth * 32 + 31) / 32 * 4;

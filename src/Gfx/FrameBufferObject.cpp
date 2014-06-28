@@ -7,10 +7,15 @@
 #include <string.h>
 #include <stdio.h>
 
-#if MOE_PLATFORM_WINDOWS | MOE_PLATFORM_MACOSX
+
+#if MOE_PLATFORM_WINDOWS | MOE_PLATFORM_MACOSX | __EMSCRIPTEN__
 #define USE_RGBA32F_FORMAT
 #define USE_L32_FORMAT
+#endif
+
+#if MOE_PLATFORM_WINDOWS | MOE_PLATFORM_MACOSX
 #define USE_DEPTH_EXT
+#define VG_FRAMEBUFFEROBJECT_USE_DEPTH_TEXTURE
 //#define USE_PBO
 #endif
 
@@ -26,7 +31,11 @@ namespace {
 #ifdef USE_RGBA32F_FORMAT
 		if (color_bit == 128)
 		{
-			gltexformat    = VG_RGBA32F_ARB;
+#ifdef __EMSCRIPTEN__
+            gltexformat    = VG_RGBA;
+#else
+            gltexformat    = VG_RGBA32F_ARB;
+#endif
 			internalformat = VG_RGBA;
 			internalsize   = VG_FLOAT;
 		}
@@ -124,6 +133,12 @@ bool FrameBufferObject::create()
 		g->GenTextures(1, &m_texname);
 		g->BindTexture(VG_TEXTURE_2D, m_texname);
 		
+        //g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_LINEAR);
+        g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_NEAREST);
+        g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MAG_FILTER, VG_NEAREST);
+		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_S, VG_CLAMP_TO_EDGE);
+		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_T, VG_CLAMP_TO_EDGE);
+
 		unsigned int gltexformat, internalformat, internalsize;
 		getFormat(m_color_bit, m_color_component,
 				  gltexformat, internalformat, internalsize);
@@ -139,9 +154,6 @@ bool FrameBufferObject::create()
 		if (err != VG_NO_ERROR)
 			printf("[%s]CreateTexture error=%x\n",__FILE__, err);
 		
-		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_LINEAR);
-		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_S, VG_CLAMP_TO_EDGE);
-		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_T, VG_CLAMP_TO_EDGE);
 		g->BindTexture(VG_TEXTURE_2D, save_texname);
 		if (err != VG_NO_ERROR)
 			return false;
@@ -150,20 +162,22 @@ bool FrameBufferObject::create()
 #ifndef VG_FRAMEBUFFEROBJECT_USE_DEPTH_TEXTURE
 	if (!m_rbufname)
 	{
-		GLuint save_rbufname;
+		GLuint save_rbufname = 0;
+#ifndef __EMSCRIPTEN__
 		g->GetIntegerv(VG_RENDERBUFFER_BINDING, &(GLint &)save_rbufname);
+#endif
 		g->GenRenderbuffers(1, &m_rbufname);
 		g->BindRenderbuffer(VG_RENDERBUFFER, m_rbufname);
 		
 		unsigned int gldepthsize = GL_DEPTH_COMPONENT16;
-#ifdef USE_DEPTH_EXT       
+#ifdef USE_DEPTH_EXT
 		if      (m_depth_bit == 32)
 			gldepthsize = VG_DEPTH_COMPONENT32;
 		else if (m_depth_bit == 24)
 			gldepthsize = VG_DEPTH_COMPONENT24;
 		else if (m_depth_bit == 16)
 			gldepthsize = VG_DEPTH_COMPONENT16;
-#endif	
+#endif
 		g->RenderbufferStorage(
 			VG_RENDERBUFFER,
 			gldepthsize,
@@ -180,7 +194,7 @@ bool FrameBufferObject::create()
 #else
 	if (!m_depthname)
 	{
-		GLuint save_texname;
+		GLuint save_texname = 0;
 		g->GetIntegerv(VG_TEXTURE_BINDING_2D, &(GLint &)save_texname);
 		g->GenTextures(1, &m_depthname);
 		g->BindTexture(VG_TEXTURE_2D, m_depthname);
@@ -193,18 +207,35 @@ bool FrameBufferObject::create()
 		else if (m_depth_bit == 16)
 			gldepthsize = VG_DEPTH_COMPONENT16;
 		
-		g->TexImage2D(
-			VG_TEXTURE_2D, 0,
-			gldepthsize,
-			m_width, m_height, 0,
-			VG_DEPTH_COMPONENT,
-			VG_FLOAT,
-			0
-		);
-		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_LINEAR);
+		//g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_LINEAR);
+        g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_NEAREST);
+        g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MAG_FILTER, VG_NEAREST);
 		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_S, VG_CLAMP_TO_EDGE);
 		g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_T, VG_CLAMP_TO_EDGE);
+#ifdef __EMSCRIPTEN__
+        g->TexImage2D(
+                      VG_TEXTURE_2D, 0,
+                      VG_DEPTH_COMPONENT,
+                      m_width, m_height, 0,
+                      VG_DEPTH_COMPONENT,
+                      VG_UNSIGNED_SHORT,
+                      0
+                      );
+#else
+        g->TexImage2D(
+                      VG_TEXTURE_2D, 0,
+                      gldepthsize,
+                      m_width, m_height, 0,
+                      VG_DEPTH_COMPONENT,
+                      VG_FLOAT,
+                      0
+                      );
+#endif
 		g->BindTexture(VG_TEXTURE_2D, save_texname);
+        
+        GLenum err = glGetError();
+		if (err != VG_NO_ERROR)
+            MOELogD("[%s]CreateTexture error=%d\n",__FILE__, err);
 	}
 #endif
 	g->FramebufferTexture2D(VG_FRAMEBUFFER, VG_COLOR_ATTACHMENT0, VG_TEXTURE_2D, m_texname, 0);
@@ -219,7 +250,7 @@ bool FrameBufferObject::create()
 	g->BindFramebuffer(VG_FRAMEBUFFER, save_framebuffer);
 	
 	if (m_err != VG_FRAMEBUFFER_COMPLETE) {
-		MOELogD("FrameBuffer error");
+		MOELogE("FrameBuffer error");
 		return false;
 	} else {
 		return true;
@@ -256,7 +287,9 @@ void FrameBufferObject::BindTexture()
 
 void FrameBufferObject::BindDepthTexture()
 {
-    g->BindTexture(VG_TEXTURE_2D, m_depthname);
+#ifdef VG_FRAMEBUFFEROBJECT_USE_DEPTH_TEXTURE
+   g->BindTexture(VG_TEXTURE_2D, m_depthname);
+#endif
 }
 
 void FrameBufferObject::release()

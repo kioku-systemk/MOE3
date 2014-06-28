@@ -601,6 +601,7 @@ public:
 #define VG_DEPTH_COMPONENT16                                0x81A5
 #define VG_DEPTH_COMPONENT24                                0x81A6
 #define VG_DEPTH_COMPONENT32                                0x81A7
+#define UNSIGNED_INT_24_8_WEBGL                             0x84FA
 #define VG_STENCIL_INDEX                                    0x1901
 #define VG_STENCIL_INDEX8                                   0x8D48
 
