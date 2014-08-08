@@ -68,6 +68,7 @@ private:
 	VertexBufferInfo m_info;
 	u32 m_bufsize;
 	Graphics* g;
+	ProgramObject* m_bindingpg;
 };
 	
 class IndexBufferInfo

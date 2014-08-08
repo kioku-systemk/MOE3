@@ -347,6 +347,7 @@ void RenderCommand::CmdBindVertex(CommandArg* arg)
 #ifdef DEBUG_RCMD
 		MOELogD("RCMD:->Changed VB");
 #endif
+		vb->ChangeProgramAttibute(m_binding_prg);
 		vb->Bind();
 		m_binding_vb = vb;
 	}

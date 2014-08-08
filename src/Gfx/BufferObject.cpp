@@ -30,6 +30,7 @@ VertexBuffer::VertexBuffer(Graphics* mg, ProgramObject* prg, const VertexBufferI
 	m_id = 0;
 	m_bufsize = info.vertexSize * info.vertexCount;
 	m_info = info;
+	m_bindingpg = 0;
 
 	ChangeProgramAttibute(prg);
 	
@@ -59,6 +60,10 @@ void VertexBuffer::Bind()
 
 void VertexBuffer::ChangeProgramAttibute(ProgramObject* prg)
 {
+	if (m_bindingpg == prg)
+		return;
+
+	m_bindingpg = prg;
 	s32 offset = 0;
 	for (s32 i = 0; i < VertexBufferInfo::VERTEX_DESC_MAX; ++i) {
 		if (m_info.desc[i].type == 0)
