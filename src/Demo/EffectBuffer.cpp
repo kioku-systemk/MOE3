@@ -38,6 +38,8 @@ namespace MOE {
             else if(d == "D16")
                 depth_bit = 16;
             
+            //printf("FrameBufferObject = %s color_bit=%d, color_comp=%d, depth = %d\n", name, color_bit, color_comp, depth_bit);
+
             m_fbo = mnew FrameBufferObject(mg, width, height, color_comp, color_bit, depth_bit);
         }
         ~Impl()

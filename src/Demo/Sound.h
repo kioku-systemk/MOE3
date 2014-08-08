@@ -1,6 +1,35 @@
 #ifndef INCLUDE_SOUND_H
 #define INCLUDE_SOUND_H
 
+#ifdef __EMSCRIPTEN__
+
+class Sound
+{
+public:
+	Sound() {}
+    
+	~Sound() {}
+	bool Load(const char* soundfile) { return false; }
+	void Play(){}
+    bool IsPlaying() const { return false; }
+	void Stop(){}
+	void Pause(){}
+	double GetPosTime() const { return 0.0; }
+    bool SetPosTime(double tm){ return false; }
+	float* GetFFTData()
+	{
+		static float fft[256]={};
+		return fft;
+	}
+    unsigned int GetFFTNum()
+    {
+        return 256;
+    }
+    void SetVolume(float vol) {}
+    float GetVolume() { return 0.0f; }
+    const char* GetFileName() const { return ""; }
+};
+#else
 
 #include <bass.h>
 
@@ -25,7 +54,8 @@ public:
 	{
 		if (!m_inited)
 			return false;
-
+        m_soundfile = std::string(soundfile);
+        
 		BASS_MusicFree(m_chan);
 		BASS_StreamFree(m_chan);
 		if (!(m_chan = BASS_StreamCreateFile(FALSE, soundfile,0,0,0))
@@ -100,10 +130,16 @@ public:
     {
         return BASS_GetVolume();
     }
+    
+    const char* GetFileName() const
+    {
+        return m_soundfile.c_str();
+    }
 private:
 	DWORD m_chan;
 	bool m_inited;
     bool m_isplaying;
+    std::string m_soundfile;
 
 	bool init()
 	{
@@ -121,5 +157,6 @@ private:
 		BASS_Free();
 	}
 };
+#endif
 
 #endif // INCLUDE_SOUND_H

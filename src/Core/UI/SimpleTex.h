@@ -53,15 +53,15 @@ public:
 		if (m_tex == -1){
 			g->GenTextures(1, &m_tex);
 			g->BindTexture(VG_TEXTURE_2D, m_tex);
-			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_NEAREST);// VG_LINEAR);
-			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MAG_FILTER, VG_NEAREST);//VG_LINEAR);
+			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MIN_FILTER, VG_LINEAR);
+			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_MAG_FILTER, VG_LINEAR);
 			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_S, VG_CLAMP_TO_EDGE);
 			g->TexParameteri(VG_TEXTURE_2D, VG_TEXTURE_WRAP_T, VG_CLAMP_TO_EDGE);
 		}
 		// Update
 		g->BindTexture(VG_TEXTURE_2D, m_tex);
 		if (m_color == COLOR_RGBA8888)
-			g->TexImage2D(VG_TEXTURE_2D, 0, VG_RGBA, m_width, m_height, 0, VG_BGRA, VG_UNSIGNED_BYTE, m_buffer);
+			g->TexImage2D(VG_TEXTURE_2D, 0, VG_RGBA, m_width, m_height, 0, VG_RGBA, VG_UNSIGNED_BYTE, m_buffer);
 		else
 			g->TexImage2D(VG_TEXTURE_2D, 0, VG_LUMINANCE, m_width, m_height, 0, VG_LUMINANCE, VG_UNSIGNED_BYTE, m_buffer);
 	}

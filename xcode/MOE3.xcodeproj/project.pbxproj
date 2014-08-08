@@ -261,7 +261,7 @@
 		77E5215D15DF2CDE000595F8 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		77F944FD185DB57D008675E7 /* libbass.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libbass.dylib; path = ../lib/mac/libbass.dylib; sourceTree = "<group>"; };
 		77F94503185DB8BD008675E7 /* Sound.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
-		77F94504186E9C09008675E7 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
+		77F94504186E9C09008675E7 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 2147486209; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		77F94505186E9C09008675E7 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		77FD452317B3ED5A001B3F22 /* KSceneViewer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KSceneViewer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		77FD452717B3ED5A001B3F22 /* KSceneViewer-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "KSceneViewer-Info.plist"; sourceTree = "<group>"; };

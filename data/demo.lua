@@ -17,12 +17,15 @@ Buffer = {
 	--{name="backbuffer"} -- default buffer
 --	{name="buf1", color="RGBA8", depth="D24", width=screen_width, height=screen_height},
 	{name="hdrbuffer", color="RGBA16F", depth="D24", width=screen_width, height=screen_height},
+--		{name="hdrbuffer_forweb", color="RGBA32F", depth="D16", width=screen_width, height=screen_height},
+
 --   	{name="minibuf", color="RGBA8", depth="D24", width=screen_width/4, height=screen_height/4}
 };
 
 Scene = {
 	{name="plane", path="scene/plane.MRZ"},
 	{name="toukyou", path="scene/toukyou.MRZ"},
+	{name="stripetestB", path="scene/stripetestB.MRZ"},
 	{name="dropballsB", path="scene/dropballsB.MRZ"},
 	{name="tdfandline", path="scene/tdfandline.MRZ"},
 	{name="transsphere", path="scene/transsphere.MRZ"},
@@ -33,7 +36,6 @@ Scene = {
 	{name="downringsB", path="scene/downringsB.MRZ"},
 	{name="kaijyou", path="scene/kaijyou.MRZ"},
 	{name="events", path="scene/events.MRZ"},
-	{name="stripetestB", path="scene/stripetestB.MRZ"},
 	{name="areyouready", path="scene/areyouready.MRZ"},
 }
 
@@ -77,6 +79,10 @@ end
 
 function white(stime,etime,bufname, whiteshader)
     return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/"..whiteshader}
+end
+
+function copy(stime,etime,bufname,srcbuf)
+    return {demotime={stime,etime}, src="plane", target={bufname},  shader="fx/copy", tex={srcBuf=srcbuf}}
 end
 
 local gbsize = "0.8,0.8,0,0"
@@ -162,7 +168,7 @@ demotime["6a3"]  = {mpart*5.0+mpart*0.25*sne, mpart*5.0+mpart*0.25 -0.0001}
 
 
 local sn5 = 0.5+0.03125*2.5
-print("sn5="..sn5)
+--print("sn5="..sn5)
 demotime["5c2"]  = {mpart*4.5+mpart*0.25*snea1, mpart*4.5+mpart*0.25*sn5 -0.0001}
 demotime["5c3"]  = {mpart*4.5+mpart*0.25*sn5, mpart*4.5+mpart*0.25 -0.0001}
 
@@ -286,7 +292,7 @@ local dd1 = 0.969 + 0.244*0.1
 local dd2 = 0.913 + 0.795*0.1
 local dd3 = 0.913 + 0.795*0.1
 
-print("7a1="..demotime["7a"][1])
+--print("7a1="..demotime["7a"][1])
 
 Render = {
 	clear (alltime[1],alltime[2], "backbuffer"),
@@ -375,4 +381,10 @@ Render = {
 };
 
 demotime = alltime;
-print("LOADED: demo.lua")
+--print("LOADED: demo.lua")
+print("")
+print("Break over - Tokyo Demo Fest 2014 Invitation -")
+print("    WebGL version powered by Emscripten")
+print("Code/Gfx: @kioku_systemk   Music:@T_SRTX1911")
+print("")
+print("Tokyo Demo Fest -> http://tokyodemofest.jp")

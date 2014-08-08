@@ -74,7 +74,11 @@ class GUIManager : public skGUI::GUIManager
 public:
 	GUIManager() : skGUI::GUIManager()
 	{
-		static const char* vshader = STRINGIFY(
+		static const char* vshader = \
+        "#ifdef GL_ES\n" \
+        "precision highp float;\n" \
+        "#endif\n" \
+        STRINGIFY(
 			uniform mat4 proj;
 			attribute vec3 pos;
 			attribute vec4 col;
@@ -87,7 +91,11 @@ public:
 				gl_Position = proj * vec4(pos,1);
 			}
 		);
-		static const char* fshader = STRINGIFY(
+		static const char* fshader = \
+        "#ifdef GL_ES\n" \
+        "precision highp float;\n" \
+        "#endif\n" \
+        STRINGIFY(
 		uniform sampler2D texture;
 		uniform float mono;
 	    varying vec4 color;
@@ -109,8 +117,15 @@ public:
 			m_deftex = new skGUI::SimpleTex(g, tw, th);
 			unsigned char* data = m_deftex->Map();
 			// upsidedown
-			for (int y = 0; y < th; ++y)
-				memcpy(data + tw * (th - y - 1) * 4, buf + tw * y * 4, tw * 4);
+			for (int y = 0; y < th; ++y) {
+                for(int x = 0; x < tw * 4; x += 4) {
+                    data[tw * (th - y - 1) * 4 + x  ] = buf[tw * y * 4 + x+2];
+                    data[tw * (th - y - 1) * 4 + x+1] = buf[tw * y * 4 + x+1];
+                    data[tw * (th - y - 1) * 4 + x+2] = buf[tw * y * 4 + x  ];
+                    data[tw * (th - y - 1) * 4 + x+3] = buf[tw * y * 4 + x+3];
+                }
+			//	memcpy(data + tw * (th - y - 1) * 4, buf + tw * y * 4, tw * 4);
+            }
 			m_deftex->Unmap();
 		}
 	}

@@ -88,6 +88,7 @@ void main(void)
 		float d = 0.0, total_d = 0.0;
 		const int MAX_MARCH = 50;
 		const float MAX_DISTANCE = 1000.0;
+#if 0	
 		for (int i = 0; i<MAX_MARCH; ++i) {
 			d = map(ray);
 			total_d += d;
@@ -96,6 +97,35 @@ void main(void)
 			if (d<0.001) { break; }
 			if (total_d>MAX_DISTANCE) { total_d = MAX_DISTANCE; discard; }
 		}
+#else		
+		int dsc = 0;
+		for (int i = 0; i<MAX_MARCH; ++i) {
+			d = map(ray);
+			total_d += d;
+			ray += rayDir * d;
+			m += vec3(1.3,1.1,2.2);
+			if (d<0.001) {
+				float c = (total_d)*0.0001;
+				vec4 result = vec4(1.0 - vec3(c, c, c) - vec3(0.025, 0.025, 0.025)*m*0.9, 1.0);
+				float cld = total_d;// + 
+				float ex = sin(vtx_uv.x+time.x*0.10)+0.15;
+				if (time.x > 4.0)
+					ex = 0.0;
+				vec3 cm = vec3(sin(cld*10.0)*0.1+0.8+ex, sin(cld*20.0)*0.1+0.8, sin(cld*30.0)*0.1+0.5);
+				result.xyz *= cm;
+				gl_FragColor = result*4.0;
+				gl_FragColor.a = 1.0;
+				return;
+			}
+			if (total_d>MAX_DISTANCE) {
+				dsc = 1;
+			}
+		}
+		if (dsc > 0){
+			discard;
+			return;
+		}
+#endif		
 
 		float c = (total_d)*0.0001;
 		vec4 result = vec4(1.0 - vec3(c, c, c) - vec3(0.025, 0.025, 0.025)*m*0.9, 1.0);

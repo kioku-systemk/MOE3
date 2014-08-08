@@ -7,6 +7,7 @@
 #include <vector>
 #include <map>
 #include <math.h>
+#include <stdlib.h>
 #include "../Gfx/Graphics.h"
 #include "../Gfx/SceneGraphRender.h"
 #include "../Gfx/ShaderProgramObject.h"
@@ -102,6 +103,7 @@ private:
         {
             const std::string name  = eval<std::string>(L, "return Scene[%d].name",i+1);
             const std::string path = eval<std::string>(L, "return Scene[%d].path",i+1);
+            //printf("scene name = %s - path = %s\n",name.c_str(), path.c_str());
             if (name != "" && path != "") {
                 std::string fullpath = m_respath + path;
                 MOE::Scene* sc = mnew MOE::Scene(g, name.c_str(), fullpath.c_str());
@@ -233,10 +235,12 @@ private:
         m_demoalltime = createRenderEffects(L);
         createOverridePrograms(g);
     }
+    
     void loadSound(lua_State* L)
     {
         std::string sfile = eval<std::string>(L, "return soundfile");
         if (sfile != "") {
+#ifndef __EMSCRIPTEN__
             m_sound = new Sound();
             std::string spath = m_respath + sfile;
             if (!m_sound->Load(spath.c_str())) {
@@ -246,7 +250,7 @@ private:
             } else {
                 MOELogI("Load sound : %s\n",spath.c_str());
             }
-            
+#endif
             assert(!m_ffthist);
             const s32 fnum = static_cast<s32>(GetDemoTime() * exportFPS);
             m_ffthist = mnew MOE::Math::vec4[fnum];
@@ -279,8 +283,8 @@ private:
 public:
     Impl(Graphics* mg) : g(mg)
     {
-        m_width  = 1920;
-        m_height = 1080;
+        m_width  = 1280;//1920;
+        m_height = 720;//1080;
         m_demoalltime = 0;
         m_sound = 0;
         m_starttime = 0;
@@ -303,8 +307,9 @@ public:
     f64 GetTime()
     {
         if (!m_sound) {
-            if (m_playing)
+            if (m_playing){
                 m_playtime = GetTimeCount() - m_starttime;
+            }
             return m_playtime;
         }else{
             return m_sound->GetPosTime();
@@ -316,9 +321,9 @@ public:
         if (m_playing)
             return true;
         m_playing = true;
+        m_starttime = GetTimeCount() - m_playtime;
         if (!m_sound)
             return false;
-        m_starttime = GetTimeCount() - m_playtime;
         m_sound->Play();
         return true;
     }
@@ -344,6 +349,12 @@ public:
             m_starttime = GetTimeCount() - tm;
             m_playtime = tm;
         }
+    }
+    const char* GetMusicFile() const
+    {
+        if (m_sound)
+            return m_sound->GetFileName();
+        return 0;
     }
     b8 Export(const s8* packfile)
     {
@@ -694,6 +705,7 @@ b8 Demo::Play()                  { return m_imp->Play(); }
 b8 Demo::IsPlaying() const       { return m_imp->IsPlaying(); }
 b8 Demo::Stop()                  { return m_imp->Stop(); }
 b8 Demo::Cache()                 { return m_imp->Cache(); }
+const char* Demo::GetMusicFile() const { return m_imp->GetMusicFile(); }
 void Demo::SetTime(f64 tm)       { return m_imp->SetTime(tm); }
     s32 Demo::GetProcessNum() const { return m_imp->GetProcessNum(); }
     s32 Demo::GetRenderEffectNum() const { return m_imp->GetRenderEffectNum(); }

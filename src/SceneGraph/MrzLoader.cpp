@@ -14,7 +14,7 @@
 #include "SceneGraph.h"
 
 #define MOELogDX(...)
-//#define MOELogDX MOELogD
+//#define MOELogDX MOELogE
 
 namespace {
 	b8 isMesh(const s8*& data)
@@ -76,7 +76,8 @@ namespace {
 
 	int getLevel(const s8*& data)
 	{
-		return static_cast<int>(*reinterpret_cast<const u8*>(&data[0]));
+		//return static_cast<int>(*reinterpret_cast<const u8*>(&data[0]));
+        return *(u8*)(&data[0]);
 	}
 
 	
@@ -91,9 +92,15 @@ namespace {
 		geo->SetName(name);
 		
 		// vertex/index num
-		u32 vtxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
-		u32 idxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
-		
+		//u32 vtxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+		//u32 idxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+        //printf("0x%X,0x%X,0x%X,0x%X\n",*(u8*)(&data[0]),*(u8*)(&data[1]),*(u8*)(&data[2]), *(u8*)(&data[3]));
+		u32 vtxnum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+        data += sizeof(u32);
+        u32 idxnum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+        data += sizeof(u32);
+
+        
 		MOELogDX("read mesh = %s", name.c_str());
 		MOELogDX("vertexCount=%d", vtxnum);
 		MOELogDX("indexCount=%d", idxnum);
@@ -172,9 +179,15 @@ namespace {
 		data += (name.size() + 1);
 		geo->SetName(name);
 		
+        printf("readCachedMesh\n");
 		// vertex/index num
-		u32 vtxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
-		u32 idxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+		//u32 vtxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+		//u32 idxnum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+        u32 vtxnum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+        data += sizeof(u32);
+        u32 idxnum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+        data += sizeof(u32);
+
 		
 		MOELogDX("read cached mesh = %s", name.c_str());
 		MOELogDX("vertexCount=%d", vtxnum);
@@ -407,7 +420,10 @@ SceneGraph::Node* MrzLoader::Load(const Stream* st){
 	}
 	data += 4;
 	
-	u32 nodenum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+	//u32 nodenum = *reinterpret_cast<const u32*>(&data[0]); data += sizeof(u32);
+    u32 nodenum = *(u8*)(&data[0]) | (*(u8*)(&data[1])<<8) | (*(u8*)(&data[2])<<16) | (*(u8*)(&data[3])<<24) ;
+    data += sizeof(u32);
+
 	
 	Node* root = 0;
 	int currentLevel = -1;

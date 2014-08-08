@@ -15,7 +15,11 @@
 #define SHADER_STR(STR)      (std::string(shaderMacro)+(STR))
 #define SHADER_HIGH_STR(STR) (std::string(shaderMacro_high)+(STR))
 
+#ifdef __EMSCRIPTEN__
+#define GLHEADER ""
+#else
 #define GLHEADER "#version 120\n"
+#endif
 
 static const s8* shaderMacro_high = GLHEADER "\
 #ifdef GL_ES\n\
@@ -49,7 +53,7 @@ void printShaderInfoLog(MOE::Graphics* g, GLuint shader)
 			s32 length;
 			g->GetShaderInfoLog(shader, bufSize, &length, infoLog);
 			//cout << "InfoLog:" << endl << infoLog << endl << endl;
-			MOELogE("InfoLog:\n%s\n",infoLog);
+//			MOELogE("InfoLog:\n%s\n",infoLog);
 			delete [] infoLog;
 		}
 		else
@@ -74,7 +78,7 @@ void printProgramInfoLog(MOE::Graphics* g, GLuint program)
 			s32 length;
 			g->GetProgramInfoLog(program, bufSize, &length, infoLog);
 			//cout << "InfoLog:" << endl << infoLog << endl << endl;
-			MOELogE("InfoLog:\n%s\n",infoLog);
+//			MOELogE("InfoLog:\n%s\n",infoLog);
 			delete [] infoLog;
 		}
 		else
@@ -401,7 +405,8 @@ void ProgramObject::Bind()
 	} else {
 		g->Disable(VG_BLEND);
 	}
-    
+
+#ifndef __EMSCRIPTEN__
     if (m_cullface) {
 		g->Enable(VG_CULL_FACE);
 		g->CullFace(m_cullmode);
@@ -413,7 +418,7 @@ void ProgramObject::Bind()
 	// bug????
 	if (m_depthmask) g->DepthMask(VG_TRUE);
 	else             g->DepthMask(VG_FALSE);
-
+#endif
 }
 
 void ProgramObject::Unbind()

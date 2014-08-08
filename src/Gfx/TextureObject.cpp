@@ -38,7 +38,11 @@ namespace {
 			else
 			{*/
                 if (internalformat == VG_NONE) {
-                    internalformat = VG_BGRA;// default sysmem format is BGRA
+//#ifdef __EMSCRIPTEN__
+                    internalformat = VG_RGBA;// default sysmem format is RGBA
+//#else
+//                    internalformat = VG_BGRA;// default sysmem format is BGRA
+//#endif
                 }
 			//}
 		}

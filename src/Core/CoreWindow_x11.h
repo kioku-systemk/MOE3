@@ -42,7 +42,7 @@ public:
 	static void DoEvents(void);
 	static void MainLoop(void);
     
-	void GoFullscreen(bool fullscreen);
+	void GoFullscreen(bool fullscreen, bool cursor=true);
 
 	int GetWidth() const;
 	int GetHeight() const;

@@ -4,8 +4,6 @@
 #include "../Core/Type.h"
 
 #define VG_FRAMEBUFFEROBJECT_USE_DEPTH_TEXTURE
-#define USE_RGBA32F_FORMAT
-#define USE_L32_FORMAT
 
 namespace MOE {
 

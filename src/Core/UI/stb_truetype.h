@@ -209,7 +209,8 @@ void my_stbtt_initfont(void)
    // can free ttf_buffer at this point
    glGenTextures(1, &ftex);
    glBindTexture(GL_TEXTURE_2D, ftex);
-   glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512,512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, temp_bitmap);
+   //glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, 512,512, 0, GL_ALPHA, GL_UNSIGNED_BYTE, temp_bitmap);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINACE, 512,512, 0, GL_LUMINACE, GL_UNSIGNED_BYTE, temp_bitmap);
    // can free temp_bitmap at this point
    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 }
@@ -1689,7 +1690,13 @@ stbtt__point *stbtt_FlattenCurves(stbtt_vertex *vertices, int num_verts, float o
       float x=0,y=0;
       if (pass == 1) {
          points = (stbtt__point *) STBTT_malloc(num_points * sizeof(points[0]), userdata);
-         if (points == NULL) goto error;
+          if (points == NULL) { // goto error;
+              STBTT_free(points, userdata);
+              STBTT_free(*contour_lengths, userdata);
+              *contour_lengths = 0;
+              *num_contours = 0;
+              return 0;
+          }
       }
       num_points = 0;
       n= -1;
@@ -1722,12 +1729,12 @@ stbtt__point *stbtt_FlattenCurves(stbtt_vertex *vertices, int num_verts, float o
    }
 
    return points;
-error:
+/*error:
    STBTT_free(points, userdata);
    STBTT_free(*contour_lengths, userdata);
    *contour_lengths = 0;
    *num_contours = 0;
-   return NULL;
+   return NULL;*/
 }
 
 void stbtt_Rasterize(stbtt__bitmap *result, float flatness_in_pixels, stbtt_vertex *vertices, int num_verts, float scale_x, float scale_y, float shift_x, float shift_y, int x_off, int y_off, int invert, void *userdata)
