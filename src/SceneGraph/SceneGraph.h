@@ -6,7 +6,7 @@
  *
  */
 
-#ifndef INCLUDE_SCENEGPRAH_H
+#ifndef INCLUDE_SCENEGRAPH_H
 #define INCLUDE_SCENEGRAPH_H
 
 #include "Node.h"

@@ -891,7 +891,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = (
@@ -930,7 +930,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoview/demoview-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = "-D_DEBUG";
 				OTHER_LDFLAGS = (
@@ -972,7 +972,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-DNDEBUG",
@@ -1015,7 +1015,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "demoplayer/demoplayer-Info.plist";
-				LIBRARY_SEARCH_PATHS = /Users/kioku/Desktop/git/MOE3/lib/mac;
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CFLAGS = (
 					"-DNDEBUG",
@@ -1094,10 +1094,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
-					/Users/kioku/Desktop/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1123,10 +1120,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/MOE3-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\\\"$(SRCROOT)/../lib/mac\\\"",
-					/Users/kioku/Desktop/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
@@ -1156,10 +1150,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../lib/mac\"",
-					/Users/kioku/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-llua",
@@ -1189,10 +1180,7 @@
 					"\"$(SRCROOT)/../lib/include\"",
 				);
 				INFOPLIST_FILE = "KSceneViewer/KSceneViewer-Info.plist";
-				LIBRARY_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../lib/mac\"",
-					/Users/kioku/git/MOE3/lib/mac,
-				);
+				LIBRARY_SEARCH_PATHS = "$(SRCROOT)/../lib/mac";
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_LDFLAGS = (
 					"-llua",

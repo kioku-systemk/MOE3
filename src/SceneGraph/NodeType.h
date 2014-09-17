@@ -6,7 +6,7 @@
  *
  */
 
-#ifndef INCLUDE_SCENEGPRAH_TRANSFORM_H
+#ifndef INCLUDE_SCENEGRAPH_TRANSFORM_H
 #define INCLUDE_SCENEGRAPH_TRANSFORM_H
 
 #include "../Core/Type.h"
