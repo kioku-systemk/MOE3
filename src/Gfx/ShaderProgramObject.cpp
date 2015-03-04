@@ -53,7 +53,7 @@ void printShaderInfoLog(MOE::Graphics* g, GLuint shader)
 			s32 length;
 			g->GetShaderInfoLog(shader, bufSize, &length, infoLog);
 			//cout << "InfoLog:" << endl << infoLog << endl << endl;
-//			MOELogE("InfoLog:\n%s\n",infoLog);
+			MOELogE("InfoLog:\n%s\n",infoLog);
 			delete [] infoLog;
 		}
 		else
