@@ -45,7 +45,7 @@ namespace {
 namespace MOE {
     class Scene::Impl{
     public:
-        Impl(Graphics* mg, const s8* name, const s8* path)
+        Impl(Graphics* mg, const s8* name, const s8* path, float nearVal, float farVal)
         : g(mg)
         {
             m_render = new SceneGraphRender(g);
@@ -55,6 +55,8 @@ namespace MOE {
             m_path = std::string(path);
             m_root = 0;
             m_anim = 0;
+            m_far  = farVal;
+            m_near = nearVal;
             m_cameranode = 0;
             const size_t p = m_path.rfind(".MRZ");
             if (p == m_path.size()-4) {
@@ -153,8 +155,8 @@ namespace MOE {
                 }
             }
             
-            const f32 znear = 0.5;
-            const f32 zfar = 50.0;
+            const f32 znear = m_near;
+            const f32 zfar = m_far;
             const matrix proj = PerspectiveFov(fov, m_width/static_cast<f32>(m_height), znear, zfar);
 
             m_render->SetProjMatrix(proj);
@@ -196,12 +198,14 @@ namespace MOE {
         const SceneGraph::Transform* m_cameranode;
         Animation* m_anim;
         Graphics* g;
+        float m_near;
+        float m_far;
         SceneGraphRender* m_render;
         int m_width, m_height;
     };
     
 // -----------------------------------------------------------------------------
-    Scene::Scene(Graphics* mg, const s8* name, const s8* path) : m_imp(mnew Impl(mg,name,path)) {}
+    Scene::Scene(Graphics* mg, const s8* name, const s8* path, float nearval, float farval) : m_imp(mnew Impl(mg,name,path,nearval,farval)) {}
     Scene::~Scene() { delete m_imp; }
     void Scene::Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname) { m_imp->Update(demotime,scenetime, sps, camname); }
     void Scene::Render(f64 demotime, ProgramObject* prg) { m_imp->Render(demotime, prg); }

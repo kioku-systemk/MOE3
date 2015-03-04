@@ -101,12 +101,18 @@ private:
         const int scenenum = getTableNum(L, "Scene");
         for (int i = 0; i < scenenum; ++i)
         {
-            const std::string name  = eval<std::string>(L, "return Scene[%d].name",i+1);
+            const std::string name = eval<std::string>(L, "return Scene[%d].name",i+1);
             const std::string path = eval<std::string>(L, "return Scene[%d].path",i+1);
+            float nearval    = eval<float>(L, "return Scene[%d].near",i+1);
+            float farval     = eval<float>(L, "return Scene[%d].far",i+1);
+            if (nearval == 0)
+                nearval = 0.1;
+            if (farval == 0)
+                farval = 100.0;
             //printf("scene name = %s - path = %s\n",name.c_str(), path.c_str());
             if (name != "" && path != "") {
                 std::string fullpath = m_respath + path;
-                MOE::Scene* sc = mnew MOE::Scene(g, name.c_str(), fullpath.c_str());
+                MOE::Scene* sc = mnew MOE::Scene(g, name.c_str(), fullpath.c_str(), nearval, farval);
                 m_scenes[name] = sc;
             }
         }

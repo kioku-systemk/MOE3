@@ -14,7 +14,7 @@ namespace MOE {
     
     class Scene{
     public:
-        Scene(Graphics* mg, const s8* name, const s8* path);
+        Scene(Graphics* mg, const s8* name, const s8* path, float nearval, float farval);
         virtual ~Scene();
         
         void Update(f64 demotime, f64 scenetime, const std::map<std::string,Math::vec4>& sps, const std::string& camname);
