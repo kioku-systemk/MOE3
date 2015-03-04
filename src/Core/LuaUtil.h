@@ -143,6 +143,21 @@ inline lua_State* createLua()
 {
     lua_State *L = luaL_newstate();
     luaL_openlibs(L);
+    
+#if MOE_PLATFORM_WINDOWS
+    const char* osname = "win";
+#elif MOE_PLATFORM_MACOSX
+    const char* osname = "mac";
+#elif MOE_PLATFORM_LINUX
+    const char* osname = "linux";
+#elif __EMSCRIPTEN__
+    const char* osname = "emcc";
+#else
+    const char* osname = "unknown";
+#endif
+    
+    lua_pushstring(L, osname);
+    lua_setglobal(L, "osname");
     return L;
 }
 
