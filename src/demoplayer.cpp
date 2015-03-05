@@ -135,9 +135,11 @@ public:
         
         m_demo->Cache();
         m_demo->Play();
-        EM_ASM(
+#ifdef __EMSCRIPTEN__
+		EM_ASM(
                document.getElementById("music").play();
         );
+#endif
     }
     void ExitDemo()
     {
